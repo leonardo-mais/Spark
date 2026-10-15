@@ -75,6 +75,10 @@ I modelli linguistici tendono a riproporre API deprecate di Material 2 o della p
 | `MaterialTheme.shapes.pill` o `shapes.circle` | `CircleShape` da `androidx.compose.foundation.shape.CircleShape` | `shapes.pill` non esiste in Compose |
 | `Color(0xFF...)` hardcoded nei composable | `MaterialTheme.colorScheme.<ruolo>` | Dinamicità HCT obbligatoria |
 | `RoundedCornerShape(16.dp)` sparso nei componenti | `MaterialTheme.shapes.<taglia>` o token standard | Consistenza morfologica |
+| **Emoji nell'UI** (es. 💊, 🏠, ⚠️, 🎉, 👤, 📦) | **Icone Vettoriali Material** (`Icons.*`, Material Symbols) | **DIVIETO ASSOLUTO DI EMOJI NELLE APP**. Le emoji degradano il design e sono severamente proibite in testi, titoli, chip, card, dialog ed empty states. |
+
+> 🚫 **DIVIETO ASSOLUTO DI EMOJI NELLE APPLICAZIONI (Zero Emoji Policy):**
+> È severamente vietato inserire caratteri o simboli emoji nell'interfaccia utente dell'app (né nei file di layout Compose, né nelle stringhe `strings.xml`, né in titoli, descrizioni, bottoni, card, chip, notifiche o empty state). Qualsiasi concetto iconico o visivo deve essere rappresentato **ESCLUSIVAMENTE tramite icone vettoriali Material ufficiali** (`androidx.compose.material.icons.*` o `Material Symbols` vettoriali XML). L'uso di emoji rende l'applicazione amatoriale ed infrange i requisiti di qualità premium di Spark!.
 
 ---
 
@@ -226,21 +230,33 @@ M3 Expressive enfatizza angoli ampi, geometrie morbide e asimmetrie controllate:
 
 ---
 
-## 9. Pattern di Navigazione: Standard Google Photos
+## 9. Pattern di Navigazione Inferiore: Standard Classico vs D'Impatto
 
-### Navigation Bar M3 Expressive
-Quando l'applicazione adotta la `NavigationBar` inferiore (da 3 a 5 destinazioni), lo stile visivo deve seguire rigorosamente lo standard **Google Photos**:
+La barra di navigazione inferiore varia in base all'archetipo estetico scelto durante il Discovery Interview:
 
+### 9.1 Stile Classico: Navigation Bar Standard Google Photos
+Quando l'applicazione adotta lo Stile Classico (da 3 a 5 destinazioni), lo stile visivo segue lo standard **Google Photos**:
 1. **Stato Icona Dinamico (Outlined vs Filled):**
    - **Destinazione NON selezionata:** Icona a tratto aperto (**Outlined**, es. `Icons.Outlined.Home`, `Icons.Outlined.Widgets`). Nessun indicatore tonale.
    - **Destinazione SELEZIONATA:** Icona piena (**Filled**, es. `Icons.Filled.Home`, `Icons.Filled.Widgets`), racchiusa dall'indicatore a pillola.
-2. **Indicatore a Pillola Compatto:**
-   - Colore: `MaterialTheme.colorScheme.secondaryContainer`.
-   - Dimensioni compatte ed ellittiche che avvolgono l'icona senza strabordare verticalmente.
-3. **Tipografia & Ritmo:**
-   - Etichetta con `MaterialTheme.typography.labelMedium` in Google Sans Medium (~12sp).
-   - Colore testo inattivo: `onSurfaceVariant`; testo attivo: `onSurface`.
-4. **Transizioni:** Fade-in / Fade-out cross-fade nativo per il cambio di pagina.
+2. **Indicatore a Pillola Compatto:** Colore `MaterialTheme.colorScheme.secondaryContainer`, avvolge l'icona con contrasto morbido.
+3. **Tipografia & Ritmo:** Etichetta con `MaterialTheme.typography.labelMedium` in Google Sans Medium (~12sp). Colore testo inattivo: `onSurfaceVariant`; testo attivo: `onSurface`.
+4. **Transizioni:** Cross-fade nativo per il cambio di pagina.
+
+### 9.2 Stile d'Impatto: Floating Pill Dock Navigation Bar (Massimo 4 Elementi - Senza Fallback)
+Nello Stile d'Impatto, la navigation bar adotta la struttura a **Floating Pill Dock** compatta e dinamica:
+1. **Dock a Pillola Fluttuante:**
+   - Contenitore orizzontale a capsula (`shape = CircleShape` o `RoundedCornerShape(32.dp)`), sfondo tonale `surfaceContainer` (o `surfaceContainerHigh`), centrato orizzontalmente in basso con margine di respiro (`padding(bottom = 16.dp, horizontal = 16.dp)`).
+2. **Icona Dinamica al Click (Comparsa Animata Solo su Tab Selezionata):**
+   - **Tab NON Selezionata:** Mostra **ESCLUSIVAMENTE IL TESTO** della sezione (nessuna icona visibile!). Colore: `onSurfaceVariant` / `onSurface.copy(alpha = 0.7f)`.
+   - **Tab SELEZIONATA:** Racchiusa in una pillola attiva (`surfaceContainerHighest` o `secondaryContainer`). L'icona della sezione **APPARE SOLO QUANDO CI SI CLICCA**, posizionata a sinistra del testo.
+3. **Animazioni Native di Android (Snappy Spring Motion):**
+   - La comparsa e scomparsa dell'icona sfrutta le animazioni native di Jetpack Compose:
+     `AnimatedVisibility(visible = isSelected, enter = expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180)), exit = shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(150)))`.
+   - La pillola attiva si adatta con `Modifier.animateContentSize(spring(dampingRatio = 0.8f, stiffness = 380f))` e il colore con `animateColorAsState(if (isSelected) surfaceContainerHighest else Transparent)`.
+4. **Limite Tassativo di Massimo 4 Elementi (DIVIETO ASSOLUTO DI FALLBACK):**
+   - Questo stile supporta un **massimo rigoroso di 4 elementi** (da 2 a 4 destinazioni, ideale 3 o 4).
+   - **NESSUN FALLBACK:** È severamente vietato ripiegare sulla barra standard a 5 elementi se le sezioni sono troppe. L'architettura informativa dell'applicazione DEVE essere progettata e condensata a monte in massimo 4 sezioni cardine.
 
 ---
 
@@ -409,7 +425,7 @@ Ogni applicazione deve essere dotata di un'icona ufficiale e iconica ricavata di
 3. **Tab con Search al Primo Posto:** La search bar è posizionata nella prima tab (`Casa` / `Home`) con opzione alternate color `surfaceBright`.
 4. **Liste Raggruppate con Separatore M3:** Card unificate con `HorizontalDivider(color = outlineVariant)` tra gli elementi.
 5. **Terna dei 3 FAB (Default Medio, SENZA MAI TESTO):** Usa di default il Medium FAB (68×68 dp, squircle 20dp). Se l'azione è cruciale usa il Large FAB (96×96 dp, squircle 28dp). Non inserire MAI testo nel FAB (solo icona centrata). MAI pillole o Extended FAB con etichette.
-6. **Navigation Bar Google Photos:** Icone Outlined (inattive) vs Filled (attive), indicatore compatto `secondaryContainer`, Google Sans `labelMedium`.
+6. **Navigation Bar per Archetipo:** Per **Stile Classico**, NavigationBar standard Google Photos (3–5 tab, outlined vs filled, indicatore compatto). Per **Stile d'Impatto**, Floating Pill Dock Navigation Bar (massimo 4 elementi senza fallback, icona che appare solo al click sulla tab attiva tramite animazioni native Android AnimatedVisibility + spring).
 7. **Tipografia Google Sans Flex:** Assicurati che l'app usi Google Sans Flex in `Type.kt` come risorsa locale in `res/font/google_sans_flex.ttf`.
 8. **Dashboard Dinamica:** Includi header contestuale, griglia 2x2 Bento ("Your tools") e separazione tonale pulita (MAI separatori ad onda Canvas).
 9. **TopAppBar Collassabile & Tasto Back Circolare:** Nelle pagine di dettaglio o sottoschermate, usa SEMPRE `LargeTopAppBar` con scroll elevate (`surface` -> `surfaceContainer`) e il pulsante indietro alloggiato in un `CircleShape`.
@@ -417,10 +433,11 @@ Ogni applicazione deve essere dotata di un'icona ufficiale e iconica ricavata di
 11. **Schermata Impostazioni con Sezione Spark!:** Verifica che esista la schermata Impostazioni con la sezione finale fissa "Applicazione realizzata con Spark!".
 12. **Zero Colori Hardcoded:** Usa esclusivamente `MaterialTheme.colorScheme.<ruolo>`.
 13. **Scaffold Multi-Livello & Navigazione Reattiva:** Scaffold root solo per NavigationBar/Snackbar; Scaffold interno per ciascuna schermata con la propria TopAppBar. NavKey strongly typed con Navigation 3.
+14. **Zero Emoji Policy (DIVIETO ASSOLUTO DI EMOJI):** Non inserire MAI caratteri o glifi emoji (es. 💊, 🏠, ⚠️, 🎉) in alcuna parte dell'applicazione (né nei layout Compose, né in `strings.xml`, né in empty state, titoli, bottoni o notifiche). Rappresentare qualsiasi concetto visivo unicamente con icone vettoriali Material ufficiali.
 
 ---
 
-## 17. Architettura Scaffold Multi-Livello & Gestione WindowInsets
+## 18. Architettura Scaffold Multi-Livello & Gestione WindowInsets
 
 Per eliminare definitivamente bug di barre che fluttuano, scompaiono o causano salti sgradevoli di layout durante la navigazione:
 
@@ -437,7 +454,7 @@ Per eliminare definitivamente bug di barre che fluttuano, scompaiono o causano s
 
 ---
 
-## 18. Integrazione Jetpack Navigation 3 & Transizioni Fluide
+## 19. Integrazione Jetpack Navigation 3 & Transizioni Fluide
 
 Ogni applicazione deve adottare **Jetpack Navigation 3** come standard architetturale di navigazione:
 
@@ -454,7 +471,7 @@ Ogni applicazione deve adottare **Jetpack Navigation 3** come standard architett
 
 ---
 
-## 19. Progressive Disclosure & Consultazione Moduli Ufficiali (`skills-main`)
+## 20. Progressive Disclosure & Consultazione Moduli Ufficiali (`skills-main`)
 
 Questo repository include il catalogo completo ufficiale Google Android in `.agents/skills-main/`. L'agente DEVE consultare i moduli pertinenti on-demand (Progressive Disclosure) prima di scrivere codice critico:
 
@@ -473,16 +490,17 @@ Questo repository include il catalogo completo ufficiale Google Android in `.age
 
 ---
 
-## 20. Archetipi di Design: Classica vs D'Impatto
+## 21. Archetipi di Design: Classica vs D'Impatto
 
 Spark! supporta due archetipi visivi complementari. La scelta viene concordata con l'utente nella domanda conclusiva del **Planning Interview** (`planning-interview.md`):
 
-### 20.1 Matrice Comparativa degli Archetipi
+### 21.1 Matrice Comparativa degli Archetipi
 
 | Dimensione UI/UX | 🏛️ Stile Classico (M3 Expressive Rigoroso) | ⚡ Stile d'Impatto (Expressive Dynamic) |
 |---|---|---|
 | **Obiettivo Esperienziale** | Sobrietà, alta densità, massima efficienza di scansione e produttività. | Effetto "WOW", coinvolgimento emotivo, gerarchia monumentale e dinamismo. |
 | **Contesti d'Uso Ideali** | Utility, app enterprise, gestionali B2B, moduli densi di input, tabelle. | Consumer apps, personal tracking, salute & benessere, habit tracker, lifestyle. |
+| **Navigation Bar** | Standard M3 `NavigationBar` (3–5 tab, icone sempre visibili outlined vs filled, indicatore a pillola compatto sull'icona, label sotto). | **Floating Pill Dock Navigation Bar** (massimo 4 elementi senza fallback, pillola attiva ad espansione, icona visibile **SOLO** al click con animazioni native Android `AnimatedVisibility` + spring, tab inattive solo testo). |
 | **Tipografia Base** | 15 ruoli M3 standard su `GoogleSansFlexFontFamily` (Regular, Medium, Bold). | `flexFont` a 6 assi (`wght`, `wdth`, `ROND`, `GRAD`) + oggetto `ExpressiveType`. |
 | **Hero Display / KPI** | Card M3 standard con `headlineMedium` (28sp) e testo descrittivo. | **Bento Hero Card** con numeri giganti (48sp `FlexHeroNumericFont`), frazioni e pill percentuale. |
 | **Dashboard & Statistiche** | Liste raggruppate con icone e testi ordinari. | **Quick Metrics Bento Strip** a 3 colonne con numeri scansionabili a 38sp (`heroLarge`). |
@@ -707,3 +725,210 @@ fun ContextualGreetingHeader(
     }
 }
 ```
+
+---
+
+### 21.5 Blueprint di Codice: Floating Pill Dock Navigation Bar (Stile d'Impatto)
+
+Regola Fondamentale per lo Stile d'Impatto:
+1. **Dock a Pillola Fluttuante:** Contenitore ellittico (`CircleShape`) tonale (`surfaceContainer`), distanziato dai bordi dello schermo.
+2. **Icona Dinamica al Click:** L'icona appare **SOLO ED ESCLUSIVAMENTE QUANDO CI SI CLICCA** (sulla scheda attiva). Le schede inattive mostrano unicamente il testo.
+3. **Animazioni Native di Android:** Comparsa/scomparsa con `AnimatedVisibility(visible = isSelected, enter = expandHorizontally(spring(0.8f, 380f)) + fadeIn(), exit = shrinkHorizontally(spring(0.8f, 380f)) + fadeOut())`, pillola attiva animata con `animateContentSize(spring(0.8f, 380f))` e `animateColorAsState`.
+4. **Massimo 4 Elementi (DIVIETO DI FALLBACK):** Questo componente accetta un massimo di 4 destinazioni (`require(items.size in 2..4)`). È severamente vietato ripiegare su barre standard a 5 elementi: organizza l'architettura dei flussi condensandola in massimo 4 sezioni cardine.
+
+```kotlin
+package it.spark.core.presentation.components
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+/**
+ * Modello dati per le destinazioni della Pill Dock Navigation Bar nello Stile d'Impatto.
+ */
+data class ExpressiveNavItem(
+    val route: Any,
+    val label: String,
+    val icon: ImageVector,
+    val contentDescription: String? = null
+)
+
+/**
+ * Floating Pill Dock Navigation Bar per lo "Stile d'Impatto".
+ *
+ * Canoni Visivi & Interattivi:
+ * - Forma a pillola fluttuante centrata in basso.
+ * - Icona visibile SOLO sulla scheda attiva (AnimatedVisibility + spring motion nativo Android).
+ * - Schede inattive con solo testo.
+ * - Limite tassativo di massimo 4 elementi (senza fallback).
+ */
+@Composable
+fun ExpressiveImpactNavigationBar(
+    items: List<ExpressiveNavItem>,
+    selectedRoute: Any,
+    onItemSelected: (ExpressiveNavItem) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    require(items.size in 2..4) {
+        "ExpressiveImpactNavigationBar supporta un massimo rigoroso di 4 elementi (forniti: ${items.size}). " +
+            "Non ricorrere a fallback: organizza l'architettura informativa in massimo 4 sezioni."
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Surface(
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surfaceContainer,
+            tonalElevation = 2.dp,
+            shadowElevation = 0.dp
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 6.dp, vertical = 6.dp)
+                    .animateContentSize(
+                        animationSpec = spring(
+                            dampingRatio = 0.8f,
+                            stiffness = 380f
+                        )
+                    ),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEach { item ->
+                    val isSelected = item.route == selectedRoute
+                    ExpressiveImpactNavItemView(
+                        item = item,
+                        isSelected = isSelected,
+                        onClick = { onItemSelected(item) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExpressiveImpactNavItemView(
+    item: ExpressiveNavItem,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val containerColor by animateColorAsState(
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.surfaceContainerHighest
+        } else {
+            Color.Transparent
+        },
+        animationSpec = tween(durationMillis = 180),
+        label = "pillContainerColor"
+    )
+
+    val contentColor by animateColorAsState(
+        targetValue = if (isSelected) {
+            MaterialTheme.colorScheme.onSurface
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        },
+        animationSpec = tween(durationMillis = 180),
+        label = "pillContentColor"
+    )
+
+    val springMotion = remember {
+        spring<androidx.compose.ui.unit.IntSize>(
+            dampingRatio = 0.8f,
+            stiffness = 380f
+        )
+    }
+
+    Surface(
+        shape = CircleShape,
+        color = containerColor,
+        modifier = modifier
+            .height(48.dp)
+            .clip(CircleShape)
+            .clickable(
+                role = Role.Tab,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = ripple(bounded = true),
+                onClick = onClick
+            )
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = if (isSelected) 18.dp else 14.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            // L'icona APPARE SOLO QUANDO CI SI CLICCA tramite animazioni native Android
+            AnimatedVisibility(
+                visible = isSelected,
+                enter = expandHorizontally(animationSpec = springMotion) + fadeIn(tween(180)),
+                exit = shrinkHorizontally(animationSpec = springMotion) + fadeOut(tween(150))
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.contentDescription ?: item.label,
+                        tint = contentColor,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            }
+
+            // Testo etichetta (sempre visibile su tutte le tab)
+            Text(
+                text = item.label,
+                style = MaterialTheme.typography.labelLarge.copy(
+                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
+                    fontSize = 14.sp
+                ),
+                color = contentColor
+            )
+        }
+    }
+}
+```
+

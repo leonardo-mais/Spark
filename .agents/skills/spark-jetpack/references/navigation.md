@@ -474,6 +474,85 @@ NavigationBarItem(
 )
 ```
 
+### Floating Pill Dock Navigation Bar (Stile d'Impatto - Max 4 Elementi)
+Per applicazioni che adottano lo **Stile d'Impatto** (Expressive Dynamic), la barra di navigazione inferiore adotta il dock a pillola fluttuante:
+* **Icona visibile SOLO su click/selezione:** Le schede non selezionate mostrano **esclusivamente il testo** senza icona. Quando una scheda viene cliccata, l'icona appare a sinistra del testo con animazione `AnimatedVisibility` ed espansione spring (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180))`).
+* **Pillola attiva animata:** La pillola attiva sfuma con `surfaceContainerHighest` e si adatta con `animateContentSize`.
+* **Massimo 4 Elementi (Senza Fallback):** Limite tassativo di massimo 4 elementi (`items.size in 2..4`). Nessun fallback: l'architettura dei flussi dell'applicazione deve condensare tutte le sezioni in un massimo di 4 tab.
+
+```kotlin
+@Composable
+fun ExpressiveImpactNavigationBar(
+    items: List<ExpressiveNavItem>,
+    selectedRoute: Any,
+    onItemSelected: (ExpressiveNavItem) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    require(items.size in 2..4) {
+        "Massimo 4 elementi supportati. Non usare fallback: riorganizza l'architettura in massimo 4 tab."
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Surface(
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surfaceContainer,
+            tonalElevation = 2.dp
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 6.dp, vertical = 6.dp)
+                    .animateContentSize(spring(0.8f, 380f)),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                items.forEach { item ->
+                    val isSelected = item.route == selectedRoute
+                    Surface(
+                        shape = CircleShape,
+                        color = animateColorAsState(
+                            if (isSelected) MaterialTheme.colorScheme.surfaceContainerHighest else Color.Transparent,
+                            animationSpec = tween(180)
+                        ).value,
+                        modifier = Modifier
+                            .height(48.dp)
+                            .clip(CircleShape)
+                            .clickable { onItemSelected(item) }
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = if (isSelected) 18.dp else 14.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            AnimatedVisibility(
+                                visible = isSelected,
+                                enter = expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180)),
+                                exit = shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(150))
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(item.icon, contentDescription = item.label, modifier = Modifier.size(20.dp))
+                                    Spacer(Modifier.width(8.dp))
+                                }
+                            }
+                            Text(
+                                text = item.label,
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
 ### Riferimenti Ufficiali
 * **Link https:** [https://developer.android.com/develop/ui/compose/components/navigation-bar](https://developer.android.com/develop/ui/compose/components/navigation-bar)
 

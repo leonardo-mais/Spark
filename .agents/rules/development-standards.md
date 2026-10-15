@@ -67,6 +67,13 @@ This rule enforces the core, non-negotiable architectural, UI design, performanc
   - Supports two design archetypes agreed during Discovery Interview:
     1. **Stile Classico**: 15 standard M3 roles on `GoogleSansFlexFontFamily` (ideal for enterprise/utility form-heavy apps).
     2. **Stile d'Impatto**: 6-axis parametric typography (`wght`, `wdth`, `ROND`, `GRAD`), Bento Hero Cards (48sp `FlexHeroNumericFont`), Quick Metrics Strips, contextual greetings, and pill tags (ideal for consumer/wellness/lifestyle apps). Full specs in `.agents/skills/spark-jetpack/SKILL.md`.
+- **Dual Navigation Bar Archetypes: Classica vs D'Impatto (Invariante Tassativa)**:
+  - **Stile Classico**: Standard M3 `NavigationBar` (Google Photos benchmark: 3–5 destinazioni, icone sempre visibili outlined vs filled, indicatore a pillola tonale compatto sull'icona, etichetta `labelMedium` sotto).
+  - **Stile d'Impatto: Floating Pill Dock Navigation Bar**:
+    - **Contenitore a Pillola Fluttuante**: Dock compatto a capsula (`shape = CircleShape`), superficie tonale `surfaceContainer`, distanziato e centrato orizzontalmente in basso (`padding(bottom = 16.dp, horizontal = 16.dp)`).
+    - **Icona Dinamica Solo al Click**: Le sezioni NON selezionate mostrano **UNICAMENTE il testo** (nessuna icona). L'icona della sezione **APPARE SOLO QUANDO CI SI CLICCA** (sulla scheda attiva), affiancata a sinistra del testo all'interno della pillola attiva (`surfaceContainerHighest`).
+    - **Animazioni Native Android**: Transizione dell'icona con `AnimatedVisibility` ed espansione orizzontale nativa (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180))`, uscita `shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(150))`), pillola attiva con `animateContentSize(spring(0.8f, 380f))` e `animateColorAsState`.
+    - **Limite Massimo 4 Elementi (DIVIETO ASSOLUTO DI FALLBACK)**: Questo stile ammette rigorosamente un **massimo di 4 elementi** (da 2 a 4 destinazioni). È severamente vietato effettuare fallback su barre standard a 5 tab: l'architettura informativa e i flussi dell'applicazione DEVONO essere condensati e organizzati a monte in massimo 4 sezioni principali.
 - **Mandatory Circular Back Button**:
   - In detail and sub-screens, the back button MUST ALWAYS be housed in a circular container: `Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceContainerHigh, modifier = Modifier.size(40.dp))` with `Icons.AutoMirrored.Rounded.ArrowBack`.
 - **Collapsing LargeTopAppBar with Tonal Elevation & Scrolling Color Transition**:
@@ -95,6 +102,7 @@ This rule enforces the core, non-negotiable architectural, UI design, performanc
   - Do NOT make an app bar shorter than its default height.
   - Do NOT use custom Canvas / Bezier wave separators or draw manual decorative waves between sections. Use semantic M3 tonal containers (`surfaceContainerLow`, `surfaceContainer`) and `HorizontalDivider(color = outlineVariant)`.
   - Do NOT use single monolithic Scaffolds with conditional top/bottom bars.
+  - **DIVIETO ASSOLUTO DI EMOJI (Zero Emoji Policy)**: Do NOT use emoji anywhere in the app UI, composables, or resources (titles, descriptions, empty states, chips, buttons, notifications, dialogs, or `strings.xml`). Emojis are strictly forbidden. Represent visual concepts exclusively via official Material vector icons or Material Symbols.
 - 📖 **Component Signatures & Reference Specs**: Consult skill `@.agents/skills/spark-jetpack` before writing UI components to verify official signatures and anti-hallucination guidelines. **Priority Hierarchy**: `skills-main > spark-jetpack > development-standards.md`.
 
 ---
@@ -155,6 +163,8 @@ This rule enforces the core, non-negotiable architectural, UI design, performanc
 - **System-Aware Formatters**:
   - Never concatenate or manually format dates, times, currencies, or numbers with static punctuation.
   - Use system formatters (`DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)`, `NumberFormat.getCurrencyInstance()`, etc.) to honor device locale conventions.
+- **Zero Emoji Invariant**:
+  - UI copy and localized strings (`strings.xml`) must **NEVER** contain unicode emojis (e.g. 💊, 🏠, ⚠️, 🎉). Icons must strictly be Material Symbols or vector drawables.
 
 ---
 
