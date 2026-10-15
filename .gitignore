@@ -1,0 +1,49 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Gradle & Build files
+.gradle/
+.kotlin/
+build/
+*/build/
+bin/
+
+# Local configuration
+local.properties
+
+# Android Studio & IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.cache/
+
+# Universal Root /apk binary delivery (preserve directory via .gitkeep)
+/apk/*.apk
+/apk/*.sha256
+!/apk/.gitkeep
+
+# Standalone Demo Data configuration (Rooms & Devices)
+/demo_data/*
+!/demo_data/rooms_devices.sample.json
+
+# Environment variables & secrets
+.env
+
+# Self-hosted distribution output binaries
+/dist/
