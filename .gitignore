@@ -32,6 +32,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 .cache/
+*.cache
+*.cache.*
 
 # Universal Root /apk binary delivery (preserve directory via .gitkeep)
 /apk/*.apk
