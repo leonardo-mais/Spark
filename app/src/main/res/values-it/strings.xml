@@ -1,139 +1,26 @@
 <resources>
-    <string name="app_name">Medications</string>
+    <string name="app_name">Spark</string>
 
-    <!-- Navigation Tabs -->
-    <string name="nav_today">Oggi</string>
-    <string name="nav_history">Cronologia</string>
-    <string name="nav_inventory">Inventario</string>
-
-    <!-- Today Screen -->
-    <string name="today_title">Oggi</string>
-    <string name="today_progress_format">%1$d su %2$d medicine prese</string>
-    <string name="today_progress_complete">Tutte le medicine assunte per oggi! 🎉</string>
-    <string name="today_no_doses">Nessuna medicina programmata per questo giorno</string>
-    <string name="action_take">Prendi</string>
-    <string name="action_skip">Salta</string>
-    <string name="action_snooze">Posticipa</string>
-    <string name="status_taken">Presa alle %1$s</string>
-    <string name="status_skipped">Saltata</string>
-    <string name="greeting_morning">Buongiorno</string>
-    <string name="greeting_afternoon">Buon pomeriggio</string>
-    <string name="greeting_evening">Buonasera</string>
-    <string name="today_adherence_label">ADERENZA DI OGGI</string>
-    <string name="history_monthly_adherence">ADERENZA MENSILE</string>
-    <string name="history_stat_taken">Prese</string>
-    <string name="history_stat_skipped">Saltate</string>
-    <string name="inventory_stat_total">Farmaci</string>
-    <string name="inventory_stat_healthy">In scorta</string>
-    <string name="inventory_stat_low">Scorta bassa</string>
-    <string name="status_pending">In attesa</string>
-    <string name="priority_high_badge">Priorità Alta</string>
-
-    <!-- History Screen -->
-    <string name="history_title">Cronologia</string>
-    <string name="history_adherence_rate">Aderenza: %1$d%%</string>
-    <string name="history_no_logs">Nessuna registrazione per questa data</string>
-    <string name="legend_all_taken">Tutte prese</string>
-    <string name="legend_partial">Parzialmente prese</string>
-    <string name="legend_missed">Saltate o dimenticate</string>
-
-    <!-- Inventory Screen -->
-    <string name="inventory_title">Inventario</string>
-    <string name="search_medicines_hint">Cerca medicine...</string>
-    <string name="filter_all">Tutte</string>
-    <string name="filter_low_stock">In esaurimento</string>
-    <string name="inventory_stock_format">%1$d unità (%2$d scatole)</string>
-    <string name="inventory_low_stock_warning">⚠️ Scorte in esaurimento: rimangono solo %1$d unità!</string>
-    <string name="action_refill">Ricarica</string>
-    <string name="add_medicine_fab">Aggiungi Medicina</string>
-    <string name="inventory_empty_title">Nessuna medicina in inventario</string>
-    <string name="inventory_empty_subtitle">Tocca + per aggiungere la tua prima medicina e gli orari</string>
-
-    <!-- Refill Dialog -->
-    <string name="refill_dialog_title">Ricarica Scorte</string>
-    <string name="refill_dialog_prompt">Inserisci il numero di scatole da aggiungere per %1$s:</string>
-    <string name="refill_boxes_label">Scatole da aggiungere</string>
-    <string name="refill_confirm">Conferma Ricarica</string>
-    <string name="cancel">Annulla</string>
-    <string name="save">Salva</string>
-    <string name="delete">Elimina</string>
-
-    <!-- Add/Edit Medicine Screen -->
-    <string name="editor_add_title">Nuova Medicina</string>
-    <string name="editor_edit_title">Modifica Medicina</string>
-    <string name="editor_field_name">Nome Medicina</string>
-    <string name="editor_field_dosage">Dosaggio (es. 500 mg, 10 ml)</string>
-    <string name="editor_section_form">Forma della Medicina</string>
-    <string name="editor_section_days">Giorni della Settimana</string>
-    <string name="editor_section_times">Orari di Notifica</string>
-    <string name="editor_add_custom_time">Orario Personalizzato</string>
-    <string name="editor_section_priority">Priorità Notifica</string>
-    <string name="editor_priority_low">Bassa</string>
-    <string name="editor_priority_medium">Media</string>
-    <string name="editor_priority_high">Alta</string>
-    <string name="editor_section_instructions">Istruzioni</string>
-    <string name="editor_instructions_hint">es. A stomaco pieno con un bicchiere d\'acqua</string>
-    <string name="editor_section_stock">Gestione Scorte</string>
-    <string name="editor_field_boxes">Scatole Iniziali</string>
-    <string name="editor_field_units_per_box">Unità per Scatola</string>
-    <string name="editor_field_alert_below">Avvisa quando rimangono (unità)</string>
-    <string name="editor_total_calculated">Unità totali calcolate: %1$d</string>
-    <string name="error_name_required">Il nome della medicina è obbligatorio</string>
-    <string name="error_time_required">Seleziona almeno un orario di notifica</string>
-    <string name="error_days_required">Seleziona almeno un giorno della settimana</string>
-
-    <!-- Medicine Forms -->
-    <string name="form_pill">Compressa</string>
-    <string name="form_capsule">Capsula</string>
-    <string name="form_drops">Gocce</string>
-    <string name="form_syrup">Sciroppo</string>
-    <string name="form_injection">Iniezione</string>
-    <string name="form_sachet">Bustina</string>
-    <string name="form_inhaler">Inalatore</string>
-    <string name="form_other">Altro</string>
-
-    <!-- Days of Week Short -->
-    <string name="day_mon">L</string>
-    <string name="day_tue">M</string>
-    <string name="day_wed">M</string>
-    <string name="day_thu">G</string>
-    <string name="day_fri">V</string>
-    <string name="day_sat">S</string>
-    <string name="day_sun">D</string>
-
-    <!-- Meal Presets -->
-    <string name="preset_breakfast">Colazione</string>
-    <string name="preset_lunch">Pranzo</string>
-    <string name="preset_dinner">Cena</string>
+    <!-- Navigation & Starter -->
+    <string name="nav_home">Home</string>
+    <string name="home_title">Spark</string>
+    <string name="home_welcome_title">Benvenuto in Spark!</string>
+    <string name="home_welcome_subtitle">Meta-framework nativo per Android basato su Jetpack Compose e Material 3 Expressive.</string>
+    <string name="home_card_ready_title">Template Pronto</string>
+    <string name="home_card_ready_desc">Passa alla modalità Pianificazione o scrivi /plan per iniziare l\'intervista di scoperta e costruire la tua nuova app passo dopo passo.</string>
+    <string name="home_badge_status">Pronto per lo sviluppo</string>
+    <string name="home_metric_rules">Regole AI</string>
+    <string name="home_metric_skills">Skills</string>
+    <string name="home_metric_release">CI/CD Release</string>
+    <string name="action_settings">Impostazioni</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Impostazioni</string>
-    <string name="settings_section_presets">Preset di Schedule</string>
-    <string name="settings_section_presets_desc">Configura gli orari standard dei pasti per la pianificazione rapida</string>
-    <string name="settings_section_priorities">Priorità Notifiche</string>
-    <string name="settings_section_priorities_desc">Configura il numero di allarmi e l\'intervallo tra uno e l\'altro</string>
-    <string name="settings_priority_low_title">Priorità Bassa</string>
-    <string name="settings_priority_medium_title">Priorità Media</string>
-    <string name="settings_priority_high_title">Priorità Alta</string>
-    <string name="settings_alert_count_format">%1$d avviso/i</string>
-    <string name="settings_interval_format">Ogni %1$d min</string>
-    <string name="settings_no_repeat">Nessuna ripetizione</string>
+    <string name="settings_section_general">Informazioni Applicazione</string>
+    <string name="settings_version_label">Versione</string>
+    <string name="settings_build_type_label">Tipo di Build</string>
 
-    <string name="settings_section_reliability">Affidabilità Allarmi e Batteria</string>
-    <string name="settings_exact_alarm_status">Permesso Allarmi Esatti</string>
-    <string name="settings_battery_optimization">Escludi da Ottimizzazione Batteria</string>
-    <string name="settings_battery_optimization_desc">Assicura che Android non blocchi o ritardi i promemoria delle medicine</string>
-    <string name="settings_grant_permission">Verifica / Autorizza</string>
-
-    <string name="settings_section_backup">Backup e Ripristino</string>
-    <string name="settings_backup_desc">Esporta i tuoi farmaci e la cronologia o ripristina da un file JSON</string>
-    <string name="settings_export_button">Esporta Backup (JSON)</string>
-    <string name="settings_import_button">Ripristina da file JSON</string>
-    <string name="settings_backup_success">Backup esportato con successo</string>
-    <string name="settings_restore_success">Dati ripristinati e promemoria riprogrammati!</string>
-    <string name="settings_restore_error">Errore di ripristino: formato file JSON non valido</string>
-
-    <!-- Spark Section Invariant -->
+    <!-- Spark Section Invariant (Mandatory) -->
     <string name="spark_section_title">Realizzata con Spark!</string>
     <string name="spark_badge">Spark! Framework</string>
     <string name="spark_github_title">GitHub del progetto</string>
@@ -142,16 +29,4 @@
     <string name="spark_sorge_desc">Architettura e build</string>
     <string name="spark_mais_title">leonardo.mais</string>
     <string name="spark_mais_desc">UI e UX</string>
-
-    <!-- Notifications -->
-    <string name="notification_channel_name">Promemoria Medicine</string>
-    <string name="notification_channel_desc">Notifiche puntuali per l\'assunzione delle medicine programmate</string>
-    <string name="notification_title_reminder">È ora di prendere: %1$s</string>
-    <string name="notification_content_reminder">Dosaggio: %1$s • %2$s</string>
-    <string name="notification_action_take">Prendi</string>
-    <string name="notification_action_snooze">Posticipa</string>
-    <string name="notification_action_skip">Salta</string>
-    <string name="notification_toast_taken">%1$s registrata come assunta</string>
-    <string name="notification_toast_skipped">%1$s registrata come saltata</string>
-    <string name="notification_toast_snoozed">Promemoria posticipato di %1$d minuti</string>
 </resources>

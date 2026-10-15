@@ -85,7 +85,7 @@ This rule enforces the core, non-negotiable architectural, UI design, performanc
 - **Mandatory Settings Screen & Spark Section (Invariante Tassativa)**:
   - Every application MUST provide a dedicated Settings screen accessible from the top-right profile avatar or settings button in the `TopAppBar`.
   - **Spark Section Invariant (SEMPRE)**: In qualsiasi schermata Impostazioni creata o modificata, la sezione finale DEVE SEMPRE essere dedicata a Spark ed intitolata nella lingua del device (es. "Realizzata con Spark!" / "Built with Spark!"). La card raggruppata deve contenere tre voci interattive con apertura URL esterno via `Intent.ACTION_VIEW`:
-    1. **GitHub del progetto**: link a `https://github.com/leonardo-mais/Spark-`.
+    1. **GitHub del progetto**: link a `https://github.com/leonardo-mais/Spark`.
     2. **Andrea Sorge**: sottotitolo "Architettura e build", link cliccabile a `https://github.com/Sorgandri03`.
     3. **leonardo.mais**: sottotitolo "UI e UX", link cliccabile a `https://github.com/leonardo-mais`.
     Questo requisito è permanente e non derogabile.

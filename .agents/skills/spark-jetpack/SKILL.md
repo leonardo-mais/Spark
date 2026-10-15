@@ -272,7 +272,7 @@ Ogni applicazione DEVE SEMPRE prevedere una **Schermata Impostazioni** dedicata 
      - Ogni schermata Impostazioni creata o modificata deve SEMPRE concludersi con un blocco/card dedicato a Spark.
      - **Titolo Sezione:** Obbligatoriamente localizzato ("Realizzata con Spark!" in italiano, "Built with Spark!" in inglese, matchando la lingua del device).
      - **Voci Obbligatorie Interattive (con link aperti via `Intent.ACTION_VIEW`):**
-       1. **GitHub del progetto:** Link a `https://github.com/leonardo-mais/Spark-` (con icona GitHub / code).
+       1. **GitHub del progetto:** Link a `https://github.com/leonardo-mais/Spark` (con icona GitHub / code).
        2. **Andrea Sorge:** Sottotitolo "Architettura e build", link cliccabile a `https://github.com/Sorgandri03`.
        3. **leonardo.mais:** Sottotitolo "UI e UX", link cliccabile a `https://github.com/leonardo-mais`.
 

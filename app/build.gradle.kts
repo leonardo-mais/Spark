@@ -16,16 +16,16 @@ val versionProps = Properties().apply {
     }
 }
 
-val propAppName = versionProps.getProperty("appName", "Medications")
+val propAppName = versionProps.getProperty("appName", "Spark")
 val propVersionCode = versionProps.getProperty("versionCode", "1").toInt()
 val propVersionName = versionProps.getProperty("versionName", "1.0.0")
 
 android {
-    namespace = "it.spark.medications"
+    namespace = "it.spark.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "it.spark.medications"
+        applicationId = "it.spark.app"
         minSdk = 26
         targetSdk = 35
         versionCode = propVersionCode

@@ -1,4 +1,4 @@
-package it.spark.medications.presentation.theme
+package it.spark.app.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.ExperimentalTextApi
@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import it.spark.medications.R
+import it.spark.app.R
 
 /**
  * Creates dynamic Google Sans Flex FontFamily with customized variable font axes.
@@ -42,9 +42,6 @@ fun flexFont(
 val FlexHeroNumericFont = flexFont(weight = 820, width = 115f, roundness = 100f)
 val FlexHeadlineFont = flexFont(weight = 750, width = 108f, roundness = 80f)
 val FlexSubheadingFont = flexFont(weight = 600, width = 102f, roundness = 60f)
-val FlexDateSelectedFont = flexFont(weight = 850, width = 112f, roundness = 100f)
-val FlexDateUnselectedFont = flexFont(weight = 480, width = 100f, roundness = 0f)
-val FlexClockTimeFont = flexFont(weight = 650, width = 100f, roundness = 50f)
 val FlexChipLabelFont = flexFont(weight = 650, width = 105f, roundness = 60f)
 val FlexBadgeAlertFont = flexFont(weight = 800, width = 110f, roundness = 80f, grade = 50)
 val FlexStatValueFont = flexFont(weight = 780, width = 112f, roundness = 90f)
@@ -61,65 +58,27 @@ object ExpressiveType {
         fontFamily = FlexHeroNumericFont,
         fontWeight = FontWeight.Normal,
         fontSize = 38.sp,
-        lineHeight = 44.sp,
-        letterSpacing = (-0.25).sp
+        lineHeight = 42.sp,
+        letterSpacing = (-0.5).sp
     )
-    val heroMedium = TextStyle(
-        fontFamily = FlexStatValueFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 28.sp,
-        lineHeight = 34.sp,
-        letterSpacing = 0.sp
-    )
-    val greetingHeadline = TextStyle(
+    val titleExpressive = TextStyle(
         fontFamily = FlexHeadlineFont,
         fontWeight = FontWeight.Normal,
-        fontSize = 26.sp,
-        lineHeight = 32.sp,
+        fontSize = 24.sp,
+        lineHeight = 30.sp,
         letterSpacing = (-0.2).sp
     )
-    val dateStripSelected = TextStyle(
-        fontFamily = FlexDateSelectedFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.sp
-    )
-    val dateStripUnselected = TextStyle(
-        fontFamily = FlexDateUnselectedFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 17.sp,
-        lineHeight = 22.sp,
-        letterSpacing = 0.sp
-    )
-    val clockTag = TextStyle(
-        fontFamily = FlexClockTimeFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 18.sp,
-        letterSpacing = 0.2.sp
-    )
-    val statLabel = TextStyle(
+    val subtitleExpressive = TextStyle(
         fontFamily = FlexSubheadingFont,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.3.sp
-    )
-    val badgeAlert = TextStyle(
-        fontFamily = FlexBadgeAlertFont,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.1.sp
+        fontSize = 17.sp,
+        lineHeight = 22.sp
     )
 }
 
 val GoogleSansFlexFontFamily = FontFamily(
-    Font(R.font.google_sans_flex, FontWeight.Normal),
-    Font(R.font.google_sans_flex, FontWeight.Medium),
-    Font(R.font.google_sans_flex, FontWeight.SemiBold),
-    Font(R.font.google_sans_flex, FontWeight.Bold)
+    Font(R.font.google_sans_regular, FontWeight.Normal),
+    Font(R.font.google_sans_medium, FontWeight.Medium)
 )
 
 val AppTypography = Typography(
@@ -134,43 +93,37 @@ val AppTypography = Typography(
         fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 45.sp,
-        lineHeight = 52.sp,
-        letterSpacing = 0.sp
+        lineHeight = 52.sp
     ),
     displaySmall = TextStyle(
         fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 36.sp,
-        lineHeight = 44.sp,
-        letterSpacing = 0.sp
+        lineHeight = 44.sp
     ),
     headlineLarge = TextStyle(
-        fontFamily = FlexHeadlineFont,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 32.sp,
-        lineHeight = 40.sp,
-        letterSpacing = 0.sp
+        lineHeight = 40.sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = FlexHeadlineFont,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 28.sp,
-        lineHeight = 36.sp,
-        letterSpacing = 0.sp
+        lineHeight = 36.sp
     ),
     headlineSmall = TextStyle(
-        fontFamily = FlexSubheadingFont,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
-        lineHeight = 32.sp,
-        letterSpacing = 0.sp
+        lineHeight = 32.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = FlexSubheadingFont,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        lineHeight = 28.sp
     ),
     titleMedium = TextStyle(
         fontFamily = GoogleSansFlexFontFamily,
@@ -208,7 +161,7 @@ val AppTypography = Typography(
         letterSpacing = 0.4.sp
     ),
     labelLarge = TextStyle(
-        fontFamily = FlexChipLabelFont,
+        fontFamily = GoogleSansFlexFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,

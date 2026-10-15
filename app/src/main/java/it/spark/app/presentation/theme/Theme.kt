@@ -1,4 +1,4 @@
-package it.spark.medications.presentation.theme
+package it.spark.app.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -77,7 +77,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun MedicationsTheme(
+fun SparkTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit

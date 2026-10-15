@@ -1,6 +1,11 @@
 # ✨ Spark! • Modern Android Starter Template & Framework
 
-Spark! è il framework e template starter per lo sviluppo di applicazioni Android native all'avanguardia, basato su **Jetpack Compose**, **Material 3 Expressive**, architettura modulare **Clean Architecture / MVI**, tipografia variabile a 6 assi con **Google Sans Flex** e pipeline di rilascio continuo self-hosted per **Obtainium**.
+Spark! è il 
+
+
+framework e template starter per lo sviluppo di applicazioni Android 
+
+native all'avanguardia, basato su **Jetpack Compose**, **Material 3 Expressive**, architettura modulare **Clean Architecture / MVI**, tipografia variabile a 6 assi con **Google Sans Flex** e pipeline di rilascio continuo self-hosted per **Obtainium**.
 
 Il repository è configurato nativamente per lavorare in simbiosi con gli **Agenti AI di Antigravity**, includendo regole di sviluppo, interview di discovery, cicli iterativi con verifica visiva e skill specializzate.
 

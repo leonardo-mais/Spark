@@ -1,139 +1,26 @@
 <resources>
-    <string name="app_name">Medications</string>
+    <string name="app_name">Spark</string>
 
-    <!-- Navigation Tabs -->
-    <string name="nav_today">Today</string>
-    <string name="nav_history">History</string>
-    <string name="nav_inventory">Inventory</string>
-
-    <!-- Today Screen -->
-    <string name="today_title">Today</string>
-    <string name="today_progress_format">%1$d of %2$d medicines taken</string>
-    <string name="today_progress_complete">All medicines taken for today! 🎉</string>
-    <string name="today_no_doses">No scheduled medicines for this day</string>
-    <string name="action_take">Take</string>
-    <string name="action_skip">Skip</string>
-    <string name="action_snooze">Snooze</string>
-    <string name="status_taken">Taken at %1$s</string>
-    <string name="status_skipped">Skipped</string>
-    <string name="greeting_morning">Good morning</string>
-    <string name="greeting_afternoon">Good afternoon</string>
-    <string name="greeting_evening">Good evening</string>
-    <string name="today_adherence_label">TODAY\'S ADHERENCE</string>
-    <string name="history_monthly_adherence">MONTHLY ADHERENCE</string>
-    <string name="history_stat_taken">Taken</string>
-    <string name="history_stat_skipped">Skipped</string>
-    <string name="inventory_stat_total">Total Meds</string>
-    <string name="inventory_stat_healthy">In Stock</string>
-    <string name="inventory_stat_low">Low Stock</string>
-    <string name="status_pending">Pending</string>
-    <string name="priority_high_badge">High Priority</string>
-
-    <!-- History Screen -->
-    <string name="history_title">History</string>
-    <string name="history_adherence_rate">Adherence: %1$d%%</string>
-    <string name="history_no_logs">No records for this day</string>
-    <string name="legend_all_taken">All taken</string>
-    <string name="legend_partial">Partially taken</string>
-    <string name="legend_missed">Missed or skipped</string>
-
-    <!-- Inventory Screen -->
-    <string name="inventory_title">Inventory</string>
-    <string name="search_medicines_hint">Search medicines...</string>
-    <string name="filter_all">All</string>
-    <string name="filter_low_stock">Low Stock</string>
-    <string name="inventory_stock_format">%1$d units (%2$d boxes)</string>
-    <string name="inventory_low_stock_warning">⚠️ Low stock: only %1$d units left!</string>
-    <string name="action_refill">Refill</string>
-    <string name="add_medicine_fab">Add Medicine</string>
-    <string name="inventory_empty_title">No medicines in inventory</string>
-    <string name="inventory_empty_subtitle">Tap + to add your first medicine and schedule</string>
-
-    <!-- Refill Dialog -->
-    <string name="refill_dialog_title">Refill Stock</string>
-    <string name="refill_dialog_prompt">Enter number of boxes to add for %1$s:</string>
-    <string name="refill_boxes_label">Boxes to add</string>
-    <string name="refill_confirm">Confirm Refill</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
-    <string name="delete">Delete</string>
-
-    <!-- Add/Edit Medicine Screen -->
-    <string name="editor_add_title">New Medicine</string>
-    <string name="editor_edit_title">Edit Medicine</string>
-    <string name="editor_field_name">Medicine Name</string>
-    <string name="editor_field_dosage">Dosage (e.g. 500 mg, 10 ml)</string>
-    <string name="editor_section_form">Medicine Form</string>
-    <string name="editor_section_days">Days of the Week</string>
-    <string name="editor_section_times">Reminder Times</string>
-    <string name="editor_add_custom_time">Custom Time</string>
-    <string name="editor_section_priority">Reminder Priority</string>
-    <string name="editor_priority_low">Low</string>
-    <string name="editor_priority_medium">Medium</string>
-    <string name="editor_priority_high">High</string>
-    <string name="editor_section_instructions">Instructions</string>
-    <string name="editor_instructions_hint">e.g. Take with food and a glass of water</string>
-    <string name="editor_section_stock">Stock &amp; Inventory</string>
-    <string name="editor_field_boxes">Initial Boxes</string>
-    <string name="editor_field_units_per_box">Units per Box</string>
-    <string name="editor_field_alert_below">Alert Below (units)</string>
-    <string name="editor_total_calculated">Total units: %1$d</string>
-    <string name="error_name_required">Medicine name is required</string>
-    <string name="error_time_required">Select at least one reminder time</string>
-    <string name="error_days_required">Select at least one day of the week</string>
-
-    <!-- Medicine Forms -->
-    <string name="form_pill">Pill</string>
-    <string name="form_capsule">Capsule</string>
-    <string name="form_drops">Drops</string>
-    <string name="form_syrup">Syrup</string>
-    <string name="form_injection">Injection</string>
-    <string name="form_sachet">Sachet</string>
-    <string name="form_inhaler">Inhaler</string>
-    <string name="form_other">Other</string>
-
-    <!-- Days of Week Short -->
-    <string name="day_mon">M</string>
-    <string name="day_tue">T</string>
-    <string name="day_wed">W</string>
-    <string name="day_thu">T</string>
-    <string name="day_fri">F</string>
-    <string name="day_sat">S</string>
-    <string name="day_sun">S</string>
-
-    <!-- Meal Presets -->
-    <string name="preset_breakfast">Breakfast</string>
-    <string name="preset_lunch">Lunch</string>
-    <string name="preset_dinner">Dinner</string>
+    <!-- Navigation & Starter -->
+    <string name="nav_home">Home</string>
+    <string name="home_title">Spark</string>
+    <string name="home_welcome_title">Welcome to Spark!</string>
+    <string name="home_welcome_subtitle">Native Android meta-framework built on Jetpack Compose and Material 3 Expressive.</string>
+    <string name="home_card_ready_title">Template Ready</string>
+    <string name="home_card_ready_desc">Switch to Planning Mode or type /plan to begin the Discovery Interview and build your application step-by-step.</string>
+    <string name="home_badge_status">Ready to Build</string>
+    <string name="home_metric_rules">AI Rules</string>
+    <string name="home_metric_skills">Skills</string>
+    <string name="home_metric_release">Release CI/CD</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
-    <string name="settings_section_presets">Schedule Presets</string>
-    <string name="settings_section_presets_desc">Configure standard meal times for quick scheduling</string>
-    <string name="settings_section_priorities">Notification Priorities</string>
-    <string name="settings_section_priorities_desc">Configure number of alert repeats and intervals</string>
-    <string name="settings_priority_low_title">Low Priority</string>
-    <string name="settings_priority_medium_title">Medium Priority</string>
-    <string name="settings_priority_high_title">High Priority</string>
-    <string name="settings_alert_count_format">%1$d alert(s)</string>
-    <string name="settings_interval_format">Every %1$d min</string>
-    <string name="settings_no_repeat">No repeat</string>
+    <string name="settings_section_general">Application Info</string>
+    <string name="settings_version_label">Version</string>
+    <string name="settings_build_type_label">Build Type</string>
 
-    <string name="settings_section_reliability">Alarm &amp; Battery Reliability</string>
-    <string name="settings_exact_alarm_status">Exact Alarm Permission</string>
-    <string name="settings_battery_optimization">Ignore Battery Optimization</string>
-    <string name="settings_battery_optimization_desc">Ensures Android never delays or skips critical medication reminders</string>
-    <string name="settings_grant_permission">Grant / Check</string>
-
-    <string name="settings_section_backup">Backup &amp; Restore</string>
-    <string name="settings_backup_desc">Export your medications and logs or restore from JSON</string>
-    <string name="settings_export_button">Export Backup (JSON)</string>
-    <string name="settings_import_button">Restore from JSON</string>
-    <string name="settings_backup_success">Backup exported successfully</string>
-    <string name="settings_restore_success">Data restored and alarms rescheduled!</string>
-    <string name="settings_restore_error">Failed to restore: invalid backup format</string>
-
-    <!-- Spark Section Invariant -->
+    <!-- Spark Section Invariant (Mandatory) -->
     <string name="spark_section_title">Built with Spark!</string>
     <string name="spark_badge">Spark! Framework</string>
     <string name="spark_github_title">Project GitHub</string>
@@ -142,16 +29,4 @@
     <string name="spark_sorge_desc">Architecture &amp; Build</string>
     <string name="spark_mais_title">leonardo.mais</string>
     <string name="spark_mais_desc">UI &amp; UX</string>
-
-    <!-- Notifications -->
-    <string name="notification_channel_name">Medication Reminders</string>
-    <string name="notification_channel_desc">Timely notifications to take your scheduled medications</string>
-    <string name="notification_title_reminder">Time for: %1$s</string>
-    <string name="notification_content_reminder">Dosage: %1$s • %2$s</string>
-    <string name="notification_action_take">Take</string>
-    <string name="notification_action_snooze">Snooze</string>
-    <string name="notification_action_skip">Skip</string>
-    <string name="notification_toast_taken">%1$s marked as taken</string>
-    <string name="notification_toast_skipped">%1$s marked as skipped</string>
-    <string name="notification_toast_snoozed">Reminder snoozed for %1$d minutes</string>
 </resources>
