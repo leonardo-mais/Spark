@@ -51,9 +51,13 @@ android {
 
             if (targetKeystore != null) {
                 storeFile = targetKeystore
-                storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "REMOVED_DEFAULT_PASSWORD"
+                storePassword = requireNotNull(System.getenv("KEYSTORE_PASSWORD")) {
+                    "KEYSTORE_PASSWORD must be set to sign release builds"
+                }
                 keyAlias = System.getenv("KEY_ALIAS") ?: "sparkkey"
-                keyPassword = System.getenv("KEY_PASSWORD") ?: "REMOVED_DEFAULT_PASSWORD"
+                keyPassword = requireNotNull(System.getenv("KEY_PASSWORD")) {
+                    "KEY_PASSWORD must be set to sign release builds"
+                }
             }
         }
     }

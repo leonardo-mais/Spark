@@ -16,6 +16,7 @@ bin/
 
 # Local configuration
 local.properties
+CLAUDE.md
 
 # Android Studio & IDE
 .idea/
@@ -49,3 +50,7 @@ __pycache__/
 
 # Self-hosted distribution output binaries
 /dist/
+
+# Signing keystores (never commit)
+*.jks
+*.keystore

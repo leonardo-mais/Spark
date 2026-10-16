@@ -36,11 +36,11 @@ This skill documents the automated release pipeline, semantic versioning, and mu
 ```
 /mnt/.../Obtainium/
 ├── dist/
-│   ├── aurastanza/
-│   │   ├── AuraStanza-latest.apk
-│   │   ├── AuraStanza-latest.apk.sha256
-│   │   ├── AuraStanza-v1.0.4-b5-release.apk
-│   │   ├── AuraStanza-v1.0.4-b5-release.apk.sha256
+│   ├── <app-a>/
+│   │   ├── <app-a>-latest.apk
+│   │   ├── <app-a>-latest.apk.sha256
+│   │   ├── <app-a>-v1.0.0-b1-release.apk
+│   │   ├── <app-a>-v1.0.0-b1-release.apk.sha256
 │   │   ├── version.json
 │   │   └── index.html
 │   └── <future-app>/

@@ -51,7 +51,7 @@ This rule enforces the core, non-negotiable architectural, UI design, performanc
 - **Scaffold Multi-Livello & Invarianza BottomBar/TopBar (Invariante Tassativa)**:
   - Lo `Scaffold` root di livello applicazione ospita **UNICAMENTE** la `NavigationBar` inferiore e lo `SnackbarHost`.
   - È severamente vietato inserire una `TopAppBar` o condizionali `when`/`if` nello `Scaffold` root per mostrare/nascondere la navigation bar: questo causa bug di barre che fluttuano o scompaiono.
-  - Ciascuna schermata/sottoschermata (Rooms, Devices, Scenarios, Settings, RoomDetail) gestisce il proprio `Scaffold` dedicato contenente la rispettiva `TopAppBar` o `LargeTopAppBar`.
+  - Ciascuna schermata/sottoschermata (es. Home, Detail, Settings) gestisce il proprio `Scaffold` dedicato contenente la rispettiva `TopAppBar` o `LargeTopAppBar`.
   - **WindowInsets & Edge-to-Edge**: `enableEdgeToEdge()` deve essere sempre attivo in `MainActivity`. Lo Scaffold root passa `contentWindowInsets = WindowInsets(0.dp)` se la gestione degli insets è delegata ai figli, oppure passa l'innerPadding a `NavDisplay`. Ciascun composable consuma i `WindowInsets` correttamente senza doppie spaziature.
 - **Expressive Components & Opt-in**:
   - Annotate with `@OptIn(ExperimentalMaterial3ExpressiveApi::class)`.
@@ -177,3 +177,12 @@ This rule enforces the core, non-negotiable architectural, UI design, performanc
   - Maintain executable build automation scripts in `build/` (e.g., `build/build.sh`).
   - Build automation supports both debug and release pipelines: `./build/build.sh` (debug) and `./build/build.sh --release` or `./release-agent [patch|minor|major] -m "..."`.
   - The AI Agent executes `./release-agent` directly whenever version bumps, Obtainium distribution feeds, or releases are requested, ensuring continuous integration and deployment without requiring manual terminal operations by the user.
+
+---
+
+## 🔐 Segreti e Dati Sensibili (Invariante Tassativa)
+- **Mai in chiaro nel codice o nel repo**: password, token, chiavi API, credenziali di firma (keystore, alias, password) e URL privati non devono MAI comparire in sorgenti, `build.gradle.kts`, `gradle.properties`, script, documentazione o test.
+- **Solo variabili d'ambiente o file `.env`**: i valori sensibili vanno letti da `System.getenv(...)` oppure da un file `.env` locale. Nel repo si committa solo il template senza valori (es. `.env.example`).
+- **Nessun fallback con valori reali**: se un segreto manca, la build deve fallire con un messaggio chiaro (es. `requireNotNull(System.getenv("..."))`), mai ripiegare su un valore di default.
+- **Keystore e file di firma**: i file `*.jks` e `*.keystore` non si committano mai (sono in `.gitignore`).
+- **Nei log e nelle risposte**: non stampare né riportare i valori dei segreti.

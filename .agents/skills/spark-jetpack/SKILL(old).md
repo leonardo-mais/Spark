@@ -445,7 +445,7 @@ Per eliminare definitivamente bug di barre che fluttuano, scompaiono o causano s
    - Lo `Scaffold` root di primo livello ospita **UNICAMENTE** la `NavigationBar` inferiore e lo `SnackbarHost`.
    - **DIVIETO DI TOPAPPBAR NEL ROOT:** Non inserire mai una `TopAppBar` o condizionali `when`/`if` nello `Scaffold` root. La visibilità della barra di navigazione deve essere coerente o gestita a livello di route Nav 3.
 2. **Scaffold Dedicato per Ciascuna Schermata Figlia:**
-   - Ciascuna schermata figlia (RoomsScreen, DevicesScreen, ScenariosScreen, SettingsScreen, RoomDetailScreen) possiede il proprio `Scaffold` dedicato.
+   - Ciascuna schermata figlia (es. HomeScreen, DetailScreen, SettingsScreen) possiede il proprio `Scaffold` dedicato.
    - Lo `Scaffold` della schermata figlia ospita la propria `TopAppBar` (`LargeTopAppBar` con scroll elevate, oppure `TopAppBar` con il tasto indietro circolare).
 3. **Gestione WindowInsets & Edge-to-Edge:**
    - `enableEdgeToEdge()` deve essere sempre attivo nell'Activity.

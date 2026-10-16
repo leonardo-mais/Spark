@@ -9,7 +9,7 @@ This rule mandates that all continuous release, semantic versioning, build autom
 The self-hosted distribution server (e.g. Caddy + Obtainium on Tailscale `http://<SERVER_IP>:3200`) is a **multi-tenant repository** that hosts multiple Spark! applications simultaneously.
 
 - **Mandatory App Namespace Subfolder**:
-  - Every project MUST isolate its distribution artifacts inside a dedicated subdirectory named after the application slug: `dist/<appSlug>/` (e.g., `dist/aurastanza/`).
+  - Every project MUST isolate its distribution artifacts inside a dedicated subdirectory named after the application slug: `dist/<appSlug>/` (e.g., `dist/my-app/`).
   - **NEVER** write release artifacts (`version.json`, `index.html`, `*-latest.apk`, or versioned APKs) directly into the root of `dist/`.
 - **Client-Driven Isolation (Zero Server Changes)**:
   - The client release script packaging preserves the app slug root directory when streaming to the remote endpoint:
