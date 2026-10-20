@@ -1,6 +1,6 @@
 # Material 3 Expressive - Progress indicator
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -17,7 +17,7 @@
               
                 `@ComposableLinearProgressIndicator(    modifier: Modifier,    color: Color,    trackColor: Color,    strokeCap: StrokeCap,    gapSize: Dp)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun LinearProgressIndicator(
@@ -46,7 +46,7 @@ import androidx.compose.ui.Alignment
 Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Linear:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/LinearProgressIndicator.composable#LinearProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp,kotlin.Function1](https://developer.android.com/reference/kotlin/androidx/compose/material3/LinearProgressIndicator.composable#LinearProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp,kotlin.Function1)
 * **Circular:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable#CircularProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp](https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable#CircularProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp)
 

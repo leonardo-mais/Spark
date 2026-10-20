@@ -1,6 +1,6 @@
 # Material 3 Expressive - Tabs
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -41,7 +41,7 @@ tabs:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/tabs](https://developer.android.com/develop/ui/compose/components/tabs)
 
 ---

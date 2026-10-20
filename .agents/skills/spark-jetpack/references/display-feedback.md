@@ -1,8 +1,8 @@
 # Material 3 Expressive - Display & Feedback
 
-Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per liste espressive, caroselli, chip, badge, indicatori di progresso ondulati (wavy) e snackbar conformi a Material 3 Expressive.
+This document collects the Jetpack Compose signatures, parameters, variants and patterns for expressive lists, carousels, chips, badges, wavy progress indicators and snackbars, compliant with Material 3 Expressive.
 
-> **Riferimenti Locali:** Per la scheda dettagliata di ogni singolo componente, consulta i file dedicati in `references/components/`.
+> **Local references:** for the detailed card of each component, see the dedicated files in `references/components/`.
 
 ---
 
@@ -44,7 +44,7 @@ you might use a badge:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/badges](https://developer.android.com/develop/ui/compose/components/badges)
 
 ---
@@ -98,7 +98,7 @@ the item size.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/carousel](https://developer.android.com/develop/ui/compose/components/carousel)
 
 ---
@@ -129,7 +129,7 @@ checkable, dismissible, or clickable.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/chip](https://developer.android.com/develop/ui/compose/components/chip)
 
 ---
@@ -145,7 +145,7 @@ checkable, dismissible, or clickable.
               
                 `@ComposableLazyVerticalGrid(    columns: GridCells,    modifier: Modifier,    state: LazyGridState,    contentPadding: PaddingValues,    reverseLayout: Boolean,    verticalArrangement: Arrangement.Vertical,    horizontalArrangement: Arrangement.Horizontal,    flingBehavior: FlingBehavior,    userScrollEnabled: Boolean,    overscrollEffect: OverscrollEffect?,    cacheWindow: LazyLayoutCacheWindow,    content: LazyGridScope.() -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun LazyVerticalGrid(
@@ -220,7 +220,7 @@ private fun OrderButtons(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Remember:** [https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyVerticalGrid.composable](https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyVerticalGrid.composable)
 * **Remember:** [https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyHorizontalGrid.composable](https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyHorizontalGrid.composable)
 * **Updates:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#ListItem%28kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Function0,androidx.compose.material3.ListItemColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp%29](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#ListItem%28kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Function0,androidx.compose.material3.ListItemColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp%29)
@@ -259,7 +259,7 @@ Scaffold(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/snackbar](https://developer.android.com/develop/ui/compose/components/snackbar)
 
 ---
@@ -275,7 +275,7 @@ Scaffold(
 @ExperimentalMaterial3ExpressiveApi@Composable fun LoadingIndicator(    modifier: Modifier = Modifier,    color: Color = LoadingIndicatorDefaults.indicatorColor,    polygons: List<RoundedPolygon> = LoadingIndicatorDefaults.IndeterminateIndicatorPolygons): Unit
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/LoadingIndicator.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/LoadingIndicator.composable)
 
 ---
@@ -292,7 +292,7 @@ Scaffold(
               
                 `@ComposableLinearProgressIndicator(    modifier: Modifier,    color: Color,    trackColor: Color,    strokeCap: StrokeCap,    gapSize: Dp)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun LinearProgressIndicator(
@@ -321,7 +321,7 @@ import androidx.compose.ui.Alignment
 Column(horizontalAlignment = Alignment.CenterHorizontally) { LinearProgressIndicator() }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Linear:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/LinearProgressIndicator.composable#LinearProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp,kotlin.Function1](https://developer.android.com/reference/kotlin/androidx/compose/material3/LinearProgressIndicator.composable#LinearProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp,kotlin.Function1)
 * **Circular:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable#CircularProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp](https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable#CircularProgressIndicator(kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Color,androidx.compose.ui.unit.Dp,androidx.compose.ui.graphics.Color,androidx.compose.ui.graphics.StrokeCap,androidx.compose.ui.unit.Dp)
 

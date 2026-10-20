@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import it.spark.app.BuildConfig
 import it.spark.app.R
 import it.spark.app.presentation.common.CircularBackButton
 import it.spark.app.presentation.common.GroupedCard
@@ -53,8 +54,6 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = MaterialTheme.colorScheme.surface,
@@ -87,7 +86,7 @@ fun SettingsScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Sezione Informazioni Generali
+            // General information section
             item {
                 Text(
                     text = stringResource(R.string.settings_section_general),
@@ -125,7 +124,7 @@ fun SettingsScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = "v1.0.0 • Native Jetpack Compose & M3 Expressive",
+                                text = stringResource(R.string.settings_version_subtitle, BuildConfig.VERSION_NAME),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -134,7 +133,7 @@ fun SettingsScreen(
                 }
             }
 
-            // Invariante Tassativa: Sezione Realizzata con Spark!
+            // Mandatory invariant: "Built with Spark!" section
             item {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -146,7 +145,7 @@ fun SettingsScreen(
                 )
 
                 GroupedCard(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
-                    // Badge Spark! Framework
+                    // Spark! Framework badge
                     Surface(
                         shape = RoundedCornerShape(8.dp),
                         color = MaterialTheme.colorScheme.primaryContainer,
@@ -161,7 +160,7 @@ fun SettingsScreen(
                         )
                     }
 
-                    // Voce 1: GitHub del progetto
+                    // Entry 1: project GitHub
                     SparkLinkRow(
                         title = stringResource(R.string.spark_github_title),
                         subtitle = "https://github.com/leonardo-mais/Spark",
@@ -174,7 +173,7 @@ fun SettingsScreen(
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
 
-                    // Voce 2: Andrea Sorge (Architettura e build)
+                    // Entry 2: Andrea Sorge (architecture and build)
                     SparkLinkRow(
                         title = stringResource(R.string.spark_sorge_title),
                         subtitle = stringResource(R.string.spark_sorge_desc),
@@ -187,7 +186,7 @@ fun SettingsScreen(
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
 
-                    // Voce 3: leonardo.mais (UI e UX)
+                    // Entry 3: leonardo.mais (UI and UX)
                     SparkLinkRow(
                         title = stringResource(R.string.spark_mais_title),
                         subtitle = stringResource(R.string.spark_mais_desc),

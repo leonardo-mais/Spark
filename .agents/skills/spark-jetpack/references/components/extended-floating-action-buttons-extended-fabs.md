@@ -1,6 +1,6 @@
 # Material 3 Expressive - Extended floating action buttons (Extended FABs)
 
-**Categoria:** `actions`  
+**Category:** `actions`  
 **Sezione Principale:** [Actions & Buttons](../actions.md)
 
 ---
@@ -21,7 +21,7 @@ ExtendedFloatingActionButton(
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Extended floating action buttons (Extended FABs):** [https://github.com/material-components/material-components-android/blob/master/docs/components/ExtendedFloatingActionButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/ExtendedFloatingActionButton.md)
 
 ---

@@ -1,6 +1,6 @@
 # Material 3 Expressive - Bottom sheets
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -17,7 +17,7 @@ ModalBottomSheet(onDismissRequest = { /* Executed when the sheet is dismissed */
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/bottom-sheets](https://developer.android.com/develop/ui/compose/components/bottom-sheets)
 
 ---

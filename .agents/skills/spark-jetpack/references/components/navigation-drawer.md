@@ -1,6 +1,6 @@
 # Material 3 Expressive - Navigation drawer
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -90,7 +90,7 @@ or tapping a menu icon.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/drawer](https://developer.android.com/develop/ui/compose/components/drawer)
 
 ---

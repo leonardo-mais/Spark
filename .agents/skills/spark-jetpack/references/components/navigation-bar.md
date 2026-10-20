@@ -1,6 +1,6 @@
 # Material 3 Expressive - Navigation bar
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -45,7 +45,7 @@ should use navigation bars for:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link https:** [https://developer.android.com/develop/ui/compose/components/navigation-bar](https://developer.android.com/develop/ui/compose/components/navigation-bar)
 
 ---

@@ -1,30 +1,28 @@
 package it.spark.app.presentation
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import dagger.hilt.android.AndroidEntryPoint
 import it.spark.app.presentation.home.HomeScreen
 import it.spark.app.presentation.settings.SettingsScreen
 import it.spark.app.presentation.theme.SparkTheme
+import kotlinx.serialization.Serializable
 
-enum class Screen {
-    HOME,
-    SETTINGS
-}
+/** Type-safe navigation routes. Each route is a serializable [NavKey]. */
+@Serializable
+data object HomeRoute : NavKey
+
+@Serializable
+data object SettingsRoute : NavKey
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -43,25 +41,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainApp() {
-    var currentScreen by rememberSaveable { mutableStateOf(Screen.HOME) }
+    val backStack = rememberNavBackStack(HomeRoute)
+    val activity = LocalContext.current as Activity
 
-    BackHandler(enabled = currentScreen != Screen.HOME) {
-        currentScreen = Screen.HOME
-    }
-
-    AnimatedContent(
-        targetState = currentScreen,
-        transitionSpec = { fadeIn() togetherWith fadeOut() },
-        label = "screen_transition",
-        modifier = Modifier.fillMaxSize()
-    ) { screen ->
-        when (screen) {
-            Screen.HOME -> HomeScreen(
-                onNavigateToSettings = { currentScreen = Screen.SETTINGS }
-            )
-            Screen.SETTINGS -> SettingsScreen(
-                onNavigateBack = { currentScreen = Screen.HOME }
-            )
+    NavDisplay(
+        backStack = backStack,
+        onBack = {
+            // On the root route, the back gesture closes the app
+            if (backStack.size > 1) backStack.removeLastOrNull() else activity.finish()
+        },
+        entryProvider = entryProvider {
+            entry<HomeRoute> {
+                HomeScreen(onNavigateToSettings = { backStack.add(SettingsRoute) })
+            }
+            entry<SettingsRoute> {
+                SettingsScreen(onNavigateBack = { backStack.removeLastOrNull() })
+            }
         }
-    }
+    )
 }

@@ -1,6 +1,6 @@
 # Material 3 Expressive - Date picker
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -10,7 +10,7 @@
 Date pickers let users select a date, a date range, or both. They use a
 calendar dialog or text input to let users select dates.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun DatePickerDocked(
@@ -162,7 +162,7 @@ fun DatePickerModal(
 // ...
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/datepickers](https://developer.android.com/develop/ui/compose/components/datepickers)
 
 ---

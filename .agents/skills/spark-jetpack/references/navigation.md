@@ -1,8 +1,8 @@
 # Material 3 Expressive - Navigation & App Bars
 
-Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per componenti di navigazione (TopAppBars, Toolbars, NavBars, WideNavigationRail, Drawer, Tabs) conformi a Material 3 Expressive.
+This document collects the Jetpack Compose signatures, parameters, variants and patterns for navigation components (TopAppBars, Toolbars, NavBars, WideNavigationRail, Drawer, Tabs), compliant with Material 3 Expressive.
 
-> **Riferimenti Locali:** Per la scheda dettagliata di ogni singolo componente, consulta i file dedicati in `references/components/`.
+> **Local references:** for the detailed card of each component, see the dedicated files in `references/components/`.
 
 ---
 
@@ -61,7 +61,7 @@ bars. Their respective appearance and purpose are as follows:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/app-bars?hl=en](https://developer.android.com/develop/ui/compose/components/app-bars?hl=en)
 
 ---
@@ -102,7 +102,7 @@ tabs:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/tabs](https://developer.android.com/develop/ui/compose/components/tabs)
 
 ---
@@ -116,7 +116,7 @@ tabs:
               
                 `@ComposableFlexibleBottomAppBar(    modifier: Modifier,    containerColor: Color,    contentColor: Color,    contentPadding: PaddingValues,    horizontalArrangement: Arrangement.Horizontal,    expandedHeight: Dp,    windowInsets: WindowInsets,    scrollBehavior: BottomAppBarScrollBehavior?,    content: @Composable RowScope.() -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun FlexibleBottomAppBar(
@@ -242,7 +242,7 @@ FlexibleBottomAppBar(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **FlexibleBottomAppBar:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/FlexibleBottomAppBar.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/FlexibleBottomAppBar.composable)
 * **HorizontalFloatingToolbar:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable)
 
@@ -254,7 +254,7 @@ FlexibleBottomAppBar(
               
                 `@ComposableHorizontalFloatingToolbar(    expanded: Boolean,    modifier: Modifier,    colors: FloatingToolbarColors,    contentPadding: PaddingValues,    scrollBehavior: FloatingToolbarScrollBehavior?,    shape: Shape,    leadingContent: (@Composable RowScope.() -> Unit)?,    trailingContent: (@Composable RowScope.() -> Unit)?,    expandedShadowElevation: Dp,    collapsedShadowElevation: Dp,    content: @Composable RowScope.() -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun HorizontalFloatingToolbar(
@@ -397,7 +397,7 @@ Scaffold(
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable)
 
 ---
@@ -444,9 +444,9 @@ should use navigation bars for:
 
 ### Pattern Google Photos (Icone Outlined/Filled + Tipografia Google Sans)
 Nei layout M3 di riferimento come Google Foto:
-* **Icone Reattive allo Stato:** Quando un elemento è inattivo usa l'icona Outlined (es. `Icons.Outlined.Photo`); quando è selezionato usa la versione Filled (es. `Icons.Filled.Photo`) racchiusa dall'indicatore tonale a pillola.
-* **Indicatore Compatto:** L'indicatore ellittico M3 deve avvolgere l'icona con contrasto morbido (`secondaryContainer`).
-* **Tipografia Compatta:** Usa Google Sans `labelMedium` (~12sp, medium weight) per mantenere scansionabilità senza ingombro verticale.
+* **State-reactive icons:** when an item is inactive, use the Outlined icon (for example `Icons.Outlined.Photo`); when it is selected, use the Filled version (for example `Icons.Filled.Photo`) inside the tonal pill indicator.
+* **Compact indicator:** the M3 elliptical indicator must wrap the icon with soft contrast (`secondaryContainer`).
+* **Compact typography:** use Google Sans `labelMedium` (about 12sp, medium weight) to keep items scannable without vertical bulk.
 
 ```kotlin
 NavigationBarItem(
@@ -474,11 +474,11 @@ NavigationBarItem(
 )
 ```
 
-### Floating Pill Dock Navigation Bar (Stile d'Impatto - Max 4 Elementi)
-Per applicazioni che adottano lo **Stile d'Impatto** (Expressive Dynamic), la barra di navigazione inferiore adotta il dock a pillola fluttuante:
-* **Icona visibile SOLO su click/selezione:** Le schede non selezionate mostrano **esclusivamente il testo** senza icona. Quando una scheda viene cliccata, l'icona appare a sinistra del testo con animazione `AnimatedVisibility` ed espansione spring (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180))`).
-* **Pillola attiva animata:** La pillola attiva sfuma con `surfaceContainerHighest` e si adatta con `animateContentSize`.
-* **Massimo 4 Elementi (Senza Fallback):** Limite tassativo di massimo 4 elementi (`items.size in 2..4`). Nessun fallback: l'architettura dei flussi dell'applicazione deve condensare tutte le sezioni in un massimo di 4 tab.
+### Floating Pill Dock Navigation Bar (Impact style, max 4 items)
+For apps that use the **Impact style** (Expressive Dynamic), the bottom navigation bar uses the floating pill dock:
+* **Icon visible ONLY on click or selection:** unselected tabs show **only the text**, with no icon. When a tab is tapped, the icon appears to the left of the text with an `AnimatedVisibility` animation and a spring expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180))`).
+* **Animated active pill:** the active pill uses `surfaceContainerHighest` and resizes with `animateContentSize`.
+* **Maximum 4 items (no fallback):** a strict limit of 4 items (`items.size in 2..4`). No fallback: the application's flows must condense every section into at most 4 tabs.
 
 ```kotlin
 @Composable
@@ -553,7 +553,7 @@ fun ExpressiveImpactNavigationBar(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link https:** [https://developer.android.com/develop/ui/compose/components/navigation-bar](https://developer.android.com/develop/ui/compose/components/navigation-bar)
 
 ---
@@ -643,7 +643,7 @@ or tapping a menu icon.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/drawer](https://developer.android.com/develop/ui/compose/components/drawer)
 
 ---
@@ -662,7 +662,7 @@ navigation rail.
 There's also a method for detecting if navigation items have been reselected:
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://github.com/material-components/material-components-android/blob/master/docs/components/NavigationRail.md](https://github.com/material-components/material-components-android/blob/master/docs/components/NavigationRail.md)
 
 ---

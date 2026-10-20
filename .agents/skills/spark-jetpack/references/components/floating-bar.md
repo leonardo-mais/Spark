@@ -1,6 +1,6 @@
 # Material 3 Expressive - Floating bar
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -11,7 +11,7 @@
               
                 `@ComposableHorizontalFloatingToolbar(    expanded: Boolean,    modifier: Modifier,    colors: FloatingToolbarColors,    contentPadding: PaddingValues,    scrollBehavior: FloatingToolbarScrollBehavior?,    shape: Shape,    leadingContent: (@Composable RowScope.() -> Unit)?,    trailingContent: (@Composable RowScope.() -> Unit)?,    expandedShadowElevation: Dp,    collapsedShadowElevation: Dp,    content: @Composable RowScope.() -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun HorizontalFloatingToolbar(
@@ -154,7 +154,7 @@ Scaffold(
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable)
 
 ---

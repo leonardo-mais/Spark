@@ -15,11 +15,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,11 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import it.spark.app.R
 
 /**
- * Standard Medium FAB (68x68 dp, squircle 20dp, NO TEXT).
- * Regola del default medio obbligatorio da standard di sviluppo.
+ * Medium FAB (68x68 dp, 20dp squircle, icon only, no text).
+ * This is the mandatory default FAB size. See the spark-jetpack skill, section 7.
  */
 @Composable
 fun MediumFAB(
@@ -49,7 +50,7 @@ fun MediumFAB(
         label = "fab_spring_scale"
     )
 
-    FloatingActionButton(
+    MediumFloatingActionButton(
         onClick = onClick,
         modifier = modifier
             .size(68.dp)
@@ -57,10 +58,6 @@ fun MediumFAB(
         shape = RoundedCornerShape(20.dp),
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-        elevation = FloatingActionButtonDefaults.elevation(
-            defaultElevation = 3.dp,
-            pressedElevation = 6.dp
-        ),
         interactionSource = interactionSource
     ) {
         Icon(
@@ -90,7 +87,7 @@ fun CircularBackButton(
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = "Back",
+                contentDescription = stringResource(R.string.back),
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }

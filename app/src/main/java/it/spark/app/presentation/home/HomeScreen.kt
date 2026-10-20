@@ -127,7 +127,7 @@ fun HomeScreen(
                             modifier = Modifier.padding(bottom = 12.dp)
                         ) {
                             Text(
-                                text = "M3 EXPRESSIVE",
+                                text = stringResource(R.string.home_badge_expressive),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onPrimary,
@@ -149,13 +149,13 @@ fun HomeScreen(
                         Text(
                             text = stringResource(R.string.home_welcome_subtitle),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f)
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 }
             }
 
-            // Quick Metrics Bento Strip (3 Colonne)
+            // Quick metrics bento strip (3 columns)
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -169,20 +169,20 @@ fun HomeScreen(
                     )
                     BentoMetricItem(
                         icon = Icons.Outlined.Palette,
-                        value = "M3",
+                        value = stringResource(R.string.home_metric_skills_value),
                         label = stringResource(R.string.home_metric_skills),
                         modifier = Modifier.weight(1f)
                     )
                     BentoMetricItem(
                         icon = Icons.Outlined.CloudDone,
-                        value = "CI/CD",
+                        value = stringResource(R.string.home_metric_release_value),
                         label = stringResource(R.string.home_metric_release),
                         modifier = Modifier.weight(1f)
                     )
                 }
             }
 
-            // CTA Card: Come iniziare una nuova app
+            // CTA card: how to start a new app
             item {
                 GroupedCard(containerColor = MaterialTheme.colorScheme.surfaceContainerLow) {
                     Row(

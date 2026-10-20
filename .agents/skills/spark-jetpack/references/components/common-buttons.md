@@ -1,6 +1,6 @@
 # Material 3 Expressive - Common buttons
 
-**Categoria:** `actions`  
+**Category:** `actions`  
 **Sezione Principale:** [Actions & Buttons](../actions.md)
 
 ---
@@ -27,7 +27,7 @@ Button(onClick = { /* azione */ }, modifier = Modifier.fillMaxWidth()) {
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Common buttons:** [https://github.com/material-components/material-components-android/blob/master/docs/components/CommonButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/CommonButton.md)
 
 ---

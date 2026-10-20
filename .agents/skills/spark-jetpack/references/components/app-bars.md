@@ -1,6 +1,6 @@
 # Material 3 Expressive - App bars
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -60,7 +60,7 @@ bars. Their respective appearance and purpose are as follows:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/app-bars?hl=en](https://developer.android.com/develop/ui/compose/components/app-bars?hl=en)
 
 ---

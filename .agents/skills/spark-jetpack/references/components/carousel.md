@@ -1,6 +1,6 @@
 # Material 3 Expressive - Carousel
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -54,7 +54,7 @@ the item size.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/carousel](https://developer.android.com/develop/ui/compose/components/carousel)
 
 ---

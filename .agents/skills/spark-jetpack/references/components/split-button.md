@@ -1,6 +1,6 @@
 # Material 3 Expressive - Split button
 
-**Categoria:** `actions`  
+**Category:** `actions`  
 **Sezione Principale:** [Actions & Buttons](../actions.md)
 
 ---
@@ -14,22 +14,22 @@ icon.
 
 ### Esempio Jetpack Compose
 ```kotlin
-// SplitButton per azione primaria + menu a tendina associato
+// SplitButton for a primary action + associated dropdown menu
 SplitButtonLayout(
     leadingButton = {
         Button(onClick = onDefaultAction) {
-            Text("Salva")
+            Text("Save")
         }
     },
     trailingButton = {
         FilledIconButton(onClick = onOpenMenu) {
-            Icon(Icons.Default.ArrowDropDown, contentDescription = "Opzioni")
+            Icon(Icons.Default.ArrowDropDown, contentDescription = "Options")
         }
     }
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Split button:** [https://github.com/material-components/material-components-android/blob/master/docs/components/SplitButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/SplitButton.md)
 
 ---

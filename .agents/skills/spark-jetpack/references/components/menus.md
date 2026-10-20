@@ -1,6 +1,6 @@
 # Material 3 Expressive - Menus
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -14,7 +14,7 @@ Drop-down menus let users click an icon, text field, or other component, and
 then select from a list of options on a temporary surface. This guide describes
 how to create both basic menus and more complex menus with dividers and icons.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun MinimalDropdownMenu(
@@ -73,7 +73,7 @@ fun LongBasicDropdownMenu(
 
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/menu](https://developer.android.com/develop/ui/compose/components/menu)
 
 ---

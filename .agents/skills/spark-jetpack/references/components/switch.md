@@ -1,6 +1,6 @@
 # Material 3 Expressive - Switch
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -11,7 +11,7 @@ The `Switch` component allows users to toggle between two states: checked
 and unchecked. In your app you may use a switch to let the user do one of the
 following:
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun SwitchWithCustomColors(
@@ -48,7 +48,7 @@ fun SwitchWithCustomColors(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/switch](https://developer.android.com/develop/ui/compose/components/switch)
 
 ---

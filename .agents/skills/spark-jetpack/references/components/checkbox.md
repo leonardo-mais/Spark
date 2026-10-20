@@ -1,6 +1,6 @@
 # Material 3 Expressive - Checkbox
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -64,7 +64,7 @@ checkbox to let the user do the following:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/checkbox](https://developer.android.com/develop/ui/compose/components/checkbox)
 
 ---

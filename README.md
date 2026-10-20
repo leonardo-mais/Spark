@@ -1,74 +1,100 @@
 # ✨ Spark! • Modern Android Starter Template & Framework
 
-Spark! è un framework e template starter per lo sviluppo di applicazioni Android in maniera facile e veloce, senza toccare una riga di codice!
+Spark! is a starter template and framework for building Android apps quickly, without writing the boilerplate by hand.
 
-Basato su **Jetpack Compose** utilizza il **Material 3 Expressive**, il nuovo design system di Google, per rendere dinamica e moderna la tua nuova applicazione, lasciando a te la scelta di quanto esagerare! 
+It is built on **Jetpack Compose** and uses **Material 3 Expressive**, Google's latest design system, to make your app dynamic and modern. You decide how far to push the expressive style.
 
-È consigliato l'utilizzo di un server **Obtainium** per gestire gli aggiornamenti e l'installazione con un click
+The release pipeline is designed for a **self-hosted server** that feeds **Obtainium**, so users can install and update the app in one tap.
 
-Il repository è configurato nativamente per lavorare in simbiosi con gli **Agenti AI di Antigravity**, includendo regole di sviluppo, interview di discovery, cicli iterativi con verifica visiva e skill specializzate.
-
----
-
-## 🚀 Come Creare una Nuova Applicazione con Spark!
-
-### Metodo 1: GitHub Template (Consigliato - Zero Copia-Incolla)
-1. Clicca in alto a destra su **"Use this template"** ➔ **"Create a new repository"**.
-2. Clona il nuovo repository sul tuo computer ed aprilo in **Antigravity IDE** o Android Studio.
-3. Inizia subito in chat con un prompt di pianificazione (es. `/grill-me Progetta una nuova app per...` oppure `/plan`).
-4. L'AI Agent leggerà automaticamente le regole in `.agents/`, condurrà la **Discovery Interview** (chiedendoti anche la scelta tra *Stile Classico* e *Stile d'Impatto*) e costruirà l'applicazione.
+The repository works with any AI coding agent. Rules and skills live in `.agents/`, and [`AGENTS.md`](./AGENTS.md) is the entry point for every agent.
 
 ---
 
-## 📦 Cosa Contiene il Template Spark!
+## Create a new app with Spark!
 
-| Cartella / File | Descrizione | Mantenere per Nuove App? |
+### Option 1: GitHub template (recommended)
+
+1. Click **"Use this template"** → **"Create a new repository"**.
+2. Clone the new repository and open it in your IDE and in your AI agent.
+3. Ask the agent to plan your app, for example: *"Plan a new app for tracking my reading."*
+4. The agent runs the discovery interview (`.agents/skills/grill-me`), asks one question at a time, and ends with the choice between the **Classic** and **Impact** visual styles.
+5. The agent writes `specifications.md` and a milestone plan (`.agents/skills/plan`), then waits for your approval.
+6. After approval, the agent builds the app milestone by milestone, verifying each one.
+
+---
+
+## What the template contains
+
+| Folder or file | What it is | Keep in new apps? |
 |---|---|:---:|
-| `.agents/rules/` | Regole tassative di architettura, interview e ciclo iterativo | **SÌ (Invariante)** |
-| `.agents/skills/spark-jetpack/` | Linee guida M3 Expressive, token, forme e blueprint tipografici | **SÌ (Invariante)** |
-| `.agents/skills/agent-builder/` | Automazione release e deployment Obtainium | **SÌ (Invariante)** |
-| `.agents/skills-main/` | Moduli ufficiali Google Android (Navigation 3, Lifecycle, Performance) | **SÌ (Invariante)** |
-| `scripts/release.sh` + `release-agent` | Script CLI di semantic versioning, build release e push al server | **SÌ (Invariante)** |
-| `app/src/main/res/font/google_sans_flex.ttf` | Font variabile a 6 assi per rendering offline zero-latenza | **SÌ (Invariante)** |
-| `app/src/main/java/.../presentation/theme/Type.kt` | Motore `flexFont` e stili tipografici `ExpressiveType` | **SÌ (Invariante)** |
-| `app/src/main/java/.../presentation/common/` | Componenti standard (`MediumFAB`, `CircularBackButton`, `GroupedCard`) | **SÌ (Invariante)** |
-| `.env` | Endpoint e token per il caricamento sul server Obtainium | **SÌ (Invariante)** |
-| `version.properties` | Configurazione nome app, slug e versione iniziale | **Reimpostare per nuova app** |
-| `app/src/main/java/.../{data,domain,today,...}` | Logica specifica dell'app precedente | **Sostituire con la nuova app** |
+| `AGENTS.md` | Entry point for every AI agent | **Yes** |
+| `.agents/rules/` | Non-negotiable rules: architecture, design, localization, release | **Yes** |
+| `.agents/skills/spark-jetpack/` | Material 3 Expressive design system: tokens, typography, shapes, components | **Yes** |
+| `.agents/skills/grill-me/` | Discovery interview method | **Yes** |
+| `.agents/skills/plan/` | Planning method and specification template | **Yes** |
+| `.agents/skills/agent-builder/` | Release automation, in skill form | **Yes** |
+| `.agents/skills/` (other folders) | Official Google Android skills: Navigation 3, Compose performance, adaptive layouts and more. See [`ATTRIBUTION.md`](./.agents/skills/ATTRIBUTION.md) | **Yes** |
+| `scripts/release.sh` and `release-agent` | Versioning, tests, signing and distribution | **Yes** |
+| `app/src/main/res/font/google_sans_flex.ttf` | Variable font bundled for offline use | **Yes** |
+| `app/src/main/java/it/spark/app/presentation/theme/Type.kt` | `flexFont` engine and `ExpressiveType` styles | **Yes** |
+| `app/src/main/java/it/spark/app/presentation/common/` | Shared components (`MediumFAB`, `CircularBackButton`, `GroupedCard`) | **Yes** |
+| `app/src/main/res/values*/strings.xml` | Localized strings (English default, Italian example) | **Yes** |
+| `.env` (created from `.env.example`) | Server and signing settings. Never committed | Create locally |
+| `version.properties` | App name, slug and version | Reset for a new app |
+| `app/src/main/java/.../presentation/home/` and `settings/` | Example screens | Replace with your own |
+| `specifications.md` | Specification of the app being built | Rewrite for each app |
 
 ---
 
-## 🚀 Rilascio Continuo & Self-Hosted (Obtainium)
+## Languages
 
-Il repository include un **Agente di Release automatico** (`./release-agent` o `./scripts/release.sh`) per gestire semantic versioning, test unitari, firma crittografica dell'APK e upload istantaneo al server Tailscale:
+- The default language is **English**: `app/src/main/res/values/strings.xml`.
+- Italian is included as an example translation: `app/src/main/res/values-it/strings.xml`.
+- To add a language, create `app/src/main/res/values-<code>/strings.xml` with the same keys. Android picks it up from the device language.
+- Every user-visible text uses string resources. Do not hardcode text in composables.
+
+---
+
+## Release and self-hosted distribution (Obtainium)
+
+The repository includes a release agent (`./release-agent`, which runs `./scripts/release.sh`). It handles semantic versioning, unit tests, signing, and upload to your server.
 
 ```bash
-# Rilascio Patch (es. 1.0.0 -> 1.0.1)
-./release-agent patch -m "Descrizione release"
+# Patch release (for example 1.0.0 -> 1.0.1)
+./release-agent patch -m "Release description"
 
-# Rilascio Minor (es. 1.0.1 -> 1.1.0)
-./release-agent minor -m "Nuove funzionalità"
+# Minor release (for example 1.0.1 -> 1.1.0)
+./release-agent minor -m "New features"
 
-# Rilascio Major (es. 1.1.0 -> 2.0.0)
-./release-agent major -m "Nuova architettura"
+# Major release (for example 1.1.0 -> 2.0.0)
+./release-agent major -m "New architecture"
 ```
 
-Gli artefatti generati vengono posizionati in:
-- `apk/`: Consegna locale universale del file APK firmato (`<AppName>-v<versione>-b<build>-release.apk`).
-- `dist/<appSlug>/`: Feed `version.json` per Obtainium, landing page `index.html` e binari.
-- Server remoto HTTP: Deploy immediato tramite il server ricevente su Tailscale.
+Outputs:
+
+- `apk/`: the signed APK for local use, named `<AppName>-v<version>-b<build>-release.apk`.
+- `dist/<appSlug>/`: the Obtainium feed `version.json`, the landing page `index.html`, and the APK files with their checksums.
+- Remote server: when `.env` is configured, the release is uploaded over HTTP.
+
+The full setup, including the server configuration, is in [`RELEASE.md`](./RELEASE.md).
 
 ---
 
-## 🛠️ Build e Test Rapidi
+## Build and test
 
 ```bash
-# Esecuzione dei test unitari
+# Unit tests
 ./gradlew testDebugUnitTest
 
-# Compilazione debug
+# Debug build
 ./gradlew assembleDebug
 
-# Compilazione release firmata
+# Signed release build
 ./gradlew assembleRelease
 ```
+
+---
+
+## License
+
+Apache License 2.0. See [`LICENSE`](./LICENSE).

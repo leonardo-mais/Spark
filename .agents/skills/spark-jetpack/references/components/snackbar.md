@@ -1,6 +1,6 @@
 # Material 3 Expressive - Snackbar
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -36,7 +36,7 @@ Scaffold(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/snackbar](https://developer.android.com/develop/ui/compose/components/snackbar)
 
 ---

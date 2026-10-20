@@ -1,8 +1,8 @@
 # Material 3 Expressive - Containment & Surfaces
 
-Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per schede, fogli (bottom & side sheets), dialoghi, menu e ricerca conformi a Material 3 Expressive.
+This document collects the Jetpack Compose signatures, parameters, variants and patterns for cards, sheets (bottom & side sheets), dialogs, menus and search, compliant with Material 3 Expressive.
 
-> **Riferimenti Locali:** Per la scheda dettagliata di ogni singolo componente, consulta i file dedicati in `references/components/`.
+> **Local references:** for the detailed card of each component, see the dedicated files in `references/components/`.
 
 ---
 
@@ -21,7 +21,7 @@ examples show where you might use a card:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/card](https://developer.android.com/develop/ui/compose/components/card)
 
 ---
@@ -32,7 +32,7 @@ The `Dialog` component displays dialog messages or requests user input on a
 layer above the main app content. It creates an interruptive UI experience to
 capture user attention.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun MinimalDialog(
@@ -159,7 +159,7 @@ fun DialogWithImage(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/dialog](https://developer.android.com/develop/ui/compose/components/dialog)
 
 ---
@@ -186,7 +186,7 @@ and `VerticalDivider` composables.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/divider](https://developer.android.com/develop/ui/compose/components/divider)
 
 ---
@@ -200,7 +200,7 @@ Drop-down menus let users click an icon, text field, or other component, and
 then select from a list of options on a temporary surface. This guide describes
 how to create both basic menus and more complex menus with dividers and icons.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun MinimalDropdownMenu(
@@ -259,7 +259,7 @@ fun LongBasicDropdownMenu(
 
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/menu](https://developer.android.com/develop/ui/compose/components/menu)
 
 ---
@@ -343,7 +343,7 @@ Build Jetpack Compose UIs with Material 3 Expressive, the latest evolution of Ma
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Updates:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#SearchBar(androidx.compose.material3.SearchBarState,kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Shape,androidx.compose.material3.SearchBarColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#SearchBar(androidx.compose.material3.SearchBarState,kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Shape,androidx.compose.material3.SearchBarColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp)
 * **Link:** [https://developer.android.com/develop/ui/compose/components/search-bar](https://developer.android.com/develop/ui/compose/components/search-bar)
 
@@ -402,7 +402,7 @@ There are two types of tooltips:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/tooltip](https://developer.android.com/develop/ui/compose/components/tooltip)
 
 ---
@@ -419,7 +419,7 @@ ModalBottomSheet(onDismissRequest = { /* Executed when the sheet is dismissed */
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/bottom-sheets](https://developer.android.com/develop/ui/compose/components/bottom-sheets)
 
 ---
@@ -438,7 +438,7 @@ You can also set the sheet edge with XML, by setting `android:layout_gravity` to
 the desired gravity:
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://github.com/material-components/material-components-android/blob/master/docs/components/SideSheet.md](https://github.com/material-components/material-components-android/blob/master/docs/components/SideSheet.md)
 * **M3:** [https://m3.material.io/components/side-sheets/guidelines#4d992de0-362a-41b3-9537-9da4dec148af](https://m3.material.io/components/side-sheets/guidelines#4d992de0-362a-41b3-9537-9da4dec148af)
 

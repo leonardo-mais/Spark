@@ -41,10 +41,6 @@ __pycache__/
 /apk/*.sha256
 !/apk/.gitkeep
 
-# Standalone Demo Data configuration (Rooms & Devices)
-/demo_data/*
-!/demo_data/rooms_devices.sample.json
-
 # Environment variables & secrets
 .env
 

@@ -1,8 +1,8 @@
 # Material 3 Expressive - Inputs & Selection Controls
 
-Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per campi di testo, slider espressivi, selettori e date/time pickers conformi a Material 3 Expressive.
+This document collects the Jetpack Compose signatures, parameters, variants and patterns for text fields, expressive sliders, selectors and date/time pickers, compliant with Material 3 Expressive.
 
-> **Riferimenti Locali:** Per la scheda dettagliata di ogni singolo componente, consulta i file dedicati in `references/components/`.
+> **Local references:** for the detailed card of each component, see the dedicated files in `references/components/`.
 
 ---
 
@@ -65,7 +65,7 @@ checkbox to let the user do the following:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/checkbox](https://developer.android.com/develop/ui/compose/components/checkbox)
 
 ---
@@ -80,7 +80,7 @@ options. You use a radio button when only one item can be selected from a
 list. If users need to select more than one item, use a switch 
 instead.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun RadioButtonSingleSelection(
@@ -118,7 +118,7 @@ fun RadioButtonSingleSelection(
 
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/radio-button](https://developer.android.com/develop/ui/compose/components/radio-button)
 
 ---
@@ -134,7 +134,7 @@ fun RadioButtonSingleSelection(
               
                 `@ComposableSlider(    state: SliderState,    modifier: Modifier,    enabled: Boolean,    onValueChange: ((Float) -> Unit)?,    onValueChangeFinished: (() -> Unit)?,    colors: SliderColors,    interactionSource: MutableInteractionSource,    thumb: @Composable (SliderState) -> Unit,    track: @Composable (SliderState) -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun Slider(
@@ -192,7 +192,7 @@ fun Slider(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/Slider.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/Slider.composable)
 * **Old:** [https://developer.android.com/develop/ui/compose/components/slider](https://developer.android.com/develop/ui/compose/components/slider)
 
@@ -204,7 +204,7 @@ The `Switch` component allows users to toggle between two states: checked
 and unchecked. In your app you may use a switch to let the user do one of the
 following:
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun SwitchWithCustomColors(
@@ -241,7 +241,7 @@ fun SwitchWithCustomColors(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/switch](https://developer.android.com/develop/ui/compose/components/switch)
 
 ---
@@ -252,7 +252,7 @@ fun SwitchWithCustomColors(
               
                 `@ComposableOutlinedTextField(    value: String,    onValueChange: (String) -> Unit,    modifier: Modifier,    enabled: Boolean,    readOnly: Boolean,    textStyle: TextStyle,    label: (@Composable () -> Unit)?,    placeholder: (@Composable () -> Unit)?,    leadingIcon: (@Composable () -> Unit)?,    trailingIcon: (@Composable () -> Unit)?,    prefix: (@Composable () -> Unit)?,    suffix: (@Composable () -> Unit)?,    supportingText: (@Composable () -> Unit)?,    isError: Boolean,    visualTransformation: VisualTransformation,    keyboardOptions: KeyboardOptions,    keyboardActions: KeyboardActions,    singleLine: Boolean,    maxLines: Int,    minLines: Int,    interactionSource: MutableInteractionSource?,    shape: Shape,    colors: TextFieldColors)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun OutlinedTextField(
@@ -324,7 +324,7 @@ OutlinedTextField(
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable#OutlinedTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable#OutlinedTextField)
 
 ---
@@ -334,7 +334,7 @@ OutlinedTextField(
 Date pickers let users select a date, a date range, or both. They use a
 calendar dialog or text input to let users select dates.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun DatePickerDocked(
@@ -486,7 +486,7 @@ fun DatePickerModal(
 // ...
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/datepickers](https://developer.android.com/develop/ui/compose/components/datepickers)
 
 ---
@@ -527,7 +527,7 @@ issue tracker.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/time-pickers](https://developer.android.com/develop/ui/compose/components/time-pickers)
 
 ---

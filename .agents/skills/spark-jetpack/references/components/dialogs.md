@@ -1,6 +1,6 @@
 # Material 3 Expressive - Dialogs
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -11,7 +11,7 @@ The `Dialog` component displays dialog messages or requests user input on a
 layer above the main app content. It creates an interruptive UI experience to
 capture user attention.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun MinimalDialog(
@@ -138,7 +138,7 @@ fun DialogWithImage(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/dialog](https://developer.android.com/develop/ui/compose/components/dialog)
 
 ---

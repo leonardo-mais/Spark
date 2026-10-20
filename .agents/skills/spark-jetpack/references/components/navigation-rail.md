@@ -1,6 +1,6 @@
 # Material 3 Expressive - Navigation rail
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -19,7 +19,7 @@ navigation rail.
 There's also a method for detecting if navigation items have been reselected:
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://github.com/material-components/material-components-android/blob/master/docs/components/NavigationRail.md](https://github.com/material-components/material-components-android/blob/master/docs/components/NavigationRail.md)
 
 ---

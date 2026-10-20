@@ -1,6 +1,6 @@
 # Material 3 Expressive - Toolbars
 
-**Categoria:** `navigation`  
+**Category:** `navigation`  
 **Sezione Principale:** [Navigation & App Bars](../navigation.md)
 
 ---
@@ -14,7 +14,7 @@
               
                 `@ComposableFlexibleBottomAppBar(    modifier: Modifier,    containerColor: Color,    contentColor: Color,    contentPadding: PaddingValues,    horizontalArrangement: Arrangement.Horizontal,    expandedHeight: Dp,    windowInsets: WindowInsets,    scrollBehavior: BottomAppBarScrollBehavior?,    content: @Composable RowScope.() -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun FlexibleBottomAppBar(
@@ -140,7 +140,7 @@ FlexibleBottomAppBar(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **FlexibleBottomAppBar:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/FlexibleBottomAppBar.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/FlexibleBottomAppBar.composable)
 * **HorizontalFloatingToolbar:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable)
 

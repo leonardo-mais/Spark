@@ -20,9 +20,22 @@ val propAppName = versionProps.getProperty("appName", "Spark")
 val propVersionCode = versionProps.getProperty("versionCode", "1").toInt()
 val propVersionName = versionProps.getProperty("versionName", "1.0.0")
 
+// Release signing: the keystore comes from KEYSTORE_PATH or app/release-key.jks.
+// Release tasks fail fast when the keystore or its passwords are missing. There is no fallback to the debug key.
+val releaseKeystore = listOf(System.getenv("KEYSTORE_PATH")?.let { file(it) }, file("release-key.jks"))
+    .firstOrNull { it?.exists() == true }
+val isReleaseBuildRequested = gradle.startParameter.taskNames.any { it.contains("release", ignoreCase = true) }
+if (isReleaseBuildRequested) {
+    requireNotNull(releaseKeystore) {
+        "Release keystore not found. Set KEYSTORE_PATH or place release-key.jks in app/."
+    }
+    requireNotNull(System.getenv("KEYSTORE_PASSWORD")) { "KEYSTORE_PASSWORD must be set to sign release builds" }
+    requireNotNull(System.getenv("KEY_PASSWORD")) { "KEY_PASSWORD must be set to sign release builds" }
+}
+
 android {
     namespace = "it.spark.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "it.spark.app"
@@ -39,34 +52,17 @@ android {
 
     signingConfigs {
         create("release") {
-            val envKeystorePath = System.getenv("KEYSTORE_PATH")
-            val defaultKeystore = file("release-key.jks")
-            val customKeystore = envKeystorePath?.let { file(it) }
-
-            val targetKeystore = when {
-                customKeystore?.exists() == true -> customKeystore
-                defaultKeystore.exists() -> defaultKeystore
-                else -> null
-            }
-
-            if (targetKeystore != null) {
-                storeFile = targetKeystore
-                storePassword = requireNotNull(System.getenv("KEYSTORE_PASSWORD")) {
-                    "KEYSTORE_PASSWORD must be set to sign release builds"
-                }
-                keyAlias = System.getenv("KEY_ALIAS") ?: "sparkkey"
-                keyPassword = requireNotNull(System.getenv("KEY_PASSWORD")) {
-                    "KEY_PASSWORD must be set to sign release builds"
-                }
-            }
+            releaseKeystore?.let { storeFile = it }
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS") ?: "sparkkey"
+            keyPassword = System.getenv("KEY_PASSWORD")
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            val releaseSigning = signingConfigs.getByName("release")
-            signingConfig = if (releaseSigning.storeFile != null) releaseSigning else signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -94,6 +90,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     packaging {
@@ -128,6 +125,8 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
@@ -165,14 +164,14 @@ android.applicationVariants.all {
                         targetDir.mkdirs()
                         val targetFile = File(targetDir, "$propAppName-v$propVersionName-b$propVersionCode-$buildTypeName.apk")
                         apkFile.copyTo(targetFile, overwrite = true)
-                        println("📦 [copyApkToRoot] Successfully placed APK: ${targetFile.absolutePath} (${targetFile.length()} bytes)")
+                        println("[copyApkToRoot] Placed APK: ${targetFile.absolutePath} (${targetFile.length()} bytes)")
                         copied = true
                         break
                     }
                 }
             }
             if (!copied) {
-                println("⚠️ [copyApkToRoot] Could not find generated APK in search directories")
+                println("[copyApkToRoot] WARNING: could not find the generated APK in the search directories")
             }
         }
     }

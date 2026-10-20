@@ -27,8 +27,8 @@ This skill documents the automated release pipeline, semantic versioning, and mu
 # Execute major release (1.0.3 -> 2.0.0)
 ./release-agent major -m "Major redesign"
 
-# Alternative syntax via build automation script
-./build/build.sh --release patch -m "Bug fixes"
+# Dry run: print the computed version and changelog, change nothing
+./release-agent patch --dry-run
 ```
 
 ## Multi-Tenant File Hierarchy on Distribution Server

@@ -1,6 +1,6 @@
 # Material 3 Expressive - Time picker
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -41,7 +41,7 @@ issue tracker.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/time-pickers](https://developer.android.com/develop/ui/compose/components/time-pickers)
 
 ---

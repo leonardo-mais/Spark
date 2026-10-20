@@ -1,6 +1,6 @@
 # Material 3 Expressive - Icon buttons
 
-**Categoria:** `actions`  
+**Category:** `actions`  
 **Sezione Principale:** [Actions & Buttons](../actions.md)
 
 ---
@@ -17,7 +17,7 @@ IconButton(onClick = { /* ... */ }) {
     Icon(Icons.Default.FavoriteBorder, contentDescription = "Preferiti")
 }
 FilledIconButton(onClick = { /* ... */ }) {
-    Icon(Icons.Default.Bookmark, contentDescription = "Salvati")
+    Icon(Icons.Default.Bookmark, contentDescription = "Saved")
 }
 FilledTonalIconButton(onClick = { /* ... */ }) {
     Icon(Icons.Default.Share, contentDescription = "Condividi")
@@ -27,7 +27,7 @@ OutlinedIconButton(onClick = { /* ... */ }) {
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Icon buttons:** [https://github.com/material-components/material-components-android/blob/master/docs/components/IconButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/IconButton.md)
 
 ---

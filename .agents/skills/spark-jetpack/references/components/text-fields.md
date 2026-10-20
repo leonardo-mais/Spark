@@ -1,6 +1,6 @@
 # Material 3 Expressive - Text fields
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -11,7 +11,7 @@
               
                 `@ComposableOutlinedTextField(    value: String,    onValueChange: (String) -> Unit,    modifier: Modifier,    enabled: Boolean,    readOnly: Boolean,    textStyle: TextStyle,    label: (@Composable () -> Unit)?,    placeholder: (@Composable () -> Unit)?,    leadingIcon: (@Composable () -> Unit)?,    trailingIcon: (@Composable () -> Unit)?,    prefix: (@Composable () -> Unit)?,    suffix: (@Composable () -> Unit)?,    supportingText: (@Composable () -> Unit)?,    isError: Boolean,    visualTransformation: VisualTransformation,    keyboardOptions: KeyboardOptions,    keyboardActions: KeyboardActions,    singleLine: Boolean,    maxLines: Int,    minLines: Int,    interactionSource: MutableInteractionSource?,    shape: Shape,    colors: TextFieldColors)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun OutlinedTextField(
@@ -83,7 +83,7 @@ OutlinedTextField(
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable#OutlinedTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable#OutlinedTextField)
 
 ---

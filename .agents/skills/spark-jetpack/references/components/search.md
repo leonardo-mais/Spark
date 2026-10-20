@@ -1,6 +1,6 @@
 # Material 3 Expressive - Search
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -84,7 +84,7 @@ Build Jetpack Compose UIs with Material 3 Expressive, the latest evolution of Ma
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Updates:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#SearchBar(androidx.compose.material3.SearchBarState,kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Shape,androidx.compose.material3.SearchBarColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#SearchBar(androidx.compose.material3.SearchBarState,kotlin.Function0,androidx.compose.ui.Modifier,androidx.compose.ui.graphics.Shape,androidx.compose.material3.SearchBarColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp)
 * **Link:** [https://developer.android.com/develop/ui/compose/components/search-bar](https://developer.android.com/develop/ui/compose/components/search-bar)
 

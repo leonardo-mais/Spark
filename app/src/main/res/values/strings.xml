@@ -7,17 +7,30 @@
     <string name="home_welcome_title">Welcome to Spark!</string>
     <string name="home_welcome_subtitle">Native Android meta-framework built on Jetpack Compose and Material 3 Expressive.</string>
     <string name="home_card_ready_title">Template Ready</string>
-    <string name="home_card_ready_desc">Switch to Planning Mode or type /plan to begin the Discovery Interview and build your application step-by-step.</string>
+    <string name="home_card_ready_desc">Describe the app you want to build. The agent will start the discovery interview, then plan the app step by step.</string>
     <string name="home_badge_status">Ready to Build</string>
+    <string name="home_badge_expressive">M3 EXPRESSIVE</string>
     <string name="home_metric_rules">AI Rules</string>
     <string name="home_metric_skills">Skills</string>
+    <string name="home_metric_skills_value">M3</string>
     <string name="home_metric_release">Release CI/CD</string>
+    <string name="home_metric_release_value">CI/CD</string>
     <string name="action_settings">Settings</string>
+    <string name="back">Back</string>
+
+    <!-- Common metrics and greetings (used by the Impact style blueprints) -->
+    <string name="metric_total">TOTAL</string>
+    <string name="metric_active">ACTIVE</string>
+    <string name="metric_alert">ALERT</string>
+    <string name="greeting_morning">Good morning</string>
+    <string name="greeting_afternoon">Good afternoon</string>
+    <string name="greeting_evening">Good evening</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_section_general">Application Info</string>
     <string name="settings_version_label">Version</string>
+    <string name="settings_version_subtitle">v%1$s • Native Jetpack Compose &amp; Material 3 Expressive</string>
     <string name="settings_build_type_label">Build Type</string>
 
     <!-- Spark Section Invariant (Mandatory) -->

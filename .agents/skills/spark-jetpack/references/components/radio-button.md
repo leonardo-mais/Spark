@@ -1,6 +1,6 @@
 # Material 3 Expressive - Radio button
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -15,7 +15,7 @@ options. You use a radio button when only one item can be selected from a
 list. If users need to select more than one item, use a switch 
 instead.
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun RadioButtonSingleSelection(
@@ -53,7 +53,7 @@ fun RadioButtonSingleSelection(
 
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/radio-button](https://developer.android.com/develop/ui/compose/components/radio-button)
 
 ---

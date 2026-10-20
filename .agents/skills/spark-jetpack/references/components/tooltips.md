@@ -1,6 +1,6 @@
 # Material 3 Expressive - Tooltips
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -58,7 +58,7 @@ There are two types of tooltips:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/tooltip](https://developer.android.com/develop/ui/compose/components/tooltip)
 
 ---

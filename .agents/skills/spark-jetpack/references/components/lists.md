@@ -1,6 +1,6 @@
 # Material 3 Expressive - Lists
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -16,7 +16,7 @@
               
                 `@ComposableLazyVerticalGrid(    columns: GridCells,    modifier: Modifier,    state: LazyGridState,    contentPadding: PaddingValues,    reverseLayout: Boolean,    verticalArrangement: Arrangement.Vertical,    horizontalArrangement: Arrangement.Horizontal,    flingBehavior: FlingBehavior,    userScrollEnabled: Boolean,    overscrollEffect: OverscrollEffect?,    cacheWindow: LazyLayoutCacheWindow,    content: LazyGridScope.() -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun LazyVerticalGrid(
@@ -91,7 +91,7 @@ private fun OrderButtons(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Remember:** [https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyVerticalGrid.composable](https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyVerticalGrid.composable)
 * **Remember:** [https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyHorizontalGrid.composable](https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/grid/LazyHorizontalGrid.composable)
 * **Updates:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#ListItem%28kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Function0,androidx.compose.material3.ListItemColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp%29](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#ListItem%28kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function0,kotlin.Function0,kotlin.Function0,androidx.compose.material3.ListItemColors,androidx.compose.ui.unit.Dp,androidx.compose.ui.unit.Dp%29)

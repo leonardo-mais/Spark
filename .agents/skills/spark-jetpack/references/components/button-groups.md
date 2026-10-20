@@ -1,6 +1,6 @@
 # Material 3 Expressive - Button groups
 
-**Categoria:** `actions`  
+**Category:** `actions`  
 **Sezione Principale:** [Actions & Buttons](../actions.md)
 
 ---
@@ -11,12 +11,12 @@
 
 ### Esempio Jetpack Compose
 ```kotlin
-> **M3 Expressive Update:** Il vecchio SegmentedButton è deprecato in favore del Connected Button Group.
+> **M3 Expressive update:** the old SegmentedButton is deprecated in favor of the Connected Button Group.
 // Connected Button Group in M3 Expressive:
 ButtonGroup(
     modifier = Modifier.fillMaxWidth()
 ) {
-    // Pulsanti collegati con raggio di curvatura morfologico
+    // Connected buttons with morphing corner radius
 }
 ```
 

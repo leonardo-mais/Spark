@@ -1,65 +1,26 @@
----
-trigger: always_on
----
-
-# Antigravity & AI Agent Rule: Planning Mode Discovery Interview
+# Rule: Discovery Interview Before Planning
 
 ## Overview
-This rule mandates that whenever the user enters **Planning Mode**, proposes creating a new app, screen, or major feature, the AI Agent must **NOT** make assumptions or jump directly into implementation without first conducting a structured **Discovery Interview**.
 
-The goal is to gather functional, logical, and experiential requirements before finalizing the implementation plan or writing code.
+Whenever the user starts planning a new app, a new screen, or a significant feature, the agent MUST run a structured **discovery interview** before writing the plan or any code. The agent never plans on assumptions.
 
----
-
-## Mandatory Interview Process
-
-Before generating the final implementation plan or writing code for a new application or significant feature, the agent must ask targeted clarifying questions across these key areas:
-
-### 1. Vision & Core Objective
-- **Core Problem:** What primary problem or friction point (*pain point*) does the app aim to solve for the user?
-- **Value Proposition:** How does the proposed solution improve upon current alternatives (e.g., system reminders, spreadsheets, competitor apps, pen and paper)?
-- **Usage Context:** In what situations, locations, or times of day will the user predominantly engage with the application?
-
-### 2. Scope & Core Features (MVP)
-- **Minimum Viable Product (MVP):** What is the single essential action or feature without which the application cannot exist?
-- **Core Data Handling:** What primary entities does the app manage (e.g., items, tasks, categories), and what specific attributes do they require?
-- **Business Logic Complexity:**
-  - Are the flows linear and static (e.g., fixed intervals, simple checklists) or dynamic (e.g., dependencies, conditional rules, automations)?
-  - Is it necessary to track action history, retroactive notes, or aggregate statistics?
-- **System Integrations:** Are system-level capabilities required, such as push/local notifications, alarms, home screen widgets, or device hardware access (camera, sensors, local file storage)?
-- **Secondary Features:** Which aspects (e.g., data export, backup/restore, advanced filtering, dark mode) are desirable but non-essential for the initial release?
-
-### 3. Data Model & Information Lifecycle
-- **Data Sourcing:** Is content generated entirely by the user from scratch, or must the app preload static catalogs, templates, or predefined assets?
-- **Persistence Strategy:** Must the app function entirely offline with local storage, or does it require cloud synchronization across multiple devices?
-- **Lifecycle Rules:** How are archiving, updating, completing, or permanently deleting records handled?
-
-### 4. User Experience, Interface & Flows (UX/UI)
-- **Structure & Hierarchy:** How should primary data be structured and displayed (e.g., flat list, grid, board, categorized by tags/spaces)?
-- **Interaction Frequency:** Should the UI optimize for ultra-fast data entry (*quick actions* taking seconds) or rich, detailed review and exploration?
-- **Visual Style & Density:** Is the target an ultra-minimal, high-density schematic layout, or an expressive interface rich in visual assets, icons, and animated feedback?
-- **Error Handling & Edge Cases:** What common mistakes might a user make during critical flows, and how should the interface guide them or prevent data loss?
-
-### 5. Name of the app and icon
-- **Name Uniqueness & Competitor Check:**
-  - Before presenting proposals, verify via web search that none of the proposed names conflict with or already exist on similar, competitor, or popular apps on the market/Play Store.
-  - Ask the user the name of the app by presenting 3 verified, distinct proposals along with the option to type a custom name.
-- **Icon:** Without prompting the user, search Material symbols / icons for the best semantic and aesthetic match for the chosen app domain. (**Zero Emoji Policy**: È severamente vietato proporre o inserire emoji nell'app o nelle icone; usare esclusivamente glifi Material ufficiali).
-
-### 6. Direzione Visiva & Stile Estetico: Classica vs D'Impatto (Domanda Conclusiva Obbligatoria)
-Come domanda finale del processo di Discovery prima di formalizzare `specifications.md`, l'AI Agent **DEVE SEMPRE** formulare tramite il tool `ask_question` la scelta dell'archetipo estetico, presentando entrambe le opzioni alla pari con i rispettivi contesti d'uso ideali:
-- **Stile Classico (Material 3 Expressive Rigoroso)**: Basato sui 15 ruoli tipografici standard di Google Sans Flex (`display`, `headline`, `title`, `body`, `label`), superfici tonali bilanciate e card raggruppate standard con divisori discreti (`outlineVariant`). Ideale per app utility, gestionali complessi, strumenti enterprise, schermate dense di form e contesti in cui la sobrietà e l'alta densità informativa sono prioritarie.
-- **Stile d'Impatto (Expressive Dynamic)**: Tipografia dinamica a 6 assi con Google Sans Flex (`wght` 400–880, `wdth` 100–115%, `ROND` 0–100% per terminali a pillola organici, `GRAD`), Bento Hero Cards con numeri giganti (fino a 48sp con `FlexHeroNumericFont`), Quick Metrics Bento Strips a 3 colonne, saluti orari contestuali ("Buongiorno", "Buon pomeriggio", "Buonasera"), micro-pill tags dedicate con icone per orari e categorie, micro-interazioni spring animate (`scale(0.92f)`), e **Floating Pill Dock Navigation Bar** (massimo 4 elementi condensati a monte senza alcun fallback, contenitore a pillola fluttuante con icona visibile ed animata tramite `AnimatedVisibility` e spring native Android unicamente al click sulla scheda attiva). Ideale per consumer apps, personal tracking, salute & benessere, lifestyle, habit tracker e dashboard con forte effetto WOW visivo.
+The method is described in the `grill-me` skill (`.agents/skills/grill-me/SKILL.md`). The questions are in `.agents/skills/grill-me/references/discovery-questions.md`. The plan is written with the `plan` skill (`.agents/skills/plan/SKILL.md`).
 
 ---
 
-## Execution Protocol
+## Mandatory
 
-1. **Interactive Interview via Modal Boxes (`ask_question` tool):**
-   - The AI Agent **MUST ALWAYS** use the `ask_question` tool to present clarifying questions as interactive modal boxes with selectable options and custom write-in capability. Never ask discovery questions solely as raw markdown text in chat.
-   - Configure clear multiple-choice options with `is_multi_select` when applicable, allowing the user to select answers directly or type in their custom response.
-2. **Recommend `/grill-me`:**
-   - Suggest the `/grill-me` command if the user prefers an iterative, deep-dive clarification session.
-3. **Formalize Detailed Specifications (`specifications.md`):**
-   - Once the interview is complete, formalize all gathered requirements, flows, data models, UI contracts, and system integrations into a comprehensive specifications document (`specifications.md`).
-   - This document acts as the immutable single source of truth for the subsequent **Iterative Development Loop** (`iterative-development-loop.md`).
+1. **Run the interview first.** Use the `grill-me` skill for:
+   - a new application;
+   - a new screen, or a feature that changes data or navigation;
+   - any request that is ambiguous or incomplete.
+2. **Cover the six areas:** vision and objective, scope and MVP, data model and lifecycle, UX and flows, name and icon, visual archetype.
+3. **Visual archetype last.** The Classic or Impact choice is always the final question, and the agent presents both options equally.
+4. **One question at a time.** Each question has a recommended answer. Use selectable options when the host supports them, and always allow a free-text answer.
+5. **No code during the interview.** The agent writes no application code until the plan is approved.
+6. **Hand over to the plan.** The confirmed decision log feeds the `plan` skill, which writes `specifications.md` and the milestone plan. The user approves the plan explicitly.
+
+## Exceptions
+
+- Small fixes that change no requirement (a typo, a style adjustment, a bug with a clear reproduction) skip the interview.
+- If the user explicitly asks for a quick pass, run the short mode of `grill-me` and list each default for confirmation.

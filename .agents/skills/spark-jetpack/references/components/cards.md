@@ -1,6 +1,6 @@
 # Material 3 Expressive - Cards
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -20,7 +20,7 @@ examples show where you might use a card:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/card](https://developer.android.com/develop/ui/compose/components/card)
 
 ---

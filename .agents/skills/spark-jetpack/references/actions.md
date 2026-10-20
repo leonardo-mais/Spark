@@ -1,8 +1,8 @@
 # Material 3 Expressive - Actions & Buttons
 
-Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per pulsanti ed elementi di azione (Common Buttons, SplitButton, Connected ButtonGroups, IconButtons, FABs) conformi a Material 3 Expressive.
+This document collects the Jetpack Compose signatures, parameters, variants and patterns for buttons and action elements (Common Buttons, SplitButton, Connected ButtonGroups, IconButtons, FABs), compliant with Material 3 Expressive.
 
-> **Riferimenti Locali:** Per la scheda dettagliata di ogni singolo componente, consulta i file dedicati in `references/components/`.
+> **Local references:** for the detailed card of each component, see the dedicated files in `references/components/`.
 
 ---
 
@@ -28,7 +28,7 @@ Button(onClick = { /* azione */ }, modifier = Modifier.fillMaxWidth()) {
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Common buttons:** [https://github.com/material-components/material-components-android/blob/master/docs/components/CommonButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/CommonButton.md)
 
 ---
@@ -41,16 +41,16 @@ button group.
 
 ### Esempio Jetpack Compose
 ```kotlin
-> **M3 Expressive Update:** Il vecchio SegmentedButton è deprecato in favore del Connected Button Group.
+> **M3 Expressive update:** the old SegmentedButton is deprecated in favor of the Connected Button Group.
 // Connected Button Group in M3 Expressive:
 ButtonGroup(
     modifier = Modifier.fillMaxWidth()
 ) {
-    // Pulsanti collegati con raggio di curvatura morfologico
+    // Connected buttons with morphing corner radius
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Button groups:** [https://github.com/material-components/material-components-android/blob/master/docs/components/ButtonGroup.md](https://github.com/material-components/material-components-android/blob/master/docs/components/ButtonGroup.md)
 
 ---
@@ -64,22 +64,22 @@ icon.
 
 ### Esempio Jetpack Compose
 ```kotlin
-// SplitButton per azione primaria + menu a tendina associato
+// SplitButton for a primary action + associated dropdown menu
 SplitButtonLayout(
     leadingButton = {
         Button(onClick = onDefaultAction) {
-            Text("Salva")
+            Text("Save")
         }
     },
     trailingButton = {
         FilledIconButton(onClick = onOpenMenu) {
-            Icon(Icons.Default.ArrowDropDown, contentDescription = "Opzioni")
+            Icon(Icons.Default.ArrowDropDown, contentDescription = "Options")
         }
     }
 )
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Split button:** [https://github.com/material-components/material-components-android/blob/master/docs/components/SplitButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/SplitButton.md)
 
 ---
@@ -96,7 +96,7 @@ IconButton(onClick = { /* ... */ }) {
     Icon(Icons.Default.FavoriteBorder, contentDescription = "Preferiti")
 }
 FilledIconButton(onClick = { /* ... */ }) {
-    Icon(Icons.Default.Bookmark, contentDescription = "Salvati")
+    Icon(Icons.Default.Bookmark, contentDescription = "Saved")
 }
 FilledTonalIconButton(onClick = { /* ... */ }) {
     Icon(Icons.Default.Share, contentDescription = "Condividi")
@@ -106,23 +106,23 @@ OutlinedIconButton(onClick = { /* ... */ }) {
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Icon buttons:** [https://github.com/material-components/material-components-android/blob/master/docs/components/IconButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/IconButton.md)
 
 ---
 
 ## 5. Floating action buttons (FABs)
 
-### 📐 Le Tre Varianti di FAB e Regola del Default Medio
+### The three FAB variants and the medium default rule
 
 I Floating Action Button supportano **tre dimensioni ufficiali**:
-1. **Standard FAB (56×56 dp)**: per layout compatti o azioni secondarie (`RoundedCornerShape(16.dp)`, icona 24dp).
-2. **Medium FAB (68×68 dp)**: ⭐️ **IL DEFAULT ASSOLUTO DA USARE SEMPRE** (`RoundedCornerShape(20.dp)`, icona 30dp).
-3. **Large FAB (96×96 dp)**: Da usare **SE E SOLO SE l'azione è proprio cruciale / primaria** (`RoundedCornerShape(28.dp)`, icona 36dp).
+1. **Standard FAB (56×56 dp)**: for compact layouts or secondary actions (`RoundedCornerShape(16.dp)`, 24dp icon).
+2. **Medium FAB (68×68 dp)**: **THE ABSOLUTE DEFAULT, ALWAYS USE IT** (`RoundedCornerShape(20.dp)`, 30dp icon).
+3. **Large FAB (96×96 dp)**: Use **ONLY IF the action is truly crucial / primary** (`RoundedCornerShape(28.dp)`, 36dp icon).
 
 > [!CRITICAL]
 > **DIVIETO ASSOLUTO DI TESTO NEL FAB (SENZA MAI TESTO):**
-> È severamente vietato inserire etichette di testo all'interno di un FAB. L'uso di `ExtendedFloatingActionButton` con etichette testuali è proibito. Il FAB deve contenere **ESCLUSIVAMENTE l'icona** centrata.
+> Text labels inside a FAB are strictly forbidden. Using `ExtendedFloatingActionButton` with text labels is prohibited. A FAB must contain **ONLY the centered icon**.
 > **Anti-Capsula:** MAI usare `CircleShape` o raggi al 50%. Solo forme squircle proporzionali.
 
 ### Esempio Jetpack Compose: Medium FAB (Default)
@@ -150,7 +150,7 @@ LargeFloatingActionButton(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Floating action buttons (FABs):** [https://github.com/material-components/material-components-android/blob/master/docs/components/FloatingActionButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/FloatingActionButton.md)
 
 ---
@@ -161,12 +161,12 @@ LargeFloatingActionButton(
 
 ### Esempio Jetpack Compose
 ```kotlin
-> **M3 Expressive Update:** Il vecchio SegmentedButton è deprecato in favore del Connected Button Group.
+> **M3 Expressive update:** the old SegmentedButton is deprecated in favor of the Connected Button Group.
 // Connected Button Group in M3 Expressive:
 ButtonGroup(
     modifier = Modifier.fillMaxWidth()
 ) {
-    // Pulsanti collegati con raggio di curvatura morfologico
+    // Connected buttons with morphing corner radius
 }
 ```
 

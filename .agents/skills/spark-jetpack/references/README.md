@@ -1,22 +1,22 @@
 # Material 3 Expressive - Documentazione Locale Offline (References)
 
-Questo archivio contiene le linee guida ufficiali, firme Composable, token e snippet di codice pronti all'uso per Jetpack Compose conformi a **Material 3 Expressive**.
+This archive contains the official guidelines, Composable signatures, tokens and ready-to-use code snippets for Jetpack Compose, compliant with **Material 3 Expressive**.
 
-Tutti i dati sono generati ed aggiornati automaticamente tramite lo script `scripts/download_references.py` a partire da `scripts/ui-components.md`.
+All data is generated and updated automatically by the `scripts/download_references.py` script, starting from `scripts/ui-components.md`.
 
-## Categorie Principali
+## Main categories
 
-| Categoria | Descrizione | File di Riferimento | Componenti Inclusi |
+| Category | Description | Reference file | Included components |
 |---|---|---|---|
-| **Navigation & App Bars** | Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per componenti di navigazione (TopAppBars, Toolbars, NavBars, WideNavigationRail, Drawer, Tabs) conformi a Material 3 Expressive. | [navigation.md](./navigation.md) | App bars, Tabs, Toolbars, Floating bar, Navigation bar, Navigation drawer, Navigation rail |
-| **Actions & Buttons** | Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per pulsanti ed elementi di azione (Common Buttons, SplitButton, Connected ButtonGroups, IconButtons, FABs) conformi a Material 3 Expressive. | [actions.md](./actions.md) | Common buttons, Button groups, Split button, Icon buttons, Floating action buttons (FABs), Extended floating action buttons (Extended FABs), Button groups |
-| **Inputs & Selection Controls** | Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per campi di testo, slider espressivi, selettori e date/time pickers conformi a Material 3 Expressive. | [inputs.md](./inputs.md) | Checkbox, Radio button, Sliders, Switch, Text fields, Date picker, Time picker |
-| **Containment & Surfaces** | Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per schede, fogli (bottom & side sheets), dialoghi, menu e ricerca conformi a Material 3 Expressive. | [containment-surfaces.md](./containment-surfaces.md) | Cards, Dialogs, Divider, Menus, Search, Tooltips, Bottom sheets, Side sheets |
-| **Display & Feedback** | Questo documento raccoglie firme, parametri, varianti e pattern Jetpack Compose per liste espressive, caroselli, chip, badge, indicatori di progresso ondulati (wavy) e snackbar conformi a Material 3 Expressive. | [display-feedback.md](./display-feedback.md) | Badges, Carousel, Chips, Lists, Snackbar, Loading indicator, Progress indicator |
+| **Navigation & App Bars** | This document collects the Jetpack Compose signatures, parameters, variants and patterns for navigation components (TopAppBars, Toolbars, NavBars, WideNavigationRail, Drawer, Tabs), compliant with Material 3 Expressive. | [navigation.md](./navigation.md) | App bars, Tabs, Toolbars, Floating bar, Navigation bar, Navigation drawer, Navigation rail |
+| **Actions & Buttons** | This document collects the Jetpack Compose signatures, parameters, variants and patterns for buttons and action elements (Common Buttons, SplitButton, Connected ButtonGroups, IconButtons, FABs), compliant with Material 3 Expressive. | [actions.md](./actions.md) | Common buttons, Button groups, Split button, Icon buttons, Floating action buttons (FABs), Extended floating action buttons (Extended FABs), Button groups |
+| **Inputs & Selection Controls** | This document collects the Jetpack Compose signatures, parameters, variants and patterns for text fields, expressive sliders, selectors and date/time pickers, compliant with Material 3 Expressive. | [inputs.md](./inputs.md) | Checkbox, Radio button, Sliders, Switch, Text fields, Date picker, Time picker |
+| **Containment & Surfaces** | This document collects the Jetpack Compose signatures, parameters, variants and patterns for cards, sheets (bottom & side sheets), dialogs, menus and search, compliant with Material 3 Expressive. | [containment-surfaces.md](./containment-surfaces.md) | Cards, Dialogs, Divider, Menus, Search, Tooltips, Bottom sheets, Side sheets |
+| **Display & Feedback** | This document collects the Jetpack Compose signatures, parameters, variants and patterns for expressive lists, carousels, chips, badges, wavy progress indicators and snackbars, compliant with Material 3 Expressive. | [display-feedback.md](./display-feedback.md) | Badges, Carousel, Chips, Lists, Snackbar, Loading indicator, Progress indicator |
 
-## Schede Componenti Individuali
+## Individual component cards
 
-Per consultare direttamente le specifiche e i codici di un singolo elemento:
+To read the specifications and code of a single element directly:
 
 * [App bars](./components/app-bars.md) (`navigation`)
 * [Badges](./components/badges.md) (`display-feedback`)

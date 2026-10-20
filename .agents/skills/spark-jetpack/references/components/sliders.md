@@ -1,6 +1,6 @@
 # Material 3 Expressive - Sliders
 
-**Categoria:** `inputs`  
+**Category:** `inputs`  
 **Sezione Principale:** [Inputs & Selection Controls](../inputs.md)
 
 ---
@@ -16,7 +16,7 @@
               
                 `@ComposableSlider(    state: SliderState,    modifier: Modifier,    enabled: Boolean,    onValueChange: ((Float) -> Unit)?,    onValueChangeFinished: (() -> Unit)?,    colors: SliderColors,    interactionSource: MutableInteractionSource,    thumb: @Composable (SliderState) -> Unit,    track: @Composable (SliderState) -> Unit)`
 
-### Firme Composable Principali
+### Main composable signatures
 ```kotlin
 @Composable
 fun Slider(
@@ -74,7 +74,7 @@ fun Slider(
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/Slider.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/Slider.composable)
 * **Old:** [https://developer.android.com/develop/ui/compose/components/slider](https://developer.android.com/develop/ui/compose/components/slider)
 

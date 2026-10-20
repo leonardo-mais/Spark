@@ -1,6 +1,6 @@
 # Material 3 Expressive - Floating Action Buttons (I 3 FAB)
 
-**Categoria:** `actions`  
+**Category:** `actions`  
 **Sezione Principale:** [Actions & Buttons](../actions.md)
 
 ---
@@ -9,13 +9,13 @@
 
 Esistono **tre dimensioni ufficiali** di Floating Action Button:
 
-1. **Standard FAB (56×56 dp):** Per layout compatti o azioni secondarie.
-2. **Medium FAB (68×68 dp):** ⭐️ **IL DEFAULT ASSOLUTO DA USARE SEMPRE**.
-3. **Large FAB (96×96 dp):** Da usare **SE E SOLO SE l'azione è proprio cruciale / primaria**.
+1. **Standard FAB (56×56 dp):** For compact layouts or secondary actions.
+2. **Medium FAB (68×68 dp):** **THE ABSOLUTE DEFAULT, ALWAYS USE IT**.
+3. **Large FAB (96×96 dp):** Use **ONLY IF the action is truly crucial / primary**.
 
 > [!CRITICAL]
 > **DIVIETO ASSOLUTO DI TESTO NEL FAB (SENZA MAI TESTO):**
-> È severamente vietato inserire etichette di testo all'interno di un FAB. L'uso di `ExtendedFloatingActionButton` con etichette testuali è proibito. Il FAB deve contenere **ESCLUSIVAMENTE l'icona** centrata.
+> Text labels inside a FAB are strictly forbidden. Using `ExtendedFloatingActionButton` with text labels is prohibited. A FAB must contain **ONLY the centered icon**.
 > **Anti-Capsula:** MAI usare `CircleShape` o raggi a pillola al 50%. Solo forme squircle proporzionali: `RoundedCornerShape(20.dp)` per Medium e `RoundedCornerShape(28.dp)` per Large.
 
 ---
@@ -39,7 +39,7 @@ FloatingActionButton(
 }
 ```
 
-#### 2. Large FAB (Solo se l'azione è molto importante)
+#### 2. Large FAB (only if the action is very important)
 ```kotlin
 LargeFloatingActionButton(
     onClick = { /* azione cruciale */ },
@@ -75,5 +75,5 @@ FloatingActionButton(
 
 ---
 
-### Riferimenti Ufficiali
+### Official references
 * **Floating action buttons (FABs):** [https://github.com/material-components/material-components-android/blob/master/docs/components/FloatingActionButton.md](https://github.com/material-components/material-components-android/blob/master/docs/components/FloatingActionButton.md)

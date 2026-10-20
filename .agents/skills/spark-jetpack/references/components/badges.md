@@ -1,6 +1,6 @@
 # Material 3 Expressive - Badges
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -43,7 +43,7 @@ you might use a badge:
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/badges](https://developer.android.com/develop/ui/compose/components/badges)
 
 ---

@@ -1,6 +1,6 @@
 # Material 3 Expressive - Loading indicator
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -16,7 +16,7 @@
 @ExperimentalMaterial3ExpressiveApi@Composable fun LoadingIndicator(    modifier: Modifier = Modifier,    color: Color = LoadingIndicatorDefaults.indicatorColor,    polygons: List<RoundedPolygon> = LoadingIndicatorDefaults.IndeterminateIndicatorPolygons): Unit
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/reference/kotlin/androidx/compose/material3/LoadingIndicator.composable](https://developer.android.com/reference/kotlin/androidx/compose/material3/LoadingIndicator.composable)
 
 ---

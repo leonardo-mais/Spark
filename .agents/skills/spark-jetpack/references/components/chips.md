@@ -1,6 +1,6 @@
 # Material 3 Expressive - Chips
 
-**Categoria:** `display-feedback`  
+**Category:** `display-feedback`  
 **Sezione Principale:** [Display & Feedback](../display-feedback.md)
 
 ---
@@ -31,7 +31,7 @@ checkable, dismissible, or clickable.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/chip](https://developer.android.com/develop/ui/compose/components/chip)
 
 ---

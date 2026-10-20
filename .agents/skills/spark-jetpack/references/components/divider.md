@@ -1,6 +1,6 @@
 # Material 3 Expressive - Divider
 
-**Categoria:** `containment-surfaces`  
+**Category:** `containment-surfaces`  
 **Sezione Principale:** [Containment & Surfaces](../containment-surfaces.md)
 
 ---
@@ -27,7 +27,7 @@ and `VerticalDivider` composables.
 }
 ```
 
-### Riferimenti Ufficiali
+### Official references
 * **Link:** [https://developer.android.com/develop/ui/compose/components/divider](https://developer.android.com/develop/ui/compose/components/divider)
 
 ---
