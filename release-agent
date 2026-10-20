@@ -1,1 +1,5 @@
-scripts/release.sh
+#!/usr/bin/env bash
+# Entry point of the release agent. Forwards every argument to scripts/release.sh.
+# A plain script (not a symlink) so it also works on Windows checkouts.
+set -euo pipefail
+exec "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts/release.sh" "$@"
