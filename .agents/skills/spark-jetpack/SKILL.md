@@ -485,6 +485,7 @@ Every application must feature an official adaptive launcher icon derived from t
 12. **Settings & Spark! Section:** Is the Settings screen present with the mandatory closing card `"Realizzata con Spark!"` / `"Built with Spark!"` and the 3 GitHub links?
 13. **Multi-Level Scaffold & Navigation 3:** Does the root `Scaffold` contain only the bottom bar/snackbar (with `contentWindowInsets = WindowInsets(0.dp)`), with `NavDisplay` taking `Modifier.fillMaxSize()` behind the floating bar (without `Modifier.padding(bottom = ...)`), while each destination screen manages its own `Scaffold` and uses `contentPadding` for scrollable lists?
 14. **Adaptive & Tinted Icon:** Is the Material Symbol glyph correctly scaled (`48dp–54dp` inside `108dp` canvas) and does `<adaptive-icon>` declare `<monochrome android:drawable="@drawable/ic_launcher_foreground" />`?
+15. **Predictive Back Navigation:** Did you set `android:enableOnBackInvokedCallback="true"` in `AndroidManifest.xml` and configure `predictivePopTransitionSpec` in `NavDisplay` (or `BackHandler` / `PredictiveBackHandler` in overlays)?
 
 ---
 
@@ -516,6 +517,11 @@ Every application adopts **Jetpack Navigation 3** (`.agents/skills/navigation/na
 1. **Type-Safe Routes (`NavKey`):** All routes are `@Serializable data object` or `@Serializable data class` implementations of `NavKey`.
 2. **`NavDisplay` and `entryProvider` DSL:** Map each `NavKey` to its Composable via `entryProvider { entry<RouteKey> { ... } }`, maintaining multiple back stacks (`rememberNavigationState` / `rememberNavBackStack`) for top-level navigation tabs so state survives configuration changes and process death.
 3. **Transitions:** Doubled-speed fast cross-fade (`fadeIn(animationSpec = tween(80)) togetherWith fadeOut(animationSpec = tween(80))`) for instant, ultra-responsive screen navigation; horizontal slide with `predictivePopTransitionSpec` for hierarchical flows; `BottomSheetSceneStrategy` and `DialogSceneStrategy` for modal surfaces.
+4. **Predictive Back Navigation (Android 13+ / 14+ / 15+):**
+   * Declare `android:enableOnBackInvokedCallback="true"` in the `<application>` tag of `AndroidManifest.xml` to allow system-level back gesture dispatching and cross-activity previews.
+   * `NavDisplay` must always configure `predictivePopTransitionSpec` alongside `popTransitionSpec` so the swipe gesture progressively previews the previous screen.
+   * Overlay and modal surfaces (`AppSearchView`, dialogs) intercept gestures using `BackHandler(enabled = ...)` or `PredictiveBackHandler` from `androidx.activity.compose`.
+   * Legacy `Activity.onBackPressed()` is strictly forbidden.
 
 ---
 

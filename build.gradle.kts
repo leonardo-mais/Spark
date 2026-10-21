@@ -10,6 +10,7 @@ plugins {
 }
 
 allprojects {
-    val cacheDir = File(System.getProperty("user.home"), ".cache/spark_builds/${project.path.replace(':', '_')}")
+    val projectHash = Integer.toHexString(rootProject.projectDir.canonicalPath.hashCode())
+    val cacheDir = File(System.getProperty("user.home"), ".cache/spark_builds/${rootProject.name}_$projectHash/${project.path.replace(':', '_')}")
     layout.buildDirectory.set(cacheDir)
 }

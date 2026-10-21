@@ -27,6 +27,11 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
   - Use `NavDisplay` with the `entryProvider` DSL.
   - Keep navigation state across process death and rotation with `rememberNavigationState` (for apps with a bottom bar and several back stacks) or `rememberNavBackStack(startRoute)`.
   - Strictly forbidden: navigation driven by hand-made boolean flags (for example `var isSettingsOpen by remember`) or by monolithic `when {}` selectors.
+- **Predictive Back Navigation (Android 13/14+ / API 33+):**
+  - Applications MUST declare `android:enableOnBackInvokedCallback="true"` in the `<application>` tag of `AndroidManifest.xml` to enable system-level and in-app predictive back animations.
+  - In Navigation 3, `NavDisplay` MUST configure `predictivePopTransitionSpec` alongside `popTransitionSpec` to smoothly animate screen transitions during back swipes.
+  - In Compose sub-views, modal dialogs, and search overlays (`AppSearchView`), intercept back events via `BackHandler(enabled = ...)` or `PredictiveBackHandler`.
+  - Legacy `Activity.onBackPressed()` and raw `KeyEvent.KEYCODE_BACK` overrides are strictly deprecated and forbidden because they lack gesture progress lifecycles (`OnBackAnimationCallback` / `BackEventCompat`).
 - **Dependency injection:** Hilt, with `@HiltViewModel`, `@Inject`, `@Module` and `@Binds`, using constructor injection.
 - **Official references:** for deep dives and code blueprints, consult the official Google skills in `.agents/skills/`, in particular `navigation-3` (type-safe navigation), `jetpack-compose-performance` (state stability) and `adaptive` (adaptive layouts).
 
