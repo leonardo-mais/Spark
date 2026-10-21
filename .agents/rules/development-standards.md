@@ -37,7 +37,7 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
 - **Theme and motion:**
   - Wrap the UI with `MaterialExpressiveTheme` and `MotionScheme.expressive()`.
   - Interactive micro-interactions on click and toggle use snappy springs (`spring(dampingRatio = 0.8f, stiffness = 380f)`).
-  - Spatial transitions: 250–300 ms. Effect transitions (color, alpha): 150–200 ms. Never allow slow animations.
+  - Spatial transitions: 250–300 ms. Effect transitions (color, alpha, screen fade): **80 ms** (`tween(80)`, doubled speed / ultra-snappy dissolvenza). Never allow slow animations.
 - **App icon (Material Symbols, Filled):**
   - Every application MUST have an official adaptive icon (`ic_launcher` and `ic_launcher_round`), generated from a **Material Symbol with Fill active** (`FILL = 1`, Rounded style). See `spark-jetpack` section 16.
   - Built from `ic_launcher_background.xml` (a semantic M3 tone, for example `primaryContainer`) and `ic_launcher_foreground.xml` (a filled vector glyph in `onPrimaryContainer` or `primary`).
@@ -48,10 +48,10 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
   - Use tonal surfaces (`surfaceContainerLowest` through `surfaceContainerHighest`) instead of elevation shadows.
   - Dividers and subtle borders use `outlineVariant`.
 - **Multi-level scaffold and bar invariant:**
-  - The application-level root `Scaffold` hosts ONLY the bottom `NavigationBar` and the `SnackbarHost`.
+  - The application-level root `Scaffold` hosts ONLY the bottom `NavigationBar` / `ExpressiveImpactNavigationBar` and the `SnackbarHost`.
   - Strictly forbidden: a `TopAppBar` or `when` / `if` conditionals in the root `Scaffold` to show or hide the navigation bar. This causes bars that float or disappear.
   - Each screen (Home, Detail, Settings) owns its own `Scaffold`, with its own `TopAppBar` or `LargeTopAppBar`.
-  - **WindowInsets and edge-to-edge:** `enableEdgeToEdge()` must always be active in `MainActivity`. The root `Scaffold` passes `contentWindowInsets = WindowInsets(0.dp)` when inset handling is delegated to the children, or passes `innerPadding` to `NavDisplay`. Each composable consumes the insets correctly, without double spacing.
+  - **WindowInsets and edge-to-edge:** `enableEdgeToEdge()` must always be active in `MainActivity.onCreate()`, accompanied by `window.isNavigationBarContrastEnforced = false` (SDK 29+) to eliminate system scrim overlays. The root `Scaffold` passes `contentWindowInsets = WindowInsets(0.dp)`. When using the floating dock (`ExpressiveImpactNavigationBar`), `NavDisplay` MUST use `Modifier.fillMaxSize()` WITHOUT `Modifier.padding(bottom = innerPadding.calculateBottomPadding())` so child screens draw edge-to-edge behind the floating dock and progressive gradient. Bottom spacing is allocated strictly via `contentPadding` on scrollable lists (`LazyColumn`), NEVER via `Modifier.padding(innerPadding)` on the list container.
 - **Expressive components and opt-in:**
   - Annotate with `@OptIn(ExperimentalMaterial3ExpressiveApi::class)`.
   - **Three FAB variants, and the medium default (invariant):**
@@ -70,9 +70,9 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
 - **Navigation bar, two archetypes (invariant):**
   - **Classic style:** standard M3 `NavigationBar`, 3 to 5 destinations, icons always visible (outlined when inactive, filled when active), compact pill indicator, label below.
   - **Impact style: Floating Pill Dock:**
-    - **Floating pill container:** compact capsule (`shape = CircleShape`), `surfaceContainer` tonal surface, centered at the bottom with `padding(bottom = 16.dp, horizontal = 16.dp)`.
+    - **Floating pill container:** compact capsule (`shape = CircleShape`), `surfaceContainer` tonal surface, centered at the bottom with breathing room inside a soft progressive multi-stop ease-in gradient (`Brush.verticalGradient(0.0f to Transparent, 0.2f to surface(0.08f), 0.4f to surface(0.25f), 0.6f to surface(0.52f), 0.8f to surface(0.82f), 1.0f to surface(0.98f))`). Content smoothly scrolls underneath without visible rectangular clipping.
     - **Icon only on tap:** inactive destinations show ONLY the text (no icon). The icon of the active destination appears ONLY WHEN IT IS TAPPED, to the left of the text, inside the active pill (`surfaceContainerHighest`).
-    - **Native animations:** icon transition with `AnimatedVisibility` and horizontal expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180))`; exit `shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(150))`). The active pill uses `animateContentSize(spring(0.8f, 380f))`, and color uses `animateColorAsState`.
+    - **Native animations:** icon transition with `AnimatedVisibility` and horizontal expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(80))`; exit `shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(80))`). The active pill uses `animateContentSize(spring(0.8f, 380f))`, and color uses `animateColorAsState(tween(80))`.
     - **Maximum of 4 items (ABSOLUTE PROHIBITION OF FALLBACK):** this style accepts 2 to 4 destinations. Falling back to a 5-item bar is strictly forbidden. The information architecture and the flows MUST be condensed into at most 4 main sections.
 - **Mandatory circular back button:** in detail and sub-screens, the back button MUST ALWAYS sit in a circular container: `Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceContainerHigh, modifier = Modifier.size(40.dp))` with `Icons.AutoMirrored.Rounded.ArrowBack`.
 - **Collapsing LargeTopAppBar with tonal transition on scroll:**
@@ -85,7 +85,7 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
   - Primary screens where search is fundamental show a pill search bar, with a menu icon on the left and a circular user avatar on the right.
   - **Alternate color default:** on dark or tonal backgrounds the search container uses `surfaceBright` (instead of `surfaceContainer`), so it stands out from the surrounding elements. Keep a contrast ratio of at least **3:1** for text and icons (`onSurface` / `onSurfaceVariant`).
   - **Search bar actions:** besides the trailing avatar, the search bar may show up to two trailing action icons on mobile, ordered from most used (left) to least used (right).
-  - **Mandatory SearchView on selection:** tapping the search bar MUST ALWAYS open the full-screen search view (`AppSearchView`), with a back arrow, a focused input field, a clear button, a divider, recent searches (`History` icon), live filtering, and `BackHandler` integration.
+  - **Mandatory SearchView on selection:** tapping the search bar MUST ALWAYS open the full-screen search view (`AppSearchView`) with automatic keyboard focus (`FocusRequester.requestFocus()` + `keyboardController.show()`), back arrow, focused input field, clear button, divider, recent searches (`History` icon), live filtering, `BackHandler` integration, and fast doubled-speed fade animation (`80ms`).
 - **Mandatory default heights for app bars:**
   - Never compress or shorten an app bar. Use the standard M3 heights: 64.dp for `TopAppBar`, 72.dp for the search top bar with a 56.dp inner pill, and 152.dp for an expanded `LargeTopAppBar`.
   - App bars always span the full width of the window (`fillMaxWidth()`).

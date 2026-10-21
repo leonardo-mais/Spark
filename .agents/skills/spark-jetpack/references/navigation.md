@@ -475,10 +475,11 @@ NavigationBarItem(
 ```
 
 ### Floating Pill Dock Navigation Bar (Impact style, max 4 items)
-For apps that use the **Impact style** (Expressive Dynamic), the bottom navigation bar uses the floating pill dock:
-* **Icon visible ONLY on click or selection:** unselected tabs show **only the text**, with no icon. When a tab is tapped, the icon appears to the left of the text with an `AnimatedVisibility` animation and a spring expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180))`).
+For apps that use the **Impact style** (Expressive Dynamic), the bottom navigation bar uses the floating pill dock with a soft progressive ease-in gradient overlay:
+* **Icon visible ONLY on click or selection:** unselected tabs show **only the text**, with no icon. When a tab is tapped, the icon appears to the left of the text with an `AnimatedVisibility` animation and a spring expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(80))`).
 * **Animated active pill:** the active pill uses `surfaceContainerHighest` and resizes with `animateContentSize`.
 * **Maximum 4 items (no fallback):** a strict limit of 4 items (`items.size in 2..4`). No fallback: the application's flows must condense every section into at most 4 tabs.
+* **Progressive gradient overlay:** uses a multi-stop ease-in vertical gradient to ensure content smoothly scrolls underneath the floating dock without visible rectangular clipping.
 
 ```kotlin
 @Composable
@@ -492,37 +493,63 @@ fun ExpressiveImpactNavigationBar(
         "Massimo 4 elementi supportati. Non usare fallback: riorganizza l'architettura in massimo 4 tab."
     }
 
+    val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
+    // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
+    val progressiveScrim = Brush.verticalGradient(
+        0.00f to Color.Transparent,
+        0.20f to surfaceColor.copy(alpha = 0.08f),
+        0.40f to surfaceColor.copy(alpha = 0.25f),
+        0.60f to surfaceColor.copy(alpha = 0.52f),
+        0.80f to surfaceColor.copy(alpha = 0.82f),
+        1.00f to surfaceColor.copy(alpha = 0.98f)
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .background(progressiveScrim)
             .navigationBarsPadding()
-            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+            .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Surface(
             shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainer,
-            tonalElevation = 2.dp
+            color = MaterialTheme.colorScheme.surfaceContainer
         ) {
             Row(
                 modifier = Modifier
                     .padding(horizontal = 6.dp, vertical = 6.dp)
-                    .animateContentSize(spring(0.8f, 380f)),
+                    .animateContentSize(animationSpec = spatialSpec),
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 items.forEach { item ->
                     val isSelected = item.route == selectedRoute
+                    val containerColor by animateColorAsState(
+                        targetValue = if (isSelected) MaterialTheme.colorScheme.surfaceContainerHighest else Color.Transparent,
+                        animationSpec = tween(durationMillis = 80),
+                        label = "pillContainerColor"
+                    )
+                    val contentColor by animateColorAsState(
+                        targetValue = if (isSelected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                        animationSpec = tween(durationMillis = 80),
+                        label = "pillContentColor"
+                    )
+
                     Surface(
                         shape = CircleShape,
-                        color = animateColorAsState(
-                            if (isSelected) MaterialTheme.colorScheme.surfaceContainerHighest else Color.Transparent,
-                            animationSpec = tween(180)
-                        ).value,
+                        color = containerColor,
                         modifier = Modifier
                             .height(48.dp)
                             .clip(CircleShape)
-                            .clickable { onItemSelected(item) }
+                            .clickable(
+                                role = Role.Tab,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = ripple(bounded = true),
+                                onClick = { onItemSelected(item) }
+                            )
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = if (isSelected) 18.dp else 14.dp, vertical = 10.dp),
@@ -530,19 +557,24 @@ fun ExpressiveImpactNavigationBar(
                         ) {
                             AnimatedVisibility(
                                 visible = isSelected,
-                                enter = expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(180)),
-                                exit = shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(150))
+                                enter = expandHorizontally(animationSpec = spatialSpec) + fadeIn(tween(80)),
+                                exit = shrinkHorizontally(animationSpec = spatialSpec) + fadeOut(tween(80))
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(item.icon, contentDescription = item.label, modifier = Modifier.size(20.dp))
+                                    Icon(
+                                        imageVector = item.icon,
+                                        contentDescription = item.contentDescription,
+                                        tint = contentColor,
+                                        modifier = Modifier.size(20.dp)
+                                    )
                                     Spacer(Modifier.width(8.dp))
                                 }
                             }
                             Text(
                                 text = item.label,
-                                style = MaterialTheme.typography.labelLarge.copy(
-                                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium
-                                )
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
+                                color = contentColor
                             )
                         }
                     }

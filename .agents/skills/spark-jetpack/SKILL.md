@@ -299,17 +299,18 @@ In the High-Impact Style, the navigation bar adopts the Floating Pill Dock struc
 4. **Strict Limit of Maximum 4 Elements (ABSOLUTE PROHIBITION OF FALLBACK):**
    * Supports a strict maximum of 4 elements (`require(items.size in 2..4)`).
    * **NO FALLBACK:** Falling back to the standard 5-element bar is strictly prohibited. The application's information architecture MUST be condensed upfront into at most 4 core destinations.
-5. **Soft Gradient Protection Overlay (Zero Occlusion & High Readability):**
+5. **Soft Progressive Gradient Protection Overlay (Zero Occlusion, Zero Hard Boxes & High Readability):**
    * The floating dock container is enclosed within a full-width background gradient (`Brush.verticalGradient`) extending behind the dock through the navigation bar insets (`.navigationBarsPadding()`).
-   * Fades seamlessly from `Color.Transparent` (0% opacity at the top of the dock breathing room) down to `MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)` and `MaterialTheme.colorScheme.surface` (100% solid opacity at the bottom edge).
+   * **Multi-stop ease-in curve:** uses explicit stops (`0.00f to Transparent`, `0.20f to surface(0.08f)`, `0.40f to surface(0.25f)`, `0.60f to surface(0.52f)`, `0.80f to surface(0.82f)`, `1.00f to surface(0.98f)`) with `top = 28.dp`.
+   * **Critical Overlay Rule:** `NavDisplay` MUST use `Modifier.fillMaxSize()` WITHOUT `Modifier.padding(bottom = innerPadding.calculateBottomPadding())` so child screens draw edge-to-edge behind the floating dock and progressive gradient. Never clip `NavDisplay` at the top of the dock, which would create an artificial solid opaque rectangular box.
 
 ### 9.3 Fixed Expressive Bottom Action Button (Single Primary Action on Secondary Screens)
 
 When a secondary or detail screen has strictly ONE primary user action (e.g., "Start cooking!", "Start workout", "Confirm Order", "Export Report"):
 1. **Singular Focus (No Multiple FABs):** Do not place mini-FAB stacks or multiple conflicting buttons. Anchor a prominent, full-width Expressive button at the bottom of the screen (`Alignment.BottomCenter`).
-2. **Soft Gradient Protection Mask:**
-   * Exactly like the floating navigation bar, wrap the button inside a full-width `Box` with `Brush.verticalGradient(listOf(Color.Transparent, MaterialTheme.colorScheme.surface.copy(alpha = 0.85f), MaterialTheme.colorScheme.surface))`.
-   * Extends through system bars via `.navigationBarsPadding()` with comfortable padding (`start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp`).
+2. **Soft Progressive Gradient Protection Mask:**
+   * Exactly like the floating navigation bar, wrap the button inside a full-width `Box` with `Brush.verticalGradient(0.00f to Transparent, 0.20f to surface(0.08f), 0.40f to surface(0.25f), 0.60f to surface(0.52f), 0.80f to surface(0.82f), 1.00f to surface(0.98f))`.
+   * Extends through system bars via `.navigationBarsPadding()` with comfortable padding (`start = 24.dp, end = 24.dp, top = 28.dp, bottom = 16.dp`).
 3. **Button Specifications:**
    * Fixed height of `56.dp` and `fillMaxWidth()`.
    * Rounded squircle shape (`RoundedCornerShape(16.dp)` or `CircleShape`).
@@ -413,7 +414,7 @@ When search is a primary feature of the application (`AppSearchView`, Section 21
   * The search pill uses `MaterialTheme.colorScheme.surfaceBright` to establish a crisp, radiant contrast against the `surface` background, ensuring a minimum contrast ratio of 3:1.
 * **Placement in the First Tab:** The screen housing the primary search bar **MUST ALWAYS BE the FIRST TAB** in the bottom navigation bar (e.g., Home).
 * **Mandatory Full-Screen SearchView Expansion (`ExpandedFullScreenSearchBar` / `AppSearchView`):**
-  * Tapping the bar must expand a full-screen modal search view featuring: top-left circular/standard back button, active text field with Clear button (`Icons.Rounded.Close`), `HorizontalDivider`, recent search history (`Icons.Rounded.History`), live filtered results grouped in cards, and automatic handling of the system back gesture (`BackHandler`).
+  * Tapping the bar must expand a full-screen modal search view featuring: automatic keyboard focus on open (`FocusRequester.requestFocus()` + `keyboardController.show()` without requiring a second tap), top-left circular/standard back button, active text field with Clear button (`Icons.Rounded.Close`), `HorizontalDivider`, recent search history (`Icons.Rounded.History`), live filtered results grouped in cards, automatic handling of the system back gesture (`BackHandler`), and fast doubled-speed fade transition (`80ms`).
 * **Inviolable Height Rule:** Never compress a `TopAppBar`. Respect standard M3 height metrics (`64.dp` for `TopAppBar`, `72.dp` for the `SearchTopBar` area with internal `56.dp` pill, `152.dp` for expanded `LargeTopAppBar`).
 
 ---
@@ -425,8 +426,8 @@ In Material 3 Expressive, animations avoid static time curves (`tween`) for spat
    * Use `MaterialTheme.motionScheme.defaultSpatialSpec()` for layout shifts and card transitions, or `MaterialTheme.motionScheme.fastSpatialSpec()` for smaller elements (navigation pills, switches, buttons, icons).
    * These specifications deliver snappy spring physics (equivalent to `spring(dampingRatio = 0.8f, stiffness = 380f)`) ensuring immediate responsiveness without sluggish drag.
    * **Prohibition of sluggish springs:** Never use `stiffness < 200f`.
-2. **Effects Transitions (Color, Alpha, Fades):**
-   * Use `MaterialTheme.motionScheme.defaultEffectsSpec()` or `MaterialTheme.motionScheme.fastEffectsSpec()` (`150ms–200ms`, strictly zero overshoot, as color and opacity must never bounce).
+2. **Effects Transitions (Color, Alpha, Screen Fades):**
+   * Screen transitions, alpha and color transitions use fast effects specs or `tween(durationMillis = 80)` (**80 ms** doubled-speed dissolvenza for ultra-responsive screen switching; strictly zero overshoot, as color and opacity must never bounce).
 3. **State Layers:**
    * Hover (`8%`), Focus (`10%` + outline ring), Press/Ripple (`10%`), Drag (tonal level increment from `surfaceContainer` to `surfaceContainerHigh`).
 
@@ -482,22 +483,23 @@ Every application must feature an official adaptive launcher icon derived from t
 10. **TopAppBar & Circular Back:** Did you bind `scrollBehavior` + `nestedScroll`, and enclose the back button in `surfaceContainerHigh` (`40.dp` circle) on secondary screens?
 11. **Search in First Tab:** Is the search bar (`surfaceBright`) located in the first tab, triggering full-screen `AppSearchView` on tap?
 12. **Settings & Spark! Section:** Is the Settings screen present with the mandatory closing card `"Realizzata con Spark!"` / `"Built with Spark!"` and the 3 GitHub links?
-13. **Multi-Level Scaffold & Navigation 3:** Does the root `Scaffold` contain only the bottom bar/snackbar (with `contentWindowInsets = WindowInsets(0.dp)` and passing only `innerPadding.calculateBottomPadding()`), while each destination screen manages its own `Scaffold` and `TopAppBar` using `@Serializable NavKey` routes?
+13. **Multi-Level Scaffold & Navigation 3:** Does the root `Scaffold` contain only the bottom bar/snackbar (with `contentWindowInsets = WindowInsets(0.dp)`), with `NavDisplay` taking `Modifier.fillMaxSize()` behind the floating bar (without `Modifier.padding(bottom = ...)`), while each destination screen manages its own `Scaffold` and uses `contentPadding` for scrollable lists?
 14. **Adaptive & Tinted Icon:** Is the Material Symbol glyph correctly scaled (`48dp–54dp` inside `108dp` canvas) and does `<adaptive-icon>` declare `<monochrome android:drawable="@drawable/ic_launcher_foreground" />`?
 
 ---
 
-## 18. Multi-Level Scaffold Architecture & WindowInsets Handling (Zero Black Boxes)
+## 18. Multi-Level Scaffold Architecture & WindowInsets Handling (Zero Black Boxes & Zero Opaque Rectangles)
 
 To eliminate black boxes around system bars, floating bars, disappearing components, or layout jumps during transitions:
 
-1. **Streamlined Root Scaffold & Insets Delegation:**
+1. **Streamlined Root Scaffold & Overlay Architecture:**
    * Houses **ONLY** the bottom navigation bar (`NavigationBar` or `ExpressiveImpactNavigationBar`) and the `SnackbarHost`.
    * Set `contentWindowInsets = WindowInsets(0.dp)` when delegating insets to child screens. **NEVER** place a `TopAppBar` in the root `Scaffold`.
-   * The Root `Scaffold` **MUST** pass **ONLY** the bottom inset (`innerPadding.calculateBottomPadding()`) to child screens / `NavDisplay` (e.g., `Modifier.padding(bottom = innerPadding.calculateBottomPadding())`). **NEVER** apply the entire `innerPadding` (which contains top status bar padding) to the child screen container, as that pushes the child `Scaffold` below the status bar, leaving an unpainted region that exposes Android's default pitch-black window background.
+   * **CRITICAL OVERLAY RULE FOR FLOATING DOCKS:** When using `ExpressiveImpactNavigationBar` or floating bottom bars, `NavDisplay` **MUST** take `Modifier.fillMaxSize()` **WITHOUT** applying `Modifier.padding(bottom = innerPadding.calculateBottomPadding())`. Applying bottom padding to `NavDisplay` hard-clips the screen above the bar, leaving an empty area that turns the progressive gradient into an artificial, solid opaque rectangular box.
+   * Inset breathing room is delegated strictly to child screens by passing bottom padding into `contentPadding` on `LazyColumn` (e.g. `contentPadding = PaddingValues(bottom = 16.dp + innerPadding.calculateBottomPadding())`).
 2. **Dedicated Scaffold per Child Screen:**
    * Each screen destination (`HomeScreen`, `DetailScreen`, `SettingsScreen`) maintains its own `Scaffold` with its own `TopAppBar` / `LargeTopAppBar`, consuming its `innerPadding` exactly once.
-   * Scrollable lists (`LazyColumn`, `LazyRow`): **NEVER** apply `Modifier.padding(innerPadding)` to the list container (which clips the container above bars and leaves black gaps). **ALWAYS** apply `innerPadding` to `contentPadding` and consume insets with `Modifier.consumeWindowInsets(innerPadding)`.
+   * Scrollable lists (`LazyColumn`, `LazyRow`): **NEVER** apply `Modifier.padding(innerPadding)` to the list container (which clips the container above bars and creates hard rectangular cuts). **ALWAYS** apply insets via `contentPadding = PaddingValues(top = innerPadding.calculateTopPadding() + 16.dp, bottom = innerPadding.calculateBottomPadding() + 16.dp, ...)` and consume insets with `Modifier.consumeWindowInsets(innerPadding)`.
 3. **Edge-to-Edge & Navigation Bar Contrast Elimination:**
    * `enableEdgeToEdge()` must always be active in `MainActivity.onCreate()`.
    * **MANDATORY:** Set `window.isNavigationBarContrastEnforced = false` in `MainActivity.onCreate()` for SDK 29+. This eliminates the dark/black protective translucent scrim that Android automatically applies over the navigation bar in edge-to-edge mode.
@@ -513,7 +515,7 @@ Every application adopts **Jetpack Navigation 3** (`.agents/skills/navigation/na
 
 1. **Type-Safe Routes (`NavKey`):** All routes are `@Serializable data object` or `@Serializable data class` implementations of `NavKey`.
 2. **`NavDisplay` and `entryProvider` DSL:** Map each `NavKey` to its Composable via `entryProvider { entry<RouteKey> { ... } }`, maintaining multiple back stacks (`rememberNavigationState` / `rememberNavBackStack`) for top-level navigation tabs so state survives configuration changes and process death.
-3. **Transitions:** Native cross-fade between top-level tabs; horizontal slide with `predictivePopTransitionSpec` for list $\rightarrow$ detail navigation; `BottomSheetSceneStrategy` and `DialogSceneStrategy` for modal surfaces.
+3. **Transitions:** Doubled-speed fast cross-fade (`fadeIn(animationSpec = tween(80)) togetherWith fadeOut(animationSpec = tween(80))`) for instant, ultra-responsive screen navigation; horizontal slide with `predictivePopTransitionSpec` for hierarchical flows; `BottomSheetSceneStrategy` and `DialogSceneStrategy` for modal surfaces.
 
 ---
 
@@ -912,21 +914,24 @@ fun ExpressiveImpactNavigationBar(
     }
 
     val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
+    // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
+    val progressiveScrim = Brush.verticalGradient(
+        0.00f to Color.Transparent,
+        0.20f to surfaceColor.copy(alpha = 0.08f),
+        0.40f to surfaceColor.copy(alpha = 0.25f),
+        0.60f to surfaceColor.copy(alpha = 0.52f),
+        0.80f to surfaceColor.copy(alpha = 0.82f),
+        1.00f to surfaceColor.copy(alpha = 0.98f)
+    )
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                        MaterialTheme.colorScheme.surface
-                    )
-                )
-            )
+            .background(progressiveScrim)
             .navigationBarsPadding()
-            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp, top = 20.dp),
+            .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Surface(
@@ -961,8 +966,8 @@ private fun ExpressiveImpactNavItemView(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val colorEffectsSpec = MaterialTheme.motionScheme.fastEffectsSpec<Color>()
-    val floatEffectsSpec = MaterialTheme.motionScheme.fastEffectsSpec<Float>()
+    val fastEffectsColor = tween<Color>(durationMillis = 80)
+    val fastEffectsFloat = tween<Float>(durationMillis = 80)
     val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
 
     val containerColor by animateColorAsState(
@@ -971,7 +976,7 @@ private fun ExpressiveImpactNavItemView(
         } else {
             Color.Transparent
         },
-        animationSpec = colorEffectsSpec,
+        animationSpec = fastEffectsColor,
         label = "pillContainerColor"
     )
 
@@ -981,7 +986,7 @@ private fun ExpressiveImpactNavItemView(
         } else {
             MaterialTheme.colorScheme.onSurfaceVariant
         },
-        animationSpec = colorEffectsSpec,
+        animationSpec = fastEffectsColor,
         label = "pillContentColor"
     )
 
@@ -1077,20 +1082,22 @@ fun ExpressivePrimaryActionButton(
     icon: ImageVector? = Icons.Rounded.PlayArrow,
     enabled: Boolean = true
 ) {
+    val surfaceColor = MaterialTheme.colorScheme.surface
+    val progressiveScrim = Brush.verticalGradient(
+        0.00f to Color.Transparent,
+        0.20f to surfaceColor.copy(alpha = 0.08f),
+        0.40f to surfaceColor.copy(alpha = 0.25f),
+        0.60f to surfaceColor.copy(alpha = 0.52f),
+        0.80f to surfaceColor.copy(alpha = 0.82f),
+        1.00f to surfaceColor.copy(alpha = 0.98f)
+    )
+
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                        MaterialTheme.colorScheme.surface
-                    )
-                )
-            )
+            .background(progressiveScrim)
             .navigationBarsPadding()
-            .padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 16.dp),
+            .padding(start = 24.dp, end = 24.dp, top = 28.dp, bottom = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Button(
@@ -1378,14 +1385,30 @@ fun AppSearchView(
     modifier: Modifier = Modifier,
     resultsContent: @Composable ColumnScope.() -> Unit
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    // Auto-focus the search field and display the soft keyboard on the first click
+    LaunchedEffect(expanded) {
+        if (expanded) {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        } else {
+            keyboardController?.hide()
+        }
+    }
+
     BackHandler(enabled = expanded) {
         onExpandedChange(false)
     }
 
+    // Doubled-speed fade animation (80ms)
+    val fastFadeSpec = tween<Float>(durationMillis = 80)
+
     AnimatedVisibility(
         visible = expanded,
-        enter = fadeIn(MaterialTheme.motionScheme.fastEffectsSpec()),
-        exit = fadeOut(MaterialTheme.motionScheme.fastEffectsSpec())
+        enter = fadeIn(animationSpec = fastFadeSpec),
+        exit = fadeOut(animationSpec = fastFadeSpec)
     ) {
         Surface(
             modifier = modifier.fillMaxSize(),
@@ -1437,7 +1460,12 @@ fun AppSearchView(
                                 color = MaterialTheme.colorScheme.onSurface
                             ),
                             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                            modifier = Modifier.fillMaxWidth()
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = ImeAction.Search
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequester)
                         )
                     }
 
