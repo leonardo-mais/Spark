@@ -185,11 +185,18 @@ case "$BUMP_TYPE" in
         NEW_NAME="${NEW_MAJOR}.${NEW_MINOR}.${NEW_PATCH}"
         ;;
     *)
-        # Explicit X.Y.Z version
-        NEW_MAJOR=$(echo "$BUMP_TYPE" | cut -d'.' -f1)
-        NEW_MINOR=$(echo "$BUMP_TYPE" | cut -d'.' -f2)
-        NEW_PATCH=$(echo "$BUMP_TYPE" | cut -d'.' -f3)
-        NEW_NAME="$BUMP_TYPE"
+        # Explicit X.Y.Z version: if it equals CURR_NAME (e.g. repeated "1.0.0" call), bump patch instead of staying stuck
+        if [[ "$BUMP_TYPE" == "$CURR_NAME" ]]; then
+            NEW_MAJOR="$CURR_MAJOR"
+            NEW_MINOR="$CURR_MINOR"
+            NEW_PATCH=$((CURR_PATCH + 1))
+            NEW_NAME="${NEW_MAJOR}.${NEW_MINOR}.${NEW_PATCH}"
+        else
+            NEW_MAJOR=$(echo "$BUMP_TYPE" | cut -d'.' -f1)
+            NEW_MINOR=$(echo "$BUMP_TYPE" | cut -d'.' -f2)
+            NEW_PATCH=$(echo "$BUMP_TYPE" | cut -d'.' -f3)
+            NEW_NAME="$BUMP_TYPE"
+        fi
         ;;
 esac
 
@@ -519,12 +526,59 @@ SERVER_URL="${SERVER_URL:-}"
 UPLOAD_ENDPOINT="${UPLOAD_ENDPOINT:-${SERVER_URL:+${SERVER_URL}/upload}}"
 UPLOAD_TOKEN="${UPLOAD_TOKEN:-}"
 DEPLOY_METHOD="${DEPLOY_METHOD:-http}"
+GITHUB_REPO="${GITHUB_REPO:-}"
+GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 REMOTE_HOST="${REMOTE_HOST:-}"
 REMOTE_USER="${REMOTE_USER:-}"
 REMOTE_PATH="${REMOTE_PATH:-}"
 REMOTE_PORT="${REMOTE_PORT:-22}"
 
-if [[ "$NO_DEPLOY" == false && -n "$UPLOAD_ENDPOINT" && "$DEPLOY_METHOD" == "http" ]]; then
+if [[ "$NO_DEPLOY" == false && "$DEPLOY_METHOD" == "github" && -n "$GITHUB_REPO" ]]; then
+    echo -e "   Target GitHub repository: ${C_YELLOW}${GITHUB_REPO}${C_RESET}"
+    TAG_NAME="v${NEW_NAME}"
+    RELEASE_TITLE="${APP_NAME} v${NEW_NAME}"
+
+    if command -v gh &>/dev/null; then
+        echo -e "   Publishing release ${TAG_NAME} to GitHub via gh CLI..."
+        GH_CMD_ENV=()
+        if [[ -n "$GITHUB_TOKEN" ]]; then
+            GH_CMD_ENV=(GH_TOKEN="$GITHUB_TOKEN")
+        fi
+
+        env "${GH_CMD_ENV[@]}" gh release create "$TAG_NAME" \
+            --repo "$GITHUB_REPO" \
+            --title "$RELEASE_TITLE" \
+            --notes "${RELEASE_NOTES:-Release v${NEW_NAME}}" \
+            "$APK_PATH" "$APK_PATH.sha256" "$APP_DIST_DIR/version.json" || echo -e "${C_YELLOW}   Warning: gh release create failed or returned non-zero.${C_RESET}"
+
+        echo -e "   ${C_GREEN}GitHub Release created: https://github.com/${GITHUB_REPO}/releases/tag/${TAG_NAME}${C_RESET}"
+    elif [[ -n "$GITHUB_TOKEN" ]]; then
+        echo -e "   Publishing release ${TAG_NAME} to GitHub via REST API..."
+        RELEASE_API_URL="https://api.github.com/repos/${GITHUB_REPO}/releases"
+        CREATE_PAYLOAD=$(printf '{"tag_name":"%s","name":"%s","body":"%s"}' "$TAG_NAME" "$RELEASE_TITLE" "${RELEASE_NOTES:-Release v${NEW_NAME}}")
+
+        CREATE_RESP=$(curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d "$CREATE_PAYLOAD" "$RELEASE_API_URL")
+
+        UPLOAD_URL_TPL=$(echo "$CREATE_RESP" | grep -o '"upload_url": *"[^"]*"' | head -1 | cut -d'"' -f4 | sed 's/{?name,label}//')
+
+        if [[ -n "$UPLOAD_URL_TPL" ]]; then
+            APK_NAME=$(basename "$APK_PATH")
+            curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" \
+                -H "Content-Type: application/vnd.android.package-archive" \
+                --data-binary @"$APK_PATH" \
+                "${UPLOAD_URL_TPL}?name=${APK_NAME}" >/dev/null
+            echo -e "   ${C_GREEN}GitHub Release created: https://github.com/${GITHUB_REPO}/releases/tag/${TAG_NAME}${C_RESET}"
+        else
+            echo -e "${C_YELLOW}   Could not create GitHub release via API. Response: ${CREATE_RESP}${C_RESET}"
+        fi
+    else
+        echo -e "${C_YELLOW}   GitHub deploy requested, but neither 'gh' CLI nor 'GITHUB_TOKEN' is available.${C_RESET}"
+        echo -e "   Files are available locally in ${C_BOLD}apk/${C_RESET} and ${C_BOLD}dist/${C_RESET}."
+    fi
+
+elif [[ "$NO_DEPLOY" == false && -n "$UPLOAD_ENDPOINT" && "$DEPLOY_METHOD" == "http" ]]; then
     echo -e "   Destination server: ${C_YELLOW}${SERVER_URL:-$UPLOAD_ENDPOINT}${C_RESET}"
     echo -e "   Uploading the release package for ${APP_SLUG}/ over HTTP..."
 
@@ -587,8 +641,17 @@ echo -e "SHA-256 checksum:   ${SHA256}"
 echo -e "Obtainium feed:     ${APP_DIST_DIR}/version.json"
 echo ""
 echo -e "${C_BOLD}How to add the app in Obtainium on Android:${C_RESET}"
-echo -e "1. Open Obtainium and tap ${C_CYAN}Add App (+)${C_RESET}"
-echo -e "2. Paste the feed URL: ${C_YELLOW}${SERVER_URL:-http://localhost:3200}/${APP_SLUG}/version.json${C_RESET}"
-echo -e "   Or the landing page URL with the HTML source: ${C_YELLOW}${SERVER_URL:-http://localhost:3200}/${APP_SLUG}/${C_RESET}"
-echo -e "3. Obtainium detects new versions automatically and notifies you about updates."
+if [[ "$DEPLOY_METHOD" == "github" && -n "$GITHUB_REPO" ]]; then
+    echo -e "1. Open Obtainium and tap ${C_CYAN}Add App (+)${C_RESET}"
+    echo -e "2. Paste the GitHub repository URL: ${C_YELLOW}https://github.com/${GITHUB_REPO}${C_RESET}"
+    if [[ -n "$GITHUB_TOKEN" ]]; then
+        echo -e "   (For private repos, configure your GitHub Personal Access Token in Obtainium settings)"
+    fi
+    echo -e "3. Obtainium detects new releases automatically and notifies you about updates."
+else
+    echo -e "1. Open Obtainium and tap ${C_CYAN}Add App (+)${C_RESET}"
+    echo -e "2. Paste the feed URL: ${C_YELLOW}${SERVER_URL:-http://localhost:3200}/${APP_SLUG}/version.json${C_RESET}"
+    echo -e "   Or the landing page URL with the HTML source: ${C_YELLOW}${SERVER_URL:-http://localhost:3200}/${APP_SLUG}/${C_RESET}"
+    echo -e "3. Obtainium detects new versions automatically and notifies you about updates."
+fi
 echo "=================================================================="

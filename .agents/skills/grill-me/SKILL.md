@@ -32,7 +32,8 @@ Follow `references/discovery-questions.md` in this order:
 3. Data model and information lifecycle
 4. UX, interface and flows
 5. Name and icon
-6. Visual archetype (the mandatory last question)
+6. Visual archetype
+7. Distribution & Obtainium setup (the mandatory last question before plan & first build)
 
 ## Name and icon
 
@@ -40,7 +41,7 @@ Follow `references/discovery-questions.md` in this order:
 - Propose 3 distinct, verified names, and always allow a custom name.
 - For the icon, look for the Material Symbol that best matches the app's domain, with FILL active. Never use emoji.
 
-## Visual archetype (last question, mandatory)
+## Visual archetype
 
 Present both archetypes side by side, with their ideal contexts (the full comparison is in the `spark-jetpack` skill, section 21):
 
@@ -48,6 +49,16 @@ Present both archetypes side by side, with their ideal contexts (the full compar
 - **Impact style:** dynamic 6-axis typography, hero cards with large numbers, Floating Pill Dock with at most 4 items, expressive greetings. Best for consumer, wellness and habit-tracking apps.
 
 Never choose the archetype for the user. Record the answer in the log.
+
+## Distribution & Obtainium configuration (last question, mandatory before first build)
+
+As the final question before finalizing the plan and initiating the first build, always ask the user via `ask_question` their preferred Obtainium distribution strategy:
+- **Private/Public GitHub Repository**:
+  - The app's release APKs and releases are hosted directly on GitHub Releases.
+  - Return the exact link format for Obtainium (e.g. `https://github.com/<owner>/<repo>/releases` or `https://github.com/<owner>/<repo>` with GitHub PAT for private repos).
+- **Self-Hosted Distribution Server (Tailscale / HTTP / Caddy)**:
+  - The app uses the Spark release pipeline (`./release-agent`) uploading to a self-hosted endpoint.
+  - Ask for the base server URL/IP (or use the one configured in `.env`) and return the exact Obtainium feed URL: `http://<SERVER_IP>:<PORT>/<appSlug>/version.json` (or landing page `http://<SERVER_IP>:<PORT>/<appSlug>/`).
 
 ## Short mode
 

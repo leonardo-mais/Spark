@@ -77,7 +77,7 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
   - **Impact style: Floating Pill Dock:**
     - **Floating pill container:** compact capsule (`shape = CircleShape`), `surfaceContainer` tonal surface, centered at the bottom with breathing room inside a soft progressive multi-stop ease-in gradient (`Brush.verticalGradient(0.0f to Transparent, 0.2f to surface(0.08f), 0.4f to surface(0.25f), 0.6f to surface(0.52f), 0.8f to surface(0.82f), 1.0f to surface(0.98f))`). Content smoothly scrolls underneath without visible rectangular clipping.
     - **Icon only on tap:** inactive destinations show ONLY the text (no icon). The icon of the active destination appears ONLY WHEN IT IS TAPPED, to the left of the text, inside the active pill (`surfaceContainerHighest`).
-    - **Native animations:** icon transition with `AnimatedVisibility` and horizontal expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(80))`; exit `shrinkHorizontally(spring(0.8f, 380f)) + fadeOut(tween(80))`). The active pill uses `animateContentSize(spring(0.8f, 380f))`, and color uses `animateColorAsState(tween(80))`.
+    - **Native animations:** icon transition with `AnimatedVisibility` and horizontal expansion (`expandHorizontally(spring(1.0f, 420f)) + fadeIn(tween(80))`; exit `shrinkHorizontally(spring(1.0f, 420f)) + fadeOut(tween(80))`) with critically damped spring (zero bounce). The active pill uses `animateContentSize(spring(1.0f, 420f))`, and color uses `animateColorAsState(tween(80))`.
     - **Maximum of 4 items (ABSOLUTE PROHIBITION OF FALLBACK):** this style accepts 2 to 4 destinations. Falling back to a 5-item bar is strictly forbidden. The information architecture and the flows MUST be condensed into at most 4 main sections.
 - **Mandatory circular back button:** in detail and sub-screens, the back button MUST ALWAYS sit in a circular container: `Surface(shape = CircleShape, color = MaterialTheme.colorScheme.surfaceContainerHigh, modifier = Modifier.size(40.dp))` with `Icons.AutoMirrored.Rounded.ArrowBack`.
 - **Collapsing LargeTopAppBar with tonal transition on scroll:**
@@ -99,7 +99,7 @@ This rule sets the non-negotiable architecture, UI design, performance, accessib
   - **Spark section (ALWAYS):** the last section of every Settings screen that is created or modified MUST be the Spark section, titled in the device language through string resources (English "Built with Spark!", Italian "Realizzata con Spark!"). It is a grouped card with three interactive entries that open an external URL with `Intent.ACTION_VIEW`:
     1. **Project GitHub:** `https://github.com/leonardo-mais/Spark`.
     2. **Andrea Sorge:** subtitle "Architecture & build", link `https://github.com/Sorgandri03`.
-    3. **leonardo.mais:** subtitle "UI & UX", link `https://github.com/leonardo-mais`.
+    3. **Leonardo Maistrello:** subtitle "UI & UX", link `https://github.com/leonardo-mais`.
     This requirement is permanent.
 - **Strict prohibitions:**
   - Do NOT import Material 2 components from `androidx.compose.material.*`. The icon set `androidx.compose.material.icons.*` is allowed.

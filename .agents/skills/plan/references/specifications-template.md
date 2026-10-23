@@ -10,6 +10,8 @@
 - **Architecture:** single `:app` module, layered by package (`presentation`, `domain`, `data`). Modular split only when a feature grows. See `.agents/rules/development-standards.md`.
 - **Design system:** Material 3 Expressive, Google Sans Flex, `MaterialExpressiveTheme`.
 - **Visual archetype:** <Classic | Impact>
+- **Distribution target:** <Private/Public GitHub repository | Self-hosted server (Caddy/Tailscale)>
+- **Obtainium feed URL:** <URL to input into Obtainium>
 - **Persistence:** <offline-first with Room | cloud sync | other>
 
 ## 2. Navigation and screen hierarchy

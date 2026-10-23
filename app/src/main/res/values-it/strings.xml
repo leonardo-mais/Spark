@@ -33,16 +33,15 @@
     <string name="settings_title">Impostazioni</string>
     <string name="settings_section_general">Informazioni Applicazione</string>
     <string name="settings_version_label">Versione</string>
-    <string name="settings_version_subtitle">v%1$s • Jetpack Compose nativo e Material 3 Expressive</string>
+    <string name="settings_version_subtitle">v%1$s (Build %2$d) • Jetpack Compose nativo e Material 3 Expressive</string>
     <string name="settings_build_type_label">Tipo di Build</string>
 
     <!-- Spark Section Invariant (Mandatory) -->
     <string name="spark_section_title">Realizzata con Spark!</string>
-    <string name="spark_badge">Spark! Framework</string>
     <string name="spark_github_title">GitHub del progetto</string>
     <string name="spark_github_desc">Repository open-source del progetto</string>
     <string name="spark_sorge_title">Andrea Sorge</string>
     <string name="spark_sorge_desc">Architettura e build</string>
-    <string name="spark_mais_title">leonardo.mais</string>
+    <string name="spark_mais_title">Leonardo Maistrello</string>
     <string name="spark_mais_desc">UI e UX</string>
 </resources>

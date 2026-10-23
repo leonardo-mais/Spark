@@ -14,8 +14,13 @@ The method is described in the `grill-me` skill (`.agents/skills/grill-me/SKILL.
    - a new application;
    - a new screen, or a feature that changes data or navigation;
    - any request that is ambiguous or incomplete.
-2. **Cover the six areas:** vision and objective, scope and MVP, data model and lifecycle, UX and flows, name and icon, visual archetype.
-3. **Visual archetype last.** The Classic or Impact choice is always the final question, and the agent presents both options equally.
+2. **Cover the seven areas:** vision and objective, scope and MVP, data model and lifecycle, UX and flows, name and icon, visual archetype, and distribution channel.
+3. **Visual archetype and distribution channel last:**
+   - The Classic or Impact choice is presented first among the final steps, presenting both options equally.
+   - **Distribution target question (mandatory last question before planning/build):** The agent MUST ask the user how the app will be distributed/retrieved with Obtainium:
+     - Option A: Via GitHub Releases (public or private repository).
+     - Option B: Via a self-hosted distribution server (Caddy/Tailscale HTTP endpoint).
+     - In both cases, the agent provides the exact Obtainium link/feed URL to add to Obtainium.
 4. **One question at a time.** Each question has a recommended answer. Use selectable options when the host supports them, and always allow a free-text answer.
 5. **No code during the interview.** The agent writes no application code until the plan is approved.
 6. **Hand over to the plan.** The confirmed decision log feeds the `plan` skill, which writes `specifications.md` and the milestone plan. The user approves the plan explicitly.

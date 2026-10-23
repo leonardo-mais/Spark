@@ -295,7 +295,7 @@ In the High-Impact Style, the navigation bar adopts the Floating Pill Dock struc
    * Tab **NOT Selected**: Displays **STRICTLY TEXT ONLY** for the section (no icon visible!). Color: `onSurfaceVariant`.
    * Tab **SELECTED**: Enclosed within an active pill (`surfaceContainerHighest` or `secondaryContainer`). The section icon **APPEARS ONLY WHEN CLICKED**, positioned to the left of the text label.
 3. **Native M3 Expressive Animations:**
-   * Icon appearance/disappearance and pill resizing use `MaterialTheme.motionScheme.fastSpatialSpec()` (or `spring(dampingRatio = 0.8f, stiffness = 380f)`), while color transitions use `MaterialTheme.motionScheme.fastEffectsSpec()`.
+   * Icon appearance/disappearance and pill resizing use a critically damped spring (`spring(dampingRatio = 1.0f, stiffness = 420f)` — zero bounce), while color transitions use `tween(durationMillis = 80)`.
 4. **Strict Limit of Maximum 4 Elements (ABSOLUTE PROHIBITION OF FALLBACK):**
    * Supports a strict maximum of 4 elements (`require(items.size in 2..4)`).
    * **NO FALLBACK:** Falling back to the standard 5-element bar is strictly prohibited. The application's information architecture MUST be condensed upfront into at most 4 core destinations.
@@ -349,7 +349,7 @@ Every application **MUST ALWAYS** include a dedicated, accessible Settings Scree
      * **Mandatory Interactive Entries (launched via `Intent.ACTION_VIEW`):**
        1. **Project GitHub:** Link to `https://github.com/leonardo-mais/Spark` (with code/GitHub icon).
        2. **Andrea Sorge:** Subtitle `"Architettura e build"` / `"Architecture & build"`, link to `https://github.com/Sorgandri03`.
-       3. **leonardo.mais:** Subtitle `"UI e UX"`, link to `https://github.com/leonardo-mais`.
+       3. **Leonardo Maistrello:** Subtitle `"UI e UX"`, link to `https://github.com/leonardo-mais`.
 
 ---
 
@@ -919,7 +919,7 @@ fun ExpressiveImpactNavigationBar(
             "Do not use fallback mechanisms: condense the information architecture into at most 4 sections."
     }
 
-    val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
     val surfaceColor = MaterialTheme.colorScheme.surface
 
     // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
@@ -974,7 +974,7 @@ private fun ExpressiveImpactNavItemView(
 ) {
     val fastEffectsColor = tween<Color>(durationMillis = 80)
     val fastEffectsFloat = tween<Float>(durationMillis = 80)
-    val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
 
     val containerColor by animateColorAsState(
         targetValue = if (isSelected) {

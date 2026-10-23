@@ -476,7 +476,7 @@ NavigationBarItem(
 
 ### Floating Pill Dock Navigation Bar (Impact style, max 4 items)
 For apps that use the **Impact style** (Expressive Dynamic), the bottom navigation bar uses the floating pill dock with a soft progressive ease-in gradient overlay:
-* **Icon visible ONLY on click or selection:** unselected tabs show **only the text**, with no icon. When a tab is tapped, the icon appears to the left of the text with an `AnimatedVisibility` animation and a spring expansion (`expandHorizontally(spring(0.8f, 380f)) + fadeIn(tween(80))`).
+* **Icon visible ONLY on click or selection:** unselected tabs show **only the text**, with no icon. When a tab is tapped, the icon appears to the left of the text with an `AnimatedVisibility` animation and a critically damped spring expansion (`expandHorizontally(spring(1.0f, 420f)) + fadeIn(tween(80))`, zero bounce).
 * **Animated active pill:** the active pill uses `surfaceContainerHighest` and resizes with `animateContentSize`.
 * **Maximum 4 items (no fallback):** a strict limit of 4 items (`items.size in 2..4`). No fallback: the application's flows must condense every section into at most 4 tabs.
 * **Progressive gradient overlay:** uses a multi-stop ease-in vertical gradient to ensure content smoothly scrolls underneath the floating dock without visible rectangular clipping.
@@ -493,7 +493,7 @@ fun ExpressiveImpactNavigationBar(
         "Massimo 4 elementi supportati. Non usare fallback: riorganizza l'architettura in massimo 4 tab."
     }
 
-    val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
     val surfaceColor = MaterialTheme.colorScheme.surface
 
     // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content

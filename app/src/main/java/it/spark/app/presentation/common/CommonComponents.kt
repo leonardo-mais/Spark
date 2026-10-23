@@ -303,7 +303,7 @@ fun ExpressiveImpactNavigationBar(
             "Condense the information architecture into at most 4 sections."
     }
 
-    val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
     val surfaceColor = MaterialTheme.colorScheme.surface
 
     // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
@@ -356,10 +356,10 @@ private fun ExpressiveImpactNavItemView(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Fast 80ms effects for snappy pill color transitions
+    // Fast 80ms effects for snappy pill color transitions, critically damped spring (no bounce) for spatial resizing
     val fastEffectsColor = tween<Color>(durationMillis = 80)
     val fastEffectsFloat = tween<Float>(durationMillis = 80)
-    val spatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
+    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
 
     val containerColor by animateColorAsState(
         targetValue = if (isSelected) {

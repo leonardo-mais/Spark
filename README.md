@@ -1,100 +1,104 @@
-# ✨ Spark! • Modern Android Starter Template & Framework
+# ✨ Spark! — Il Framework AI per App Android Su Misura
 
-Spark! is a starter template and framework for building Android apps quickly, without writing the boilerplate by hand.
-
-It is built on **Jetpack Compose** and uses **Material 3 Expressive**, Google's latest design system, to make your app dynamic and modern. You decide how far to push the expressive style.
-
-The release pipeline is designed for a **self-hosted server** that feeds **Obtainium**, so users can install and update the app in one tap.
-
-The repository works with any AI coding agent. Rules and skills live in `.agents/`, and [`AGENTS.md`](./AGENTS.md) is the entry point for every agent.
+> **Proposta per il Linux Day 2026**  
+> Di **[Leonardo Maistrello](https://github.com/leonardo-mais)** (UI & UX) e **[Andrea Sorge](https://github.com/Sorgandri03)** (Architecture & Build)
 
 ---
 
-## Create a new app with Spark!
+## 🤔 Il Problema: perché le app sugli store spesso ci deludono?
 
-### Option 1: GitHub template (recommended)
+Vi è mai capitato di rimanere delusi dalla qualità delle applicazioni presenti sugli store? Spesso sono esteticamente trascurate, con poche funzioni, oppure non rispondono davvero a ciò di cui abbiamo bisogno.
 
-1. Click **"Use this template"** → **"Create a new repository"**.
-2. Clone the new repository and open it in your IDE and in your AI agent.
-3. Ask the agent to plan your app, for example: *"Plan a new app for tracking my reading."*
-4. The agent runs the discovery interview (`.agents/skills/grill-me`), asks one question at a time, and ends with the choice between the **Classic** and **Impact** visual styles.
-5. The agent writes `specifications.md` and a milestone plan (`.agents/skills/plan`), then waits for your approval.
-6. After approval, the agent builds the app milestone by milestone, verifying each one.
+Facciamo un esempio pratico: supponiamo di voler creare il nostro **ricettario digitale** personale. I nostri requisiti sono chiari:
+- **100% gratuita** e **senza pubblicità**
+- **100% offline** (nessun obbligo di creare account o fare login per accedere ai *nostri* dati)
+- **Ricalcolo automatico delle dosi** in base al numero di persone
+- **Esportazione e backup immediati** in formati aperti, per non restare mai bloccati (*vendor lock-in*) se un giorno volessimo cambiare app
 
----
-
-## What the template contains
-
-| Folder or file | What it is | Keep in new apps? |
-|---|---|:---:|
-| `AGENTS.md` | Entry point for every AI agent | **Yes** |
-| `.agents/rules/` | Non-negotiable rules: architecture, design, localization, release | **Yes** |
-| `.agents/skills/spark-jetpack/` | Material 3 Expressive design system: tokens, typography, shapes, components | **Yes** |
-| `.agents/skills/grill-me/` | Discovery interview method | **Yes** |
-| `.agents/skills/plan/` | Planning method and specification template | **Yes** |
-| `.agents/skills/agent-builder/` | Release automation, in skill form | **Yes** |
-| `.agents/skills/` (other folders) | Official Google Android skills: Navigation 3, Compose performance, adaptive layouts and more. See [`ATTRIBUTION.md`](./.agents/skills/ATTRIBUTION.md) | **Yes** |
-| `scripts/release.sh` and `release-agent` | Versioning, tests, signing and distribution | **Yes** |
-| `app/src/main/res/font/google_sans_flex.ttf` | Variable font bundled for offline use | **Yes** |
-| `app/src/main/java/it/spark/app/presentation/theme/Type.kt` | `flexFont` engine and `ExpressiveType` styles | **Yes** |
-| `app/src/main/java/it/spark/app/presentation/common/` | Shared components (`MediumFAB`, `CircularBackButton`, `GroupedCard`) | **Yes** |
-| `app/src/main/res/values*/strings.xml` | Localized strings (English default, Italian example) | **Yes** |
-| `.env` (created from `.env.example`) | Server and signing settings. Never committed | Create locally |
-| `version.properties` | App name, slug and version | Reset for a new app |
-| `app/src/main/java/.../presentation/home/` and `settings/` | Example screens | Replace with your own |
-| `specifications.md` | Specification of the app being built | Rewrite for each app |
+Se guardiamo a cosa offre oggi il panorama Android — tra soluzioni come *Deglaze* o *Cooklang* — ci scontriamo quasi sempre con gli stessi limiti:
+1. **Pubblicità invasiva o abbonamenti** per funzioni base.
+2. **Account obbligatori e cloud proprietari** per utilizzare dati che dovrebbero restare nostri.
+3. **Design poco curato**, lontano dagli standard moderni di Android.
+4. **Difficoltà di backup ed esportazione** dei dati.
+5. **Impossibilità di aggiungere nuove funzioni**: questo è l'aspetto più critico. Un'app tradizionale è chiusa, scritta in un unico modo e non pensata per essere rimodellata dall'utente. E anche quando il progetto è *open-source*, difficilmente si ha il tempo o la voglia di studiare un'intera codebase e mantenere un fork solo per aggiungere una funzione alla propria app di cucina.
 
 ---
 
-## Languages
+## ⚡ La Soluzione: Cos'è Spark!?
 
-- The default language is **English**: `app/src/main/res/values/strings.xml`.
-- Italian is included as an example translation: `app/src/main/res/values-it/strings.xml`.
-- To add a language, create `app/src/main/res/values-<code>/strings.xml` with the same keys. Android picks it up from the device language.
-- Every user-visible text uses string resources. Do not hardcode text in composables.
+**Spark!** è un **framework e template AI-first** per sviluppare applicazioni Android belle, complete e funzionali partendo da un semplice prompt.
+
+- 🎨 **Material 3 Expressive + Tocco Personale**: si basa sull'ultimissimo design system *Material 3 Expressive* di Google (con font variabile *Google Sans Flex* offline, fisica a molla, superfici tonali dinamiche e due archetipi visivi: **Classic** e **Impact**), arricchito da un'identità estetica e UX curata nei minimi dettagli.
+- 🤖 **Libertà di scelta del modello AI**: Spark! è agnostico rispetto all'agente o al modello AI utilizzato. Puoi usare il tuo assistente AI preferito per generare, modificare o espandere l'app su misura per te.
+- 📦 **Pronto all'uso**: essendo un template GitHub, basta clonarlo o cliccare su *"Use this template"*, aprirlo nel proprio ambiente e iniziare subito a dialogare con l'AI per dare vita alla propria applicazione.
 
 ---
 
-## Release and self-hosted distribution (Obtainium)
+## 🧠 Come funziona l'Architettura di Spark!
 
-The repository includes a release agent (`./release-agent`, which runs `./scripts/release.sh`). It handles semantic versioning, unit tests, signing, and upload to your server.
+Il cuore del framework risiede nel sistema di istruzioni, regole e competenze per gli agenti AI (orchestrato a partire da [`AGENTS.md`](./AGENTS.md) e strutturato in `.agents/`), che poggia su tre pilastri fondamentali:
 
-```bash
-# Patch release (for example 1.0.0 -> 1.0.1)
-./release-agent patch -m "Release description"
+### 1. `skills-main` (Le Skill Ufficiali di Android)
+È il repertorio ufficiale rilasciato da Google per le AI (integrato in `.agents/skills/`, vedi [`ATTRIBUTION.md`](./.agents/skills/ATTRIBUTION.md)). Contiene la documentazione tecnica aggiornata sui componenti, le API e le interazioni moderne di Android (Navigation 3, Compose Performance, Adaptive Layouts, CameraX, LiteRT, ecc.).  
+Tuttavia, presa da sola, questa raccolta è **pura restituzione di dati**: fornisce le firme dei metodi e le API corrette, ma *non* insegna all'AI come progettare un'applicazione bella, coerente e ben architettata.
 
-# Minor release (for example 1.0.1 -> 1.1.0)
-./release-agent minor -m "New features"
+### 2. `skills` (Le Skill Custom di Spark!)
+Sono le competenze progettate da noi che fanno da ponte tra l'idea dell'utente e i componenti ufficiali di Android presenti in `skills-main`:
+- Puntano direttamente alle API ufficiali di Android per **azzerare le allucinazioni** del modello AI.
+- Impongono le **nostre regole di stile, architettura e UX**.
+- Tra le skill principali troviamo:
+  - **`spark-jetpack`**: il design system completo Material 3 Expressive, la tipografia parametrica, le palette semantiche HCT e i componenti custom di Spark!.
+  - **`spark-wear`**: il workflow per estendere l'app anche su smartwatch **Wear OS** (Companion o Standalone) con sincronizzazione bidirezionale.
+  - **`grill-me`** & **`plan`**: il motore di intervista interattiva e di generazione delle specifiche tecniche.
+  - **`agent-builder`**: l'automazione per il rilascio continuo e la distribuzione self-hosted.
 
-# Major release (for example 1.1.0 -> 2.0.0)
-./release-agent major -m "New architecture"
+### 3. `rules` (Le Regole Invarianti per gli Agenti)
+Dentro [`.agents/rules/`](./.agents/rules/) risiedono le direttive obbligatorie che guidano il comportamento dell'AI in ogni istante:
+- **`planning-interview.md`** (*Planning Interview*): prima di scrivere una sola riga di codice, l'agente avvia un'intervista mirata. Le domande vengono generate dinamicamente in base al tipo di applicazione richiesta nel prompt e servono a chiarire all'AI ogni dettaglio (funzionalità MVP, modello dati offline-first, flussi UX, stile visivo *Classic* vs *Impact* e canale di distribuzione).
+- **`development-standards.md`**: definisce gli standard non negoziabili di architettura (Clean Architecture + MVI, Room offline-first, Navigation 3 type-safe, Predictive Back, zero stringhe o colori hardcoded).
+- **`iterative-development-loop.md`**: obbliga l'agente a sviluppare il progetto per *milestone*, verificando ogni passo con test automatici, ispezione visiva su emulatore/dispositivo e controlli di interoperabilità con il sistema Android.
+- **`agent-builder.md`**: governa l'agente costruttore/rilasciatore che compila, testa, firma l'APK e pubblica gli aggiornamenti in automatico.
+- **`planning-wear-interview.md`**: guida la progettazione di eventuali moduli companion per smartwatch Wear OS (attivata esclusivamente su richiesta esplicita).
+
+---
+
+## 🚀 Dal Prompt all'App: Il Flusso di Lavoro
+
+```mermaid
+flowchart LR
+    Prompt["1. Il tuo Prompt"] --> Interview["2. Planning Interview (grill-me)"]
+    Interview --> Spec["3. Specifiche & Piano (specifications.md)"]
+    Spec --> Loop["4. Sviluppo Iterativo & Verifica UI"]
+    Loop --> Release["5. Build & Deploy (Obtainium)"]
 ```
 
-Outputs:
-
-- `apk/`: the signed APK for local use, named `<AppName>-v<version>-b<build>-release.apk`.
-- `dist/<appSlug>/`: the Obtainium feed `version.json`, the landing page `index.html`, and the APK files with their checksums.
-- Remote server: when `.env` is configured, the release is uploaded over HTTP.
-
-The full setup, including the server configuration, is in [`RELEASE.md`](./RELEASE.md).
+1. **Scarica il template**: crea una nuova repository da questo template su GitHub e aprila con il tuo agente AI.
+2. **Esprimi la tua idea**: scrivi un semplice prompt (es. *"Voglio creare un ricettario digitale offline con ricalcolo delle dosi ed esportazione JSON"*).
+3. **Rispondi all'intervista dell'Agente**: gli agenti di Spark! ti faranno domande specifiche una alla volta per capire esattamente cosa hai in mente, fino alla scelta dello stile estetico (**Classic** o **Impact**).
+4. **Approva il piano**: l'AI genera il documento [`specifications.md`](./specifications.md) e la roadmap di sviluppo.
+5. **Costruzione e rilascio automatico**: l'AI scrive il codice seguendo le *skills* e le *rules*, esegue i test e genera l'APK firmato pronto da installare o aggiornare con un tap tramite **Obtainium** (via GitHub Releases o server self-hosted).
 
 ---
 
-## Build and test
+## 🛠️ Comandi Rapidi di Build e Rilascio
+
+Il progetto include l'agente di rilascio `./release-agent` (wrapper di [`scripts/release.sh`](./scripts/release.sh)) che gestisce versionamento semantico, test unitari, firma crittografica v2 e generazione del feed per **Obtainium**:
 
 ```bash
-# Unit tests
+# Eseguire i test unitari
 ./gradlew testDebugUnitTest
 
-# Debug build
+# Compilare l'APK di debug (output in apk/)
 ./gradlew assembleDebug
 
-# Signed release build
-./gradlew assembleRelease
+# Rilasciare una nuova versione firmata (patch, minor o major)
+./release-agent patch -m "Descrizione delle novità"
 ```
+
+Per tutti i dettagli sulla configurazione del server self-hosted e di Obtainium, consulta [`RELEASE.md`](./RELEASE.md).
 
 ---
 
-## License
+## 📄 Licenza
 
-Apache License 2.0. See [`LICENSE`](./LICENSE).
+Distribuito sotto licenza **Apache License 2.0**. Consulta il file [`LICENSE`](./LICENSE) per maggiori dettagli.

@@ -36,6 +36,12 @@ Use this file with the `grill-me` skill. Ask one question at a time, in the orde
 - [ ] **Name:** Propose 3 distinct names verified against existing apps and brands, plus a custom option.
 - [ ] **Icon:** Propose the Material Symbol that best fits the domain (Filled, FILL = 1). No emoji.
 
-## 6. Visual archetype (mandatory last question)
+## 6. Visual archetype
 
 - [ ] **Archetype:** Classic (strict M3 Expressive, dense and sober) or Impact (dynamic typography, hero cards, Floating Pill Dock with at most 4 items). Present both with their ideal contexts and let the user choose. Never decide for the user.
+
+## 7. Distribution & Obtainium setup (mandatory last question before first build)
+
+- [ ] **Distribution target:** Ask whether to distribute the APK via a private GitHub repository release or a self-hosted distribution server (Tailscale/Caddy). In both cases, provide the exact link to configure in Obtainium:
+  - **Private/Public GitHub Repository:** `https://github.com/<owner>/<repo>` (noting Obtainium credentials/token requirements for private repos).
+  - **Self-Hosted Distribution Server:** `<SERVER_URL>/<appSlug>/version.json` (or landing page `<SERVER_URL>/<appSlug>/`).

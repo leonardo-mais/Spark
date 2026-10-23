@@ -6,9 +6,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -61,9 +64,15 @@ fun MainApp() {
     val backStack = rememberNavBackStack(HomeRoute)
     val activity = LocalContext.current as Activity
 
-    // Fast fade transition: 80ms (doubled speed compared to standard 160ms)
-    val fastFadeIn = fadeIn(animationSpec = tween(durationMillis = 80))
-    val fastFadeOut = fadeOut(animationSpec = tween(durationMillis = 80))
+    // Deeper screen transition (slide from right + fade in)
+    val forwardTransition =
+        (slideInHorizontally(initialOffsetX = { it / 3 }, animationSpec = spring(0.85f, 400f)) + fadeIn(tween(220)))
+            .togetherWith(slideOutHorizontally(targetOffsetX = { -it / 5 }, animationSpec = spring(0.85f, 400f)) + fadeOut(tween(180)))
+
+    // Returning to parent screen (slide to right + fade out)
+    val backwardTransition =
+        (slideInHorizontally(initialOffsetX = { -it / 5 }, animationSpec = spring(0.85f, 400f)) + fadeIn(tween(220)))
+            .togetherWith(slideOutHorizontally(targetOffsetX = { it / 3 }, animationSpec = spring(0.85f, 400f)) + fadeOut(tween(180)))
 
     NavDisplay(
         backStack = backStack,
@@ -71,9 +80,9 @@ fun MainApp() {
             // On the root route, the back gesture closes the app
             if (backStack.size > 1) backStack.removeLastOrNull() else activity.finish()
         },
-        transitionSpec = { fastFadeIn togetherWith fastFadeOut },
-        popTransitionSpec = { fastFadeIn togetherWith fastFadeOut },
-        predictivePopTransitionSpec = { fastFadeIn togetherWith fastFadeOut },
+        transitionSpec = { forwardTransition },
+        popTransitionSpec = { backwardTransition },
+        predictivePopTransitionSpec = { backwardTransition },
         entryProvider = entryProvider {
             entry<HomeRoute> {
                 HomeScreen(onNavigateToSettings = { backStack.add(SettingsRoute) })

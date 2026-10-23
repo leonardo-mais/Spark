@@ -130,7 +130,11 @@ fun SettingsScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = stringResource(R.string.settings_version_subtitle, BuildConfig.VERSION_NAME),
+                                text = stringResource(
+                                    R.string.settings_version_subtitle,
+                                    BuildConfig.VERSION_NAME,
+                                    BuildConfig.VERSION_CODE
+                                ),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -151,21 +155,6 @@ fun SettingsScreen(
                 )
 
                 GroupedCard(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
-                    // Spark! Framework badge
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    ) {
-                        Text(
-                            text = stringResource(R.string.spark_badge),
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                        )
-                    }
-
                     // Entry 1: project GitHub
                     SparkLinkRow(
                         title = stringResource(R.string.spark_github_title),
@@ -192,7 +181,7 @@ fun SettingsScreen(
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
 
-                    // Entry 3: leonardo.mais (UI and UX)
+                    // Entry 3: Leonardo Maistrello (UI and UX)
                     SparkLinkRow(
                         title = stringResource(R.string.spark_mais_title),
                         subtitle = stringResource(R.string.spark_mais_desc),

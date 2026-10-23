@@ -17,8 +17,18 @@ val versionProps = Properties().apply {
 }
 
 val propAppName = versionProps.getProperty("appName", "Spark")
+val propVersionMajor = versionProps.getProperty("versionMajor", "1")
+val propVersionMinor = versionProps.getProperty("versionMinor", "0")
+val propVersionPatch = versionProps.getProperty("versionPatch", "0")
 val propVersionCode = versionProps.getProperty("versionCode", "1").toInt()
-val propVersionName = versionProps.getProperty("versionName", "1.0.0")
+val computedSemVer = "$propVersionMajor.$propVersionMinor.$propVersionPatch"
+val rawVersionName = versionProps.getProperty("versionName")?.takeIf { it.isNotBlank() }
+val propVersionName = when {
+    rawVersionName != null && rawVersionName != "1.0.0" -> rawVersionName
+    computedSemVer != "1.0.0" -> computedSemVer
+    propVersionCode > 1 -> "$propVersionMajor.$propVersionMinor.${propVersionCode - 1}"
+    else -> computedSemVer
+}
 
 // Release signing: the keystore comes from KEYSTORE_PATH or app/release-key.jks.
 // Release tasks fail fast when the keystore or its passwords are missing. There is no fallback to the debug key.
