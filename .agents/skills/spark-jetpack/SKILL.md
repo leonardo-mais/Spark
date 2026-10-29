@@ -294,12 +294,17 @@ In the High-Impact Style, the navigation bar adopts the Floating Pill Dock struc
 2. **Dynamic Icon on Click (Animated Entry Only on Selected Tab):**
    * Tab **NOT Selected**: Displays **STRICTLY TEXT ONLY** for the section (no icon visible!). Color: `onSurfaceVariant`.
    * Tab **SELECTED**: Enclosed within an active pill (`surfaceContainerHighest` or `secondaryContainer`). The section icon **APPEARS ONLY WHEN CLICKED**, positioned to the left of the text label.
-3. **Native M3 Expressive Animations:**
-   * Icon appearance/disappearance and pill resizing use a critically damped spring (`spring(dampingRatio = 1.0f, stiffness = 420f)` — zero bounce), while color transitions use `tween(durationMillis = 80)`.
-4. **Strict Limit of Maximum 4 Elements (ABSOLUTE PROHIBITION OF FALLBACK):**
+3. **Native M3 Expressive Animations (MotionScheme Physics):**
+   * Icon appearance/disappearance and pill resizing use native `MaterialTheme.motionScheme` tokens (`fastSpatialSpec()` for spatial expansion/resizing and `fastEffectsSpec()` for color/alpha transitions).
+4. **Expressive Navigation Bar Disappearance / Reappearance Animation (Slide Down + Fade Out with Motion-Physics Spring):**
+   * When the `ExpressiveImpactNavigationBar` (or the navigation bar in general) hides—for instance when entering secondary/detail screens, full-screen views, or when scrolling down (`adaptive` skill Step 2.1)—and reappears, it **MUST** animate using `AnimatedVisibility` with a downward vertical slide (`slideOutVertically` / `slideInVertically`) paired with `fadeOut` / `fadeIn` driven by bouncy/spring **M3 Expressive Motion-Physics**:
+     - **Disappearance (`exit`):** `slideOutVertically(animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(), targetOffsetY = { fullHeight -> fullHeight }) + fadeOut(animationSpec = MaterialTheme.motionScheme.fastEffectsSpec())`
+     - **Reappearance (`enter`):** `slideInVertically(animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(), initialOffsetY = { fullHeight -> fullHeight }) + fadeIn(animationSpec = MaterialTheme.motionScheme.fastEffectsSpec())`
+     - Here, `MaterialTheme.motionScheme.defaultSpatialSpec()` (or `spring(dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessMediumLow)` / `dampingRatio = 0.7f, stiffness = 380f`) provides the signature bouncy motion-physics spring feel on vertical translation, while `fastEffectsSpec()` handles the non-bouncing opacity fade.
+5. **Strict Limit of Maximum 4 Elements (ABSOLUTE PROHIBITION OF FALLBACK):**
    * Supports a strict maximum of 4 elements (`require(items.size in 2..4)`).
    * **NO FALLBACK:** Falling back to the standard 5-element bar is strictly prohibited. The application's information architecture MUST be condensed upfront into at most 4 core destinations.
-5. **Soft Progressive Gradient Protection Overlay (Zero Occlusion, Zero Hard Boxes & High Readability):**
+6. **Soft Progressive Gradient Protection Overlay (Zero Occlusion, Zero Hard Boxes & High Readability):**
    * The floating dock container is enclosed within a full-width background gradient (`Brush.verticalGradient`) extending behind the dock through the navigation bar insets (`.navigationBarsPadding()`).
    * **Multi-stop ease-in curve:** uses explicit stops (`0.00f to Transparent`, `0.20f to surface(0.08f)`, `0.40f to surface(0.25f)`, `0.60f to surface(0.52f)`, `0.80f to surface(0.82f)`, `1.00f to surface(0.98f)`) with `top = 28.dp`.
    * **Critical Overlay Rule:** `NavDisplay` MUST use `Modifier.fillMaxSize()` WITHOUT `Modifier.padding(bottom = innerPadding.calculateBottomPadding())` so child screens draw edge-to-edge behind the floating dock and progressive gradient. Never clip `NavDisplay` at the top of the dock, which would create an artificial solid opaque rectangular box.
@@ -414,21 +419,47 @@ When search is a primary feature of the application (`AppSearchView`, Section 21
   * The search pill uses `MaterialTheme.colorScheme.surfaceBright` to establish a crisp, radiant contrast against the `surface` background, ensuring a minimum contrast ratio of 3:1.
 * **Placement in the First Tab:** The screen housing the primary search bar **MUST ALWAYS BE the FIRST TAB** in the bottom navigation bar (e.g., Home).
 * **Mandatory Full-Screen SearchView Expansion (`ExpandedFullScreenSearchBar` / `AppSearchView`):**
-  * Tapping the bar must expand a full-screen modal search view featuring: automatic keyboard focus on open (`FocusRequester.requestFocus()` + `keyboardController.show()` without requiring a second tap), top-left circular/standard back button, active text field with Clear button (`Icons.Rounded.Close`), `HorizontalDivider`, recent search history (`Icons.Rounded.History`), live filtered results grouped in cards, automatic handling of the system back gesture (`BackHandler`), and fast doubled-speed fade transition (`80ms`).
+  * Tapping the bar must expand a full-screen modal search view featuring: automatic keyboard focus on open (`FocusRequester.requestFocus()` + `keyboardController.show()` without requiring a second tap), top-left circular/standard back button, active text field with Clear button (`Icons.Rounded.Close`), `HorizontalDivider`, recent search history (`Icons.Rounded.History`), live filtered results grouped in cards, automatic handling of the system back gesture (`NavigationBackHandler` or `BackHandler`), and standard M3 Expressive effects transition (`MaterialTheme.motionScheme.fastEffectsSpec()`).
 * **Inviolable Height Rule:** Never compress a `TopAppBar`. Respect standard M3 height metrics (`64.dp` for `TopAppBar`, `72.dp` for the `SearchTopBar` area with internal `56.dp` pill, `152.dp` for expanded `LargeTopAppBar`).
 
 ---
 
-## 15. M3 Expressive Motion Physics (`MotionScheme`) & Micro-Interactions
+## 15. M3 Expressive Motion Physics (`MotionScheme`), Official Android Skill Animations & Micro-Interactions
 
-In Material 3 Expressive, animations avoid static time curves (`tween`) for spatial transitions, using physical spring systems from `MaterialTheme.motionScheme`:
-1. **Spatial Transitions (Movement, Expansion, Resizing, Morphing, Scale):**
-   * Use `MaterialTheme.motionScheme.defaultSpatialSpec()` for layout shifts and card transitions, or `MaterialTheme.motionScheme.fastSpatialSpec()` for smaller elements (navigation pills, switches, buttons, icons).
-   * These specifications deliver snappy spring physics (equivalent to `spring(dampingRatio = 0.8f, stiffness = 380f)`) ensuring immediate responsiveness without sluggish drag.
+In Material 3 Expressive, animations avoid static hardcoded time curves (`tween`) for spatial transitions, using physical spring systems from `MaterialTheme.motionScheme` (`MotionScheme.expressive()`) combined with the standard Android animation patterns from the official Android skills in `.agents/skills/` (`navigation-3`, `navigation-event`, `jetpack-compose-performance`, `adaptive`, `styles`):
+
+1. **Spatial Transitions (Movement, Expansion, Resizing, Morphing, Scale, Bar Sliding):**
+   * Use `MaterialTheme.motionScheme.defaultSpatialSpec()` for container movements, screen slides, layout shifts, card transitions, and navigation bar show/hide animations, or `MaterialTheme.motionScheme.fastSpatialSpec()` for smaller elements (navigation pills, switches, buttons, icons). Use `MaterialTheme.motionScheme.slowSpatialSpec()` for full-screen shared bounds or hero expansions.
+   * These specifications deliver bouncy/snappy M3 Expressive spring physics (e.g., `spring(dampingRatio = 0.8f, stiffness = 380f)` or `Spring.DampingRatioLowBouncy`) with natural subtle overshoot, ensuring immediate responsiveness without sluggish drag.
    * **Prohibition of sluggish springs:** Never use `stiffness < 200f`.
-2. **Effects Transitions (Color, Alpha, Screen Fades):**
-   * Screen transitions, alpha and color transitions use fast effects specs or `tween(durationMillis = 80)` (**80 ms** doubled-speed dissolvenza for ultra-responsive screen switching; strictly zero overshoot, as color and opacity must never bounce).
-3. **State Layers:**
+2. **Effects Transitions (Color, Alpha, Fades):**
+   * Color, alpha, and fade transitions use `MaterialTheme.motionScheme.defaultEffectsSpec()` or `MaterialTheme.motionScheme.fastEffectsSpec()` (strictly zero overshoot, as color and opacity must never bounce).
+3. **Expressive Navigation Bar Disappearance & Reappearance (Downward Slide + Fade Out with Motion-Physics):**
+   * Whenever the `ExpressiveImpactNavigationBar` (or bottom navigation bar) is hidden or shown, it **MUST** animate downward (`slideOutVertically` towards `targetOffsetY = { it }`) combined with `fadeOut`, using M3 Expressive bouncy spring physics (`defaultSpatialSpec()` / `spring(dampingRatio = Spring.DampingRatioLowBouncy, stiffness = Spring.StiffnessMediumLow)`):
+     ```kotlin
+     AnimatedVisibility(
+         visible = isNavBarVisible,
+         enter = slideInVertically(
+             animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+             initialOffsetY = { fullHeight -> fullHeight }
+         ) + fadeIn(animationSpec = MaterialTheme.motionScheme.fastEffectsSpec()),
+         exit = slideOutVertically(
+             animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(),
+             targetOffsetY = { fullHeight -> fullHeight }
+         ) + fadeOut(animationSpec = MaterialTheme.motionScheme.fastEffectsSpec())
+     ) { ... }
+     ```
+4. **Official Android Skill Animation Patterns (`.agents/skills/`):**
+   * **Navigation 3 Destination Transitions (`navigation-3/recipes/animations.md` & `conditional-transitions.md`):**
+     - **Default Forward / Back (`NavDisplay`):** Horizontal slide (`slideInHorizontally(initialOffsetX = { it })` + `fadeIn` `togetherWith` `slideOutHorizontally(targetOffsetX = { -it })` + `fadeOut` for `transitionSpec`; reverse `initialOffsetX = { -it }` / `targetOffsetX = { it }` for `popTransitionSpec` and `predictivePopTransitionSpec`), driven by `MaterialTheme.motionScheme.defaultSpatialSpec()` and `defaultEffectsSpec()`.
+     - **Per-Destination Vertical Modal Overrides (`metadata`):** Use `NavDisplay.TransitionKey`, `NavDisplay.PopTransitionKey`, and `NavDisplay.PredictivePopTransitionKey` with `slideInVertically(initialOffsetY = { it }) togetherWith ExitTransition.KeepUntilTransitionsFinished` and `EnterTransition.None togetherWith slideOutVertically(targetOffsetY = { it })`.
+   * **Predictive Back Gesture Animations (`navigation-event/SKILL.md`):**
+     - Rely on Navigation 3's built-in `predictivePopTransitionSpec` for destinations, and use `NavigationBackHandler` + `rememberNavigationEventState` (`NavigationEventTransitionState.InProgress` reading `latestEvent.progress` and `swipeEdge`) for custom predictive back animations in overlays.
+   * **Performance Phase Deferral (`jetpack-compose-performance/references/animation.md`):**
+     - Defer animated alpha, scale, and rotation reads to the Draw phase via `Modifier.graphicsLayer { alpha = animatedAlpha; scaleX = ... }`.
+     - Defer animated pixel offsets to the Layout phase via `Modifier.offset { IntOffset(x = animatedOffsetPx, y = 0) }` and size transitions via `Modifier.layout` or `Modifier.animateBounds(lookaheadScope)`.
+     - Pass lambda providers (`() -> Float`, `() -> IntOffset`) to custom animated composables instead of raw state values, and gate `Modifier.sharedBounds` / `Modifier.sharedElement` in lazy lists behind `Modifier.onVisibilityChanged`.
+5. **State Layers:**
    * Hover (`8%`), Focus (`10%` + outline ring), Press/Ripple (`10%`), Drag (tonal level increment from `surfaceContainer` to `surfaceContainerHigh`).
 
 ---
@@ -475,7 +506,7 @@ Every application must feature an official adaptive launcher icon derived from t
 2. **Zero Hardcoded Colors, Strings, or Container Alpha:** Did you use only `MaterialTheme.colorScheme.<role>` (without `.copy(alpha = ...)` on containers) and `stringResource(R.string.*)` (EN + IT)?
 3. **Zero Emoji Policy:** Did you ensure complete absence of emoji characters across Compose code and `strings.xml`, using Material vector icons exclusively?
 4. **3-FAB System Rule:** Did you use `MediumFloatingActionButton` (`68dp`, `20.dp` squircle, `30.dp` icon) as the default without text?
-5. **Archetype Navigation Bar:** Classic Style $\rightarrow$ `NavigationBar` (3–5 tabs, `surfaceContainerLow` container). High-Impact Style $\rightarrow$ `ExpressiveImpactNavigationBar` (max 4 tabs, no fallback, animated icon on click, soft vertical gradient overlay fading to 0% at top).
+5. **Archetype Navigation Bar & Disappearance Animation:** Classic Style $\rightarrow$ `NavigationBar` (3–5 tabs, `surfaceContainerLow` container). High-Impact Style $\rightarrow$ `ExpressiveImpactNavigationBar` (max 4 tabs, no fallback, animated icon on click, soft vertical gradient overlay fading to 0% at top, and disappearance downward via `slideOutVertically { it } + fadeOut` with bouncy M3 Expressive motion-physics `MaterialTheme.motionScheme.defaultSpatialSpec()`).
 6. **Single-Action Secondary Screens:** If a secondary or detail page has a single primary action (e.g., "Start cooking!"), did you implement `ExpressivePrimaryActionButton` with the soft vertical gradient overlay mask?
 7. **Edge-to-Edge & System Bars (Zero Black Boxes):** Did you set `window.isNavigationBarContrastEnforced = false` in `MainActivity` for SDK 29+ and wrap the root in `Surface(color = MaterialTheme.colorScheme.surface)`?
 8. **Typography:** Did you verify local Google Sans Flex (`res/font/google_sans_flex.ttf`), all 30 M3 styles (`*Emphasized`), and `ExpressiveType` for the High-Impact Style?
@@ -485,7 +516,7 @@ Every application must feature an official adaptive launcher icon derived from t
 12. **Settings & Spark! Section:** Is the Settings screen present with the mandatory closing card `"Realizzata con Spark!"` / `"Built with Spark!"` and the 3 GitHub links?
 13. **Multi-Level Scaffold & Navigation 3:** Does the root `Scaffold` contain only the bottom bar/snackbar (with `contentWindowInsets = WindowInsets(0.dp)`), with `NavDisplay` taking `Modifier.fillMaxSize()` behind the floating bar (without `Modifier.padding(bottom = ...)`), while each destination screen manages its own `Scaffold` and uses `contentPadding` for scrollable lists?
 14. **Adaptive & Tinted Icon:** Is the Material Symbol glyph correctly scaled (`48dp–54dp` inside `108dp` canvas) and does `<adaptive-icon>` declare `<monochrome android:drawable="@drawable/ic_launcher_foreground" />`?
-15. **Predictive Back Navigation:** Did you set `android:enableOnBackInvokedCallback="true"` in `AndroidManifest.xml` and configure `predictivePopTransitionSpec` in `NavDisplay` (or `BackHandler` / `PredictiveBackHandler` in overlays)?
+15. **Predictive Back Navigation & Official Android Animations:** Did you set `android:enableOnBackInvokedCallback="true"` in `AndroidManifest.xml`, configure `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` in `NavDisplay` using `MaterialTheme.motionScheme` (`defaultSpatialSpec()` / `defaultEffectsSpec()`), and defer animation reads to `Modifier.graphicsLayer` / `Modifier.offset`?
 
 ---
 
@@ -510,17 +541,47 @@ To eliminate black boxes around system bars, floating bars, disappearing compone
 
 ---
 
-## 19. Jetpack Navigation 3 Integration & Fluid Transitions
+## 19. Jetpack Navigation 3 Integration & Fluid Official Android Transitions
 
-Every application adopts **Jetpack Navigation 3** (`.agents/skills/navigation/navigation-3`):
+Every application adopts **Jetpack Navigation 3** (`.agents/skills/navigation-3`):
 
 1. **Type-Safe Routes (`NavKey`):** All routes are `@Serializable data object` or `@Serializable data class` implementations of `NavKey`.
 2. **`NavDisplay` and `entryProvider` DSL:** Map each `NavKey` to its Composable via `entryProvider { entry<RouteKey> { ... } }`, maintaining multiple back stacks (`rememberNavigationState` / `rememberNavBackStack`) for top-level navigation tabs so state survives configuration changes and process death.
-3. **Transitions:** Doubled-speed fast cross-fade (`fadeIn(animationSpec = tween(80)) togetherWith fadeOut(animationSpec = tween(80))`) for instant, ultra-responsive screen navigation; horizontal slide with `predictivePopTransitionSpec` for hierarchical flows; `BottomSheetSceneStrategy` and `DialogSceneStrategy` for modal surfaces.
-4. **Predictive Back Navigation (Android 13+ / 14+ / 15+):**
+3. **Standard Android Destination Transitions (`navigation-3/recipes/animations.md` & `conditional-transitions.md` + `MotionScheme`):**
+   * **Forward, Pop, and Predictive Pop (`NavDisplay`):** Configure `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` on `NavDisplay` using the official Navigation 3 horizontal slide pattern (`slideInHorizontally` / `slideOutHorizontally` paired with `fadeIn` / `fadeOut`), powered by `MaterialTheme.motionScheme.defaultSpatialSpec()` and `MaterialTheme.motionScheme.defaultEffectsSpec()`:
+     ```kotlin
+     val spatialOffsetSpec = MaterialTheme.motionScheme.defaultSpatialSpec<IntOffset>()
+     val effectsFloatSpec = MaterialTheme.motionScheme.defaultEffectsSpec<Float>()
+
+     NavDisplay(
+         entries = navigationState.toEntries(entryProvider),
+         onBack = { navigator.goBack() },
+         transitionSpec = {
+             (slideInHorizontally(initialOffsetX = { it }, animationSpec = spatialOffsetSpec) +
+                 fadeIn(animationSpec = effectsFloatSpec)) togetherWith
+                 (slideOutHorizontally(targetOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
+                     fadeOut(animationSpec = effectsFloatSpec))
+         },
+         popTransitionSpec = {
+             (slideInHorizontally(initialOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
+                 fadeIn(animationSpec = effectsFloatSpec)) togetherWith
+                 (slideOutHorizontally(targetOffsetX = { it }, animationSpec = spatialOffsetSpec) +
+                     fadeOut(animationSpec = effectsFloatSpec))
+         },
+         predictivePopTransitionSpec = {
+             (slideInHorizontally(initialOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
+                 fadeIn(animationSpec = effectsFloatSpec)) togetherWith
+                 (slideOutHorizontally(targetOffsetX = { it }, animationSpec = spatialOffsetSpec) +
+                     fadeOut(animationSpec = effectsFloatSpec))
+         }
+     )
+     ```
+   * **Per-Destination Vertical Transitions (`entry` `metadata`):** For full-screen modal destinations, override transitions at the `entry` level via `metadata { put(NavDisplay.TransitionKey) { slideInVertically(initialOffsetY = { it }, animationSpec = spatialOffsetSpec) togetherWith ExitTransition.KeepUntilTransitionsFinished }; put(NavDisplay.PopTransitionKey) { EnterTransition.None togetherWith slideOutVertically(targetOffsetY = { it }, animationSpec = spatialOffsetSpec) }; put(NavDisplay.PredictivePopTransitionKey) { EnterTransition.None togetherWith slideOutVertically(targetOffsetY = { it }, animationSpec = spatialOffsetSpec) } }`.
+   * **Scenes:** Use `BottomSheetSceneStrategy` and `DialogSceneStrategy` (and `ListDetailSceneStrategy` / `SupportingPaneSceneStrategy` on large screens) for modal and multi-pane surfaces.
+4. **Predictive Back Navigation (`navigation-event` & Android 13–16+):**
    * Declare `android:enableOnBackInvokedCallback="true"` in the `<application>` tag of `AndroidManifest.xml` to allow system-level back gesture dispatching and cross-activity previews.
    * `NavDisplay` must always configure `predictivePopTransitionSpec` alongside `popTransitionSpec` so the swipe gesture progressively previews the previous screen.
-   * Overlay and modal surfaces (`AppSearchView`, dialogs) intercept gestures using `BackHandler(enabled = ...)` or `PredictiveBackHandler` from `androidx.activity.compose`.
+   * Overlay and modal surfaces (`AppSearchView`, custom sheets) intercept gestures using `NavigationBackHandler` + `rememberNavigationEventState` (from `.agents/skills/navigation-event`) or `BackHandler` / `PredictiveBackHandler`.
    * Legacy `Activity.onBackPressed()` is strictly forbidden.
 
 ---
@@ -531,13 +592,14 @@ Before authoring critical architectural or subsystem code, consult the official 
 
 | Operational Domain | Official Module & Direct Recipe Paths in `.agents/skills/` | Consultation & Integration Notes |
 | :--- | :--- | :--- |
-| **Navigation 3 & Multiple Back Stacks** | • [`navigation/navigation-3/SKILL.md`](../navigation-3/SKILL.md)<br>• [`.../recipes/multiple-backstacks.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/multiple-backstacks.md)<br>• [`.../recipes/common-ui.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/common-ui.md)<br>• [`.../recipes/modular-hilt.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/modular-hilt.md)<br>• [`.../recipes/animations.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/animations.md)<br>• [`.../recipes/bottomsheet.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/bottomsheet.md) | Use for `NavKey`, `NavDisplay`, `entryProvider`, multi-backstack state persistence (`rememberNavigationState`), Hilt modularization, and scene transitions. **Keep `spark-jetpack`'s Multi-Level Scaffold and Bottom Bar UI components.** |
-| **Compose Performance & State Stability** | • [`jetpack-compose/jetpack-compose-performance/SKILL.md`](../jetpack-compose-performance/SKILL.md)<br>• [`.../references/state-and-stability.md`](../jetpack-compose-performance/references/state-and-stability.md)<br>• [`.../references/lazy-layouts.md`](../jetpack-compose-performance/references/lazy-layouts.md) | Mandatory patterns for `@Immutable`/`@Stable`, avoiding backwards writes, lambda phase deferral (`Modifier.offset { }`, `graphicsLayer { }`), `derivedStateOf`, and `LazyColumn` stable `key` + `contentType`. |
-| **Material 3 Adaptive & Multi-Pane** | • [`jetpack-compose/adaptive/SKILL.md`](../adaptive/SKILL.md)<br>• [`.../navigation-3/recipes/material-listdetail.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/material-listdetail.md)<br>• [`.../navigation-3/recipes/material-supportingpane.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/material-supportingpane.md) | Consult for `ListDetailPaneScaffold`, `SupportingPaneScaffold`, adaptive column grids, and `@FormFactorPreviews`. **Note:** On compact phones, always preserve `spark-jetpack`'s `ExpressiveImpactNavigationBar` or Classic `NavigationBar` instead of replacing the root Scaffold with `NavigationSuiteScaffold`. |
-| **Edge-to-Edge & System Insets** | • [`system/edge-to-edge/SKILL.md`](../edge-to-edge/SKILL.md) | Consult for `enableEdgeToEdge()`, IME soft-keyboard insets (`WindowInsets.ime`), and `consumeWindowInsets`. Combine with Section 18 (`Multi-Level Scaffold` & `isNavigationBarContrastEnforced = false`). |
-| **Runtime Permissions & Privacy** | • [`security/android-permissions-security/SKILL.md`](../android-permissions-security/SKILL.md) | Contextual runtime permission flows, rationale handling, Android Photo Picker (`PickVisualMedia`), and `POST_NOTIFICATIONS`. |
-| **Intent Security & Deep Links** | • [`security/android-intent-security/SKILL.md`](../android-intent-security/SKILL.md)<br>• [`.../navigation-3/recipes/deeplinks-uriarguments.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/deeplinks-uriarguments.md) | Safe external `Intent.ACTION_VIEW` launching (including the Settings Spark! links), `FileProvider` sharing, and deep link validation. |
-| **CameraX, Widgets & Testing** | • [`camera/camerax/SKILL.md`](../camerax/SKILL.md)<br>• [`system/glance-canonical-layouts/SKILL.md`](../glance-canonical-layouts/SKILL.md)<br>• [`testing/testing-setup/SKILL.md`](../testing-setup/SKILL.md) | Consult on-demand when the app requires camera capture, Home Screen Glance widgets, or automated test configuration during the Iterative Loop. |
+| **Navigation 3 & Multiple Back Stacks** | • [`navigation-3/SKILL.md`](../navigation-3/SKILL.md)<br>• [`.../recipes/multiple-backstacks.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/multiple-backstacks.md)<br>• [`.../recipes/common-ui.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/common-ui.md)<br>• [`.../recipes/modular-hilt.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/modular-hilt.md)<br>• [`.../recipes/animations.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/animations.md)<br>• [`.../recipes/conditional-transitions.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/conditional-transitions.md)<br>• [`.../recipes/bottomsheet.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/bottomsheet.md) | Use for `NavKey`, `NavDisplay`, `entryProvider`, multi-backstack state persistence (`rememberNavigationState`), Hilt modularization, and destination animations (`transitionSpec`, `popTransitionSpec`, `predictivePopTransitionSpec`). **Keep `spark-jetpack`'s Multi-Level Scaffold and Bottom Bar UI components.** |
+| **Predictive Back & Navigation Events** | • [`navigation-event/SKILL.md`](../navigation-event/SKILL.md)<br>• [`.../handle-back.md`](../navigation-event/references/android/guide/navigation/navigation-event/handle-back.md) | Use for `NavigationBackHandler`, `rememberNavigationEventState`, `NavigationEventTransitionState.InProgress` gesture progress animations, and `rememberNavigationEventDispatcherOwner` scoping. |
+| **Compose Performance, Stability & Animation Deferral** | • [`jetpack-compose-performance/SKILL.md`](../jetpack-compose-performance/SKILL.md)<br>• [`.../references/animation.md`](../jetpack-compose-performance/references/animation.md)<br>• [`.../references/state-and-stability.md`](../jetpack-compose-performance/references/state-and-stability.md)<br>• [`.../references/lazy-layouts.md`](../jetpack-compose-performance/references/lazy-layouts.md) | Mandatory patterns for phase-deferred animations (`Modifier.graphicsLayer { }`, `Modifier.offset { }`, `Modifier.animateBounds`), `@Immutable`/`@Stable`, avoiding backwards writes, `derivedStateOf`, and `LazyColumn` stable `key` + `contentType`. |
+| **Material 3 Adaptive & Multi-Pane** | • [`adaptive/SKILL.md`](../adaptive/SKILL.md)<br>• [`.../navigation-3/recipes/material-listdetail.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/material-listdetail.md)<br>• [`.../navigation-3/recipes/material-supportingpane.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/material-supportingpane.md) | Consult for `ListDetailSceneStrategy`, `SupportingPaneSceneStrategy`, hiding navigation bars on scroll/detail, adaptive column grids, and `@FormFactorPreviews`. **Note:** On compact phones, always preserve `spark-jetpack`'s `ExpressiveImpactNavigationBar` or Classic `NavigationBar` instead of replacing the root Scaffold with `NavigationSuiteScaffold`. |
+| **Edge-to-Edge & System Insets** | • [`edge-to-edge/SKILL.md`](../edge-to-edge/SKILL.md) | Consult for `enableEdgeToEdge()`, IME soft-keyboard insets (`WindowInsetsRulers.Ime` / `WindowInsets.ime`), and `consumeWindowInsets`. Combine with Section 18 (`Multi-Level Scaffold` & `isNavigationBarContrastEnforced = false`). |
+| **Runtime Permissions & Privacy** | • [`android-permissions-security/SKILL.md`](../android-permissions-security/SKILL.md) | Contextual runtime permission flows, rationale handling, Android Photo Picker (`PickVisualMedia`), and `POST_NOTIFICATIONS`. |
+| **Intent Security & Deep Links** | • [`android-intent-security/SKILL.md`](../android-intent-security/SKILL.md)<br>• [`.../navigation-3/recipes/deeplinks-uriarguments.md`](../navigation-3/references/android/guide/navigation/navigation-3/recipes/deeplinks-uriarguments.md) | Safe external `Intent.ACTION_VIEW` launching (including the Settings Spark! links), `FileProvider` sharing, and deep link validation. |
+| **CameraX, Widgets, Styles & Testing** | • [`camerax/SKILL.md`](../camerax/SKILL.md)<br>• [`glance-canonical-layouts/SKILL.md`](../glance-canonical-layouts/SKILL.md)<br>• [`styles/SKILL.md`](../styles/SKILL.md)<br>• [`testing-setup/SKILL.md`](../testing-setup/SKILL.md) | Consult on-demand when the app requires camera capture, Home Screen Glance widgets, `Modifier.styleable` state animations, or automated test configuration during the Iterative Loop. |
 
 ### 20.1 Domain-Scoped Priority Hierarchy (Conflict Resolution Rule)
 
@@ -854,7 +916,7 @@ fun ContextualGreetingHeader(
 
 ### 21.5 Code Blueprint: `ExpressiveImpactNavigationBar` (Floating Pill Dock)
 
-This component implements the Floating Pill Dock Navigation Bar by consuming `MaterialTheme.motionScheme` tokens (`fastSpatialSpec()` and `fastEffectsSpec()`) alongside pure Surface Container tokens (`surfaceContainer` and `surfaceContainerHighest`, with zero artificial drop shadows):
+This component implements the Floating Pill Dock Navigation Bar by consuming `MaterialTheme.motionScheme` tokens (`defaultSpatialSpec()`, `fastSpatialSpec()`, and `fastEffectsSpec()`) for both its bouncy downward disappearance/reappearance (`slideOutVertically` + `fadeOut` / `slideInVertically` + `fadeIn`) and its internal active-pill expansion, alongside pure Surface Container tokens (`surfaceContainer` and `surfaceContainerHighest`, with zero artificial drop shadows):
 
 ```kotlin
 package it.spark.app.presentation.common
@@ -866,6 +928,8 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -896,6 +960,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
@@ -912,14 +977,18 @@ fun ExpressiveImpactNavigationBar(
     items: List<ExpressiveNavItem>,
     selectedRoute: Any,
     onItemSelected: (ExpressiveNavItem) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    visible: Boolean = true
 ) {
     require(items.size in 2..4) {
         "ExpressiveImpactNavigationBar supports a strict maximum of 4 elements (provided: ${items.size}). " +
             "Do not use fallback mechanisms: condense the information architecture into at most 4 sections."
     }
 
-    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
+    // Bouncy motion-physics spring for vertical slide & fast effects for opacity fade
+    val barSlideSpatialSpec = MaterialTheme.motionScheme.defaultSpatialSpec<IntOffset>()
+    val barFadeEffectsSpec = MaterialTheme.motionScheme.fastEffectsSpec<Float>()
+    val pillResizeSpatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
     val surfaceColor = MaterialTheme.colorScheme.surface
 
     // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
@@ -932,32 +1001,44 @@ fun ExpressiveImpactNavigationBar(
         1.00f to surfaceColor.copy(alpha = 0.98f)
     )
 
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(progressiveScrim)
-            .navigationBarsPadding()
-            .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
-        contentAlignment = Alignment.Center
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically(
+            animationSpec = barSlideSpatialSpec,
+            initialOffsetY = { fullHeight -> fullHeight }
+        ) + fadeIn(animationSpec = barFadeEffectsSpec),
+        exit = slideOutVertically(
+            animationSpec = barSlideSpatialSpec,
+            targetOffsetY = { fullHeight -> fullHeight }
+        ) + fadeOut(animationSpec = barFadeEffectsSpec)
     ) {
-        Surface(
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.surfaceContainer
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(progressiveScrim)
+                .navigationBarsPadding()
+                .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 6.dp, vertical = 6.dp)
-                    .animateContentSize(animationSpec = spatialSpec),
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.surfaceContainer
             ) {
-                items.forEach { item ->
-                    val isSelected = item.route == selectedRoute
-                    ExpressiveImpactNavItemView(
-                        item = item,
-                        isSelected = isSelected,
-                        onClick = { onItemSelected(item) }
-                    )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 6.dp, vertical = 6.dp)
+                        .animateContentSize(animationSpec = pillResizeSpatialSpec),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    items.forEach { item ->
+                        val isSelected = item.route == selectedRoute
+                        ExpressiveImpactNavItemView(
+                            item = item,
+                            isSelected = isSelected,
+                            onClick = { onItemSelected(item) }
+                        )
+                    }
                 }
             }
         }
@@ -972,9 +1053,9 @@ private fun ExpressiveImpactNavItemView(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val fastEffectsColor = tween<Color>(durationMillis = 80)
-    val fastEffectsFloat = tween<Float>(durationMillis = 80)
-    val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
+    val fastEffectsColor = MaterialTheme.motionScheme.fastEffectsSpec<Color>()
+    val fastEffectsFloat = MaterialTheme.motionScheme.fastEffectsSpec<Float>()
+    val fastSpatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
 
     val containerColor by animateColorAsState(
         targetValue = if (isSelected) {
@@ -1018,8 +1099,8 @@ private fun ExpressiveImpactNavItemView(
             // Icon APPEARS ONLY ON CLICK via M3 Expressive MotionScheme
             AnimatedVisibility(
                 visible = isSelected,
-                enter = expandHorizontally(animationSpec = spatialSpec) + fadeIn(floatEffectsSpec),
-                exit = shrinkHorizontally(animationSpec = spatialSpec) + fadeOut(floatEffectsSpec)
+                enter = expandHorizontally(animationSpec = fastSpatialSpec) + fadeIn(fastEffectsFloat),
+                exit = shrinkHorizontally(animationSpec = fastSpatialSpec) + fadeOut(fastEffectsFloat)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
@@ -1408,8 +1489,8 @@ fun AppSearchView(
         onExpandedChange(false)
     }
 
-    // Doubled-speed fade animation (80ms)
-    val fastFadeSpec = tween<Float>(durationMillis = 80)
+    // M3 Expressive fast effects fade animation
+    val fastFadeSpec = MaterialTheme.motionScheme.fastEffectsSpec<Float>()
 
     AnimatedVisibility(
         visible = expanded,
