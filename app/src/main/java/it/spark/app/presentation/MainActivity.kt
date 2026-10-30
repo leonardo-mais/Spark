@@ -63,6 +63,10 @@ class MainActivity : ComponentActivity() {
 fun MainApp() {
     val backStack = rememberNavBackStack(HomeRoute)
     val activity = LocalContext.current as Activity
+    val topLevelKeys = setOf(HomeRoute.toString())
+
+    // Navigation bar section switch (fade only, keeping exact same duration: 220ms in / 180ms out)
+    val sectionFadeTransition = fadeIn(tween(220)).togetherWith(fadeOut(tween(180)))
 
     // Deeper screen transition (slide from right + fade in)
     val forwardTransition =
@@ -80,8 +84,24 @@ fun MainApp() {
             // On the root route, the back gesture closes the app
             if (backStack.size > 1) backStack.removeLastOrNull() else activity.finish()
         },
-        transitionSpec = { forwardTransition },
-        popTransitionSpec = { backwardTransition },
+        transitionSpec = {
+            val initialKey = initialState.entries.lastOrNull()?.contentKey?.toString()
+            val targetKey = targetState.entries.lastOrNull()?.contentKey?.toString()
+            if (initialKey in topLevelKeys && targetKey in topLevelKeys) {
+                sectionFadeTransition
+            } else {
+                forwardTransition
+            }
+        },
+        popTransitionSpec = {
+            val initialKey = initialState.entries.lastOrNull()?.contentKey?.toString()
+            val targetKey = targetState.entries.lastOrNull()?.contentKey?.toString()
+            if (initialKey in topLevelKeys && targetKey in topLevelKeys) {
+                sectionFadeTransition
+            } else {
+                backwardTransition
+            }
+        },
         predictivePopTransitionSpec = { backwardTransition },
         entryProvider = entryProvider {
             entry<HomeRoute> {

@@ -475,12 +475,13 @@ NavigationBarItem(
 ```
 
 ### Floating Pill Dock Navigation Bar (Impact style, max 4 items)
-For apps that use the **Impact style** (Expressive Dynamic), the bottom navigation bar uses the floating pill dock with a soft progressive ease-in gradient overlay:
+For apps that use the **Impact style** (Expressive Dynamic), the bottom navigation bar uses the floating pill dock:
 * **Icon visible ONLY on click or selection:** unselected tabs show **only the text**, with no icon. When a tab is tapped, the icon appears to the left of the text with an `AnimatedVisibility` animation and `MaterialTheme.motionScheme.fastSpatialSpec()` + `fadeIn(MaterialTheme.motionScheme.fastEffectsSpec())`.
+* **Section-to-section fade transition:** switching between top-level navigation bar sections uses exclusively a fade transition (`fadeIn(animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec()) togetherWith fadeOut(animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec())`), keeping the exact same animation duration/spec.
 * **Disappearance / Reappearance Animation (Downward Slide + Fade Out with Motion-Physics):** when hiding or showing the bar (`visible: Boolean`), it animates downward with `slideOutVertically(animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(), targetOffsetY = { it }) + fadeOut(MaterialTheme.motionScheme.fastEffectsSpec())` and reappears with `slideInVertically(animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec(), initialOffsetY = { it }) + fadeIn(MaterialTheme.motionScheme.fastEffectsSpec())` using bouncy M3 Expressive motion-physics.
 * **Animated active pill:** the active pill uses `surfaceContainerHighest` and resizes with `animateContentSize(MaterialTheme.motionScheme.fastSpatialSpec())`.
 * **Maximum 4 items (no fallback):** a strict limit of 4 items (`items.size in 2..4`). No fallback: the application's flows must condense every section into at most 4 tabs.
-* **Progressive gradient overlay:** uses a multi-stop ease-in vertical gradient to ensure content smoothly scrolls underneath the floating dock without visible rectangular clipping.
+* **Zero gradient overlay:** the floating dock sits directly over the content without a background gradient overlay; content scrolls smoothly underneath without visible rectangular clipping.
 
 ```kotlin
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -500,17 +501,6 @@ fun ExpressiveImpactNavigationBar(
     val barFadeEffectsSpec = MaterialTheme.motionScheme.fastEffectsSpec<Float>()
     val pillResizeSpatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
     val fastEffectsColor = MaterialTheme.motionScheme.fastEffectsSpec<Color>()
-    val surfaceColor = MaterialTheme.colorScheme.surface
-
-    // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
-    val progressiveScrim = Brush.verticalGradient(
-        0.00f to Color.Transparent,
-        0.20f to surfaceColor.copy(alpha = 0.08f),
-        0.40f to surfaceColor.copy(alpha = 0.25f),
-        0.60f to surfaceColor.copy(alpha = 0.52f),
-        0.80f to surfaceColor.copy(alpha = 0.82f),
-        1.00f to surfaceColor.copy(alpha = 0.98f)
-    )
 
     AnimatedVisibility(
         visible = visible,
@@ -526,9 +516,8 @@ fun ExpressiveImpactNavigationBar(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .background(progressiveScrim)
                 .navigationBarsPadding()
-                .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
             Surface(

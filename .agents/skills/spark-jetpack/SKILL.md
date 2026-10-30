@@ -304,10 +304,11 @@ In the High-Impact Style, the navigation bar adopts the Floating Pill Dock struc
 5. **Strict Limit of Maximum 4 Elements (ABSOLUTE PROHIBITION OF FALLBACK):**
    * Supports a strict maximum of 4 elements (`require(items.size in 2..4)`).
    * **NO FALLBACK:** Falling back to the standard 5-element bar is strictly prohibited. The application's information architecture MUST be condensed upfront into at most 4 core destinations.
-6. **Soft Progressive Gradient Protection Overlay (Zero Occlusion, Zero Hard Boxes & High Readability):**
-   * The floating dock container is enclosed within a full-width background gradient (`Brush.verticalGradient`) extending behind the dock through the navigation bar insets (`.navigationBarsPadding()`).
-   * **Multi-stop ease-in curve:** uses explicit stops (`0.00f to Transparent`, `0.20f to surface(0.08f)`, `0.40f to surface(0.25f)`, `0.60f to surface(0.52f)`, `0.80f to surface(0.82f)`, `1.00f to surface(0.98f)`) with `top = 28.dp`.
-   * **Critical Overlay Rule:** `NavDisplay` MUST use `Modifier.fillMaxSize()` WITHOUT `Modifier.padding(bottom = innerPadding.calculateBottomPadding())` so child screens draw edge-to-edge behind the floating dock and progressive gradient. Never clip `NavDisplay` at the top of the dock, which would create an artificial solid opaque rectangular box.
+6. **Floating Overlay Rule (Zero Gradient, Zero Hard Boxes & Edge-to-Edge):**
+   * The floating dock container sits directly over the content without a background gradient overlay, extending through the navigation bar insets (`.navigationBarsPadding()`).
+   * **Critical Overlay Rule:** `NavDisplay` MUST use `Modifier.fillMaxSize()` WITHOUT `Modifier.padding(bottom = innerPadding.calculateBottomPadding())` so child screens draw edge-to-edge behind the floating dock. Never clip `NavDisplay` at the top of the dock, which would create an artificial solid opaque rectangular box.
+7. **Section-to-Section Transition (Pure Fade with Existing Duration):**
+   * Switching between top-level navigation bar sections in `NavDisplay` uses exclusively a **fade** transition (`fadeIn(animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec()) togetherWith fadeOut(animationSpec = MaterialTheme.motionScheme.defaultEffectsSpec())`), preserving the exact same duration/animationSpec already used by the screen transition.
 
 ### 9.3 Fixed Expressive Bottom Action Button (Single Primary Action on Secondary Screens)
 
@@ -451,6 +452,7 @@ In Material 3 Expressive, animations avoid static hardcoded time curves (`tween`
      ```
 4. **Official Android Skill Animation Patterns (`.agents/skills/`):**
    * **Navigation 3 Destination Transitions (`navigation-3/recipes/animations.md` & `conditional-transitions.md`):**
+     - **Top-Level Navigation Bar Section Switch:** Pure fade transition (`fadeIn(animationSpec = effectsFloatSpec) togetherWith fadeOut(animationSpec = effectsFloatSpec)`), keeping the exact same duration/effects spec.
      - **Default Forward / Back (`NavDisplay`):** Horizontal slide (`slideInHorizontally(initialOffsetX = { it })` + `fadeIn` `togetherWith` `slideOutHorizontally(targetOffsetX = { -it })` + `fadeOut` for `transitionSpec`; reverse `initialOffsetX = { -it }` / `targetOffsetX = { it }` for `popTransitionSpec` and `predictivePopTransitionSpec`), driven by `MaterialTheme.motionScheme.defaultSpatialSpec()` and `defaultEffectsSpec()`.
      - **Per-Destination Vertical Modal Overrides (`metadata`):** Use `NavDisplay.TransitionKey`, `NavDisplay.PopTransitionKey`, and `NavDisplay.PredictivePopTransitionKey` with `slideInVertically(initialOffsetY = { it }) togetherWith ExitTransition.KeepUntilTransitionsFinished` and `EnterTransition.None togetherWith slideOutVertically(targetOffsetY = { it })`.
    * **Predictive Back Gesture Animations (`navigation-event/SKILL.md`):**
@@ -506,7 +508,7 @@ Every application must feature an official adaptive launcher icon derived from t
 2. **Zero Hardcoded Colors, Strings, or Container Alpha:** Did you use only `MaterialTheme.colorScheme.<role>` (without `.copy(alpha = ...)` on containers) and `stringResource(R.string.*)` (EN + IT)?
 3. **Zero Emoji Policy:** Did you ensure complete absence of emoji characters across Compose code and `strings.xml`, using Material vector icons exclusively?
 4. **3-FAB System Rule:** Did you use `MediumFloatingActionButton` (`68dp`, `20.dp` squircle, `30.dp` icon) as the default without text?
-5. **Archetype Navigation Bar & Disappearance Animation:** Classic Style $\rightarrow$ `NavigationBar` (3–5 tabs, `surfaceContainerLow` container). High-Impact Style $\rightarrow$ `ExpressiveImpactNavigationBar` (max 4 tabs, no fallback, animated icon on click, soft vertical gradient overlay fading to 0% at top, and disappearance downward via `slideOutVertically { it } + fadeOut` with bouncy M3 Expressive motion-physics `MaterialTheme.motionScheme.defaultSpatialSpec()`).
+5. **Archetype Navigation Bar & Disappearance Animation:** Classic Style $\rightarrow$ `NavigationBar` (3–5 tabs, `surfaceContainerLow` container). High-Impact Style $\rightarrow$ `ExpressiveImpactNavigationBar` (max 4 tabs, no fallback, animated icon on click, no background gradient, fade-only transition when switching navigation bar sections keeping the existing duration, and disappearance downward via `slideOutVertically { it } + fadeOut` with bouncy M3 Expressive motion-physics `MaterialTheme.motionScheme.defaultSpatialSpec()`).
 6. **Single-Action Secondary Screens:** If a secondary or detail page has a single primary action (e.g., "Start cooking!"), did you implement `ExpressivePrimaryActionButton` with the soft vertical gradient overlay mask?
 7. **Edge-to-Edge & System Bars (Zero Black Boxes):** Did you set `window.isNavigationBarContrastEnforced = false` in `MainActivity` for SDK 29+ and wrap the root in `Surface(color = MaterialTheme.colorScheme.surface)`?
 8. **Typography:** Did you verify local Google Sans Flex (`res/font/google_sans_flex.ttf`), all 30 M3 styles (`*Emphasized`), and `ExpressiveType` for the High-Impact Style?
@@ -527,7 +529,7 @@ To eliminate black boxes around system bars, floating bars, disappearing compone
 1. **Streamlined Root Scaffold & Overlay Architecture:**
    * Houses **ONLY** the bottom navigation bar (`NavigationBar` or `ExpressiveImpactNavigationBar`) and the `SnackbarHost`.
    * Set `contentWindowInsets = WindowInsets(0.dp)` when delegating insets to child screens. **NEVER** place a `TopAppBar` in the root `Scaffold`.
-   * **CRITICAL OVERLAY RULE FOR FLOATING DOCKS:** When using `ExpressiveImpactNavigationBar` or floating bottom bars, `NavDisplay` **MUST** take `Modifier.fillMaxSize()` **WITHOUT** applying `Modifier.padding(bottom = innerPadding.calculateBottomPadding())`. Applying bottom padding to `NavDisplay` hard-clips the screen above the bar, leaving an empty area that turns the progressive gradient into an artificial, solid opaque rectangular box.
+   * **CRITICAL OVERLAY RULE FOR FLOATING DOCKS:** When using `ExpressiveImpactNavigationBar` or floating bottom bars, `NavDisplay` **MUST** take `Modifier.fillMaxSize()` **WITHOUT** applying `Modifier.padding(bottom = innerPadding.calculateBottomPadding())`. Applying bottom padding to `NavDisplay` hard-clips the screen above the bar, leaving an empty opaque rectangular area at the bottom.
    * Inset breathing room is delegated strictly to child screens by passing bottom padding into `contentPadding` on `LazyColumn` (e.g. `contentPadding = PaddingValues(bottom = 16.dp + innerPadding.calculateBottomPadding())`).
 2. **Dedicated Scaffold per Child Screen:**
    * Each screen destination (`HomeScreen`, `DetailScreen`, `SettingsScreen`) maintains its own `Scaffold` with its own `TopAppBar` / `LargeTopAppBar`, consuming its `innerPadding` exactly once.
@@ -548,25 +550,40 @@ Every application adopts **Jetpack Navigation 3** (`.agents/skills/navigation-3`
 1. **Type-Safe Routes (`NavKey`):** All routes are `@Serializable data object` or `@Serializable data class` implementations of `NavKey`.
 2. **`NavDisplay` and `entryProvider` DSL:** Map each `NavKey` to its Composable via `entryProvider { entry<RouteKey> { ... } }`, maintaining multiple back stacks (`rememberNavigationState` / `rememberNavBackStack`) for top-level navigation tabs so state survives configuration changes and process death.
 3. **Standard Android Destination Transitions (`navigation-3/recipes/animations.md` & `conditional-transitions.md` + `MotionScheme`):**
-   * **Forward, Pop, and Predictive Pop (`NavDisplay`):** Configure `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` on `NavDisplay` using the official Navigation 3 horizontal slide pattern (`slideInHorizontally` / `slideOutHorizontally` paired with `fadeIn` / `fadeOut`), powered by `MaterialTheme.motionScheme.defaultSpatialSpec()` and `MaterialTheme.motionScheme.defaultEffectsSpec()`:
+   * **Top-Level Navigation Bar Section Switch vs. Forward, Pop, and Predictive Pop (`NavDisplay`):** Switching between top-level navigation bar sections uses a pure **fade** transition (`fadeIn(animationSpec = effectsFloatSpec) togetherWith fadeOut(animationSpec = effectsFloatSpec)`), keeping the exact same animation duration (`effectsFloatSpec`) already configured. Deeper hierarchical navigation uses the official Navigation 3 horizontal slide pattern (`slideInHorizontally` / `slideOutHorizontally` paired with `fadeIn` / `fadeOut`), powered by `MaterialTheme.motionScheme.defaultSpatialSpec()` and `MaterialTheme.motionScheme.defaultEffectsSpec()`:
      ```kotlin
      val spatialOffsetSpec = MaterialTheme.motionScheme.defaultSpatialSpec<IntOffset>()
      val effectsFloatSpec = MaterialTheme.motionScheme.defaultEffectsSpec<Float>()
+     val topLevelContentKeys = remember { TOP_LEVEL_ROUTES.keys.map { it.toString() }.toSet() }
 
      NavDisplay(
          entries = navigationState.toEntries(entryProvider),
          onBack = { navigator.goBack() },
          transitionSpec = {
-             (slideInHorizontally(initialOffsetX = { it }, animationSpec = spatialOffsetSpec) +
-                 fadeIn(animationSpec = effectsFloatSpec)) togetherWith
-                 (slideOutHorizontally(targetOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
-                     fadeOut(animationSpec = effectsFloatSpec))
+             val initialKey = initialState.entries.lastOrNull()?.contentKey?.toString()
+             val targetKey = targetState.entries.lastOrNull()?.contentKey?.toString()
+             if (initialKey in topLevelContentKeys && targetKey in topLevelContentKeys) {
+                 fadeIn(animationSpec = effectsFloatSpec) togetherWith
+                     fadeOut(animationSpec = effectsFloatSpec)
+             } else {
+                 (slideInHorizontally(initialOffsetX = { it }, animationSpec = spatialOffsetSpec) +
+                     fadeIn(animationSpec = effectsFloatSpec)) togetherWith
+                     (slideOutHorizontally(targetOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
+                         fadeOut(animationSpec = effectsFloatSpec))
+             }
          },
          popTransitionSpec = {
-             (slideInHorizontally(initialOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
-                 fadeIn(animationSpec = effectsFloatSpec)) togetherWith
-                 (slideOutHorizontally(targetOffsetX = { it }, animationSpec = spatialOffsetSpec) +
-                     fadeOut(animationSpec = effectsFloatSpec))
+             val initialKey = initialState.entries.lastOrNull()?.contentKey?.toString()
+             val targetKey = targetState.entries.lastOrNull()?.contentKey?.toString()
+             if (initialKey in topLevelContentKeys && targetKey in topLevelContentKeys) {
+                 fadeIn(animationSpec = effectsFloatSpec) togetherWith
+                     fadeOut(animationSpec = effectsFloatSpec)
+             } else {
+                 (slideInHorizontally(initialOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
+                     fadeIn(animationSpec = effectsFloatSpec)) togetherWith
+                     (slideOutHorizontally(targetOffsetX = { it }, animationSpec = spatialOffsetSpec) +
+                         fadeOut(animationSpec = effectsFloatSpec))
+             }
          },
          predictivePopTransitionSpec = {
              (slideInHorizontally(initialOffsetX = { -it / 3 }, animationSpec = spatialOffsetSpec) +
@@ -622,7 +639,7 @@ The aesthetic archetype is determined in alignment with the user during the Plan
 | :--- | :--- | :--- |
 | **Experiential Goal** | Sobriety, high information density, maximum scannability and efficiency. | "WOW" effect, emotional engagement, monumental hierarchy, and dynamic motion. |
 | **Target Use Cases** | Utilities, B2B management apps, inventory trackers, dense input forms, technical finance. | Consumer apps, personal tracking, health & wellness, smart home, habit trackers. |
-| **Navigation Bar** | Standard M3 `NavigationBar` (3–5 tabs, `surfaceContainerLow` container, `secondaryContainer` pill). | Floating Pill Dock (`ExpressiveImpactNavigationBar`, max 4 items, icon only on active tab, soft vertical gradient overlay). |
+| **Navigation Bar** | Standard M3 `NavigationBar` (3–5 tabs, `surfaceContainerLow` container, `secondaryContainer` pill). | Floating Pill Dock (`ExpressiveImpactNavigationBar`, max 4 items, icon only on active tab, no gradient overlay). |
 | **Typography** | The 30 official M3 roles (Baseline + `*Emphasized`) on `GoogleSansFlexFontFamily`. | 6-axis `flexFont` (`wght`, `wdth`, `ROND`, `GRAD`) + `ExpressiveType` utility object. |
 | **Hero Display / KPI** | Standard M3 card with `headlineMediumEmphasized` (28sp) and subtitle. | `BentoHeroCard` with giant numerals (`48sp` `heroGiant`), fraction counter, percentage pill, and `LinearWavyProgressIndicator`. |
 | **Dashboard & Statistics** | Grouped lists with standard icons and right-aligned values. | `QuickMetricsBentoStrip` across 3 columns with scannable `38sp` numerals (`heroLarge`). |
@@ -930,7 +947,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -956,7 +972,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
@@ -989,17 +1004,6 @@ fun ExpressiveImpactNavigationBar(
     val barSlideSpatialSpec = MaterialTheme.motionScheme.defaultSpatialSpec<IntOffset>()
     val barFadeEffectsSpec = MaterialTheme.motionScheme.fastEffectsSpec<Float>()
     val pillResizeSpatialSpec = MaterialTheme.motionScheme.fastSpatialSpec<IntSize>()
-    val surfaceColor = MaterialTheme.colorScheme.surface
-
-    // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
-    val progressiveScrim = Brush.verticalGradient(
-        0.00f to Color.Transparent,
-        0.20f to surfaceColor.copy(alpha = 0.08f),
-        0.40f to surfaceColor.copy(alpha = 0.25f),
-        0.60f to surfaceColor.copy(alpha = 0.52f),
-        0.80f to surfaceColor.copy(alpha = 0.82f),
-        1.00f to surfaceColor.copy(alpha = 0.98f)
-    )
 
     AnimatedVisibility(
         visible = visible,
@@ -1015,9 +1019,8 @@ fun ExpressiveImpactNavigationBar(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .background(progressiveScrim)
                 .navigationBarsPadding()
-                .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
             Surface(

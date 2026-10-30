@@ -96,7 +96,7 @@ CATEGORY_METADATA = {
             ("Primary Screen Header (Scroll Transition)", "`TopAppBar` (`64.dp`) con `pinnedScrollBehavior()`", "`surface` at rest $\\rightarrow$ `surfaceContainer` on scroll"),
             ("Detail / Sub-Screen Collapsing Header", "`LargeTopAppBar` (`152.dp`) con `exitUntilCollapsedScrollBehavior()`", "Obbligatorio pulsante Back circolare `40.dp` in `surfaceContainerHigh`"),
             ("Bottom Navigation (Stile Classico)", "`NavigationBar` + `NavigationBarItem`", "3–5 tab, contenitore `surfaceContainerLow`, icone `Outlined` vs `Filled`"),
-            ("Bottom Navigation (Stile d'Impatto)", "`ExpressiveImpactNavigationBar` (Floating Pill Dock)", "Max 4 tab (zero fallback), icona animata solo sul tab attivo, gradiente protettivo"),
+            ("Bottom Navigation (Stile d'Impatto)", "`ExpressiveImpactNavigationBar` (Floating Pill Dock)", "Max 4 tab (zero fallback), icona animata solo sul tab attivo, nessun gradiente di sfondo"),
             ("Contextual Floating Actions Bar", "`HorizontalFloatingToolbar` / `VerticalFloatingToolbar`", "Sostituisce la vecchia `BottomAppBar`"),
             ("Tablet / Foldable Side Navigation", "`WideNavigationRail` / `ModalWideNavigationRail`", "Sostituisce il vecchio `NavigationRail` fisso")
         ]

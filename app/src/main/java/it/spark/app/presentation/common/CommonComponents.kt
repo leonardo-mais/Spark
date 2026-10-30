@@ -287,7 +287,7 @@ data class ExpressiveNavItem(
 )
 
 /**
- * Floating Pill Dock navigation bar with multi-stop progressive ease-in gradient overlay.
+ * Floating Pill Dock navigation bar (no background gradient overlay).
  * Content smoothly scrolls underneath without visible rectangular clipping.
  */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -304,24 +304,12 @@ fun ExpressiveImpactNavigationBar(
     }
 
     val spatialSpec = spring<IntSize>(dampingRatio = 1.0f, stiffness = 420f)
-    val surfaceColor = MaterialTheme.colorScheme.surface
-
-    // Multi-stop progressive ease-in gradient: prevents hard rectangular lines above content
-    val progressiveScrim = Brush.verticalGradient(
-        0.00f to Color.Transparent,
-        0.20f to surfaceColor.copy(alpha = 0.08f),
-        0.40f to surfaceColor.copy(alpha = 0.25f),
-        0.60f to surfaceColor.copy(alpha = 0.52f),
-        0.80f to surfaceColor.copy(alpha = 0.82f),
-        1.00f to surfaceColor.copy(alpha = 0.98f)
-    )
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(progressiveScrim)
             .navigationBarsPadding()
-            .padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Surface(
