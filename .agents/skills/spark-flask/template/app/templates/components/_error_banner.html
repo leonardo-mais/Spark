@@ -1,0 +1,13 @@
+<div class="m3-error-banner" role="alert">
+  <span class="material-symbols-rounded error-icon">error</span>
+  <div class="error-text">
+    <strong class="m3-title-small">Action Failed</strong>
+    <p class="m3-body-small">{{ error_message | default("An unexpected error occurred. Please try again.") }}</p>
+  </div>
+  {% if retry_url %}
+  <button class="m3-tonal-button" hx-get="{{ retry_url }}" hx-target="#workspace-container">
+    Retry
+  </button>
+  {% endif %}
+</div>
+

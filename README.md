@@ -59,10 +59,14 @@ Il comportamento dell'AI è regolato dal file di ingresso [`AGENTS.md`](./AGENTS
 | Componente | Percorso | Ruolo |
 | :--- | :--- | :--- |
 | **Planning Interview** | `.agents/rules/planning-interview.md` | Obbliga l'agente a condurre un'intervista strutturata prima di scrivere codice e a generare [`specifications.md`](./specifications.md). |
+| **Planning Wear Interview** | `.agents/rules/planning-wear-interview.md` | Intervista obbligatoria preliminare prima di sviluppare il modulo smartwatch `:wear`. |
+| **Planning Flask Interview** | `.agents/rules/planning-flask-interview.md` | Intervista obbligatoria preliminare per webapp Flask con archetipi A/B e scelta della porta Docker. |
 | **Development Standards** | `.agents/rules/development-standards.md` | Impone Clean Architecture, MVI, Room, Navigation 3 type-safe, Predictive Back e assenza di valori hardcoded. |
 | **Iterative Loop** | `.agents/rules/iterative-development-loop.md` | Divide lo sviluppo in milestone verificabili con build, unit test e controllo UI su emulatore/dispositivo. |
 | **Spark Jetpack** | `.agents/skills/spark-jetpack/SKILL.md` | Specifica i 30 stili tipografici M3 Expressive, i token colore HCT e i componenti UI custom. |
 | **Spark Wear** | `.agents/skills/spark-wear/SKILL.md` | Guida lo sviluppo opzionale di app Wear OS Material 3 e la sincronizzazione telefono-orologio. |
+| **Spark Flask** | `.agents/skills/spark-flask/SKILL.md` | Regole per webapp Flask adattive M3, stile Google Calendar/Tasks, con Jinja2, HTMX e container Docker. |
+| **Spark Flask Port** | `.agents/skills/spark-flask-port/SKILL.md` | Porting automatico dall'app Android Spark! (layout tablet expanded) a webapp Flask. |
 | **Agent Builder** | `.agents/skills/agent-builder/SKILL.md` | Gestisce la pipeline di build, firma crittografica e pubblicazione per Obtainium. |
 | **Android Official Skills** | `.agents/skills/*` | Skill ufficiali Google per API specifiche (`navigation-3`, `adaptive`, `edge-to-edge`, `camerax`, `litert-runtime`, ecc.). |
 

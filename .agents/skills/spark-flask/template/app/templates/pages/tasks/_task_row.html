@@ -1,0 +1,45 @@
+<div class="m3-task-row {% if item.is_completed %}completed{% endif %} {% if active_id == item.id %}selected{% endif %}"
+     id="task-row-{{ item.id }}"
+     hx-get="/tasks/{{ item.id }}"
+     hx-target="#detail-pane"
+     role="listitem">
+  
+  <!-- Completion Toggle -->
+  <button class="m3-checkbox-button {% if item.is_completed %}checked{% endif %}"
+          hx-post="/tasks/{{ item.id }}/toggle"
+          hx-target="#task-row-{{ item.id }}"
+          hx-swap="outerHTML"
+          onclick="event.stopPropagation()"
+          aria-label="Toggle completion">
+    <span class="material-symbols-rounded check-icon">
+      {% if item.is_completed %}check_box{% else %}check_box_outline_blank{% endif %}
+    </span>
+  </button>
+
+  <div class="task-info">
+    <div class="task-title-line">
+      <span class="task-title">{{ item.title }}</span>
+      {% if item.priority == 'high' %}
+        <span class="m3-priority-badge high">High</span>
+      {% endif %}
+    </div>
+    {% if item.due_date %}
+      <div class="task-meta">
+        <span class="material-symbols-rounded meta-icon">schedule</span>
+        <span class="due-text">{{ item.due_date }}</span>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="task-row-actions">
+    <button class="m3-icon-button delete-action"
+            hx-delete="/tasks/{{ item.id }}"
+            hx-target="#task-row-{{ item.id }}"
+            hx-swap="outerHTML"
+            onclick="event.stopPropagation()"
+            aria-label="Delete task">
+      <span class="material-symbols-rounded">delete</span>
+    </button>
+  </div>
+</div>
+

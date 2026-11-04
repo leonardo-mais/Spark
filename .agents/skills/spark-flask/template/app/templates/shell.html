@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block shell %}
+  <!-- Top App Bar with Search -->
+  <header class="m3-top-app-bar">
+    <div class="top-bar-leading">
+      <button class="m3-icon-button drawer-toggle" id="drawer-toggle" aria-label="Toggle Navigation Drawer">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
+      <a href="/tasks" class="app-branding">
+        <span class="material-symbols-rounded app-logo">bolt</span>
+        <span class="app-title">{{ config.APP_NAME }}</span>
+      </a>
+    </div>
+
+    <!-- Centered Search Pill (Google Calendar/Tasks style) -->
+    <div class="top-bar-search">
+      <div class="search-pill">
+        <span class="material-symbols-rounded search-icon">search</span>
+        <input type="search"
+               id="global-search-input"
+               name="q"
+               value="{{ search_query | default('') }}"
+               placeholder="Search tasks... (Press / to focus)"
+               hx-get="/tasks"
+               hx-trigger="input changed delay:250ms, search"
+               hx-target="#task-items-container"
+               hx-include="[name='search_only']"
+               aria-label="Search tasks">
+        <input type="hidden" name="search_only" value="1">
+        <kbd class="shortcut-badge">/</kbd>
+      </div>
+    </div>
+
+    <div class="top-bar-trailing">
+      <button class="m3-icon-button" id="theme-toggle" aria-label="Toggle Color Theme">
+        <span class="material-symbols-rounded" id="theme-icon">dark_mode</span>
+      </button>
+      <button class="m3-icon-button" onclick="openShortcutsModal()" aria-label="View Keyboard Shortcuts">
+        <span class="material-symbols-rounded">keyboard</span>
+      </button>
+      <a href="/settings" class="m3-icon-button" aria-label="Settings">
+        <span class="material-symbols-rounded">settings</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Layout Body -->
+  <div class="m3-layout-body">
+    <!-- Navigation Drawer (Desktop / Expanded screens) -->
+    <aside class="m3-nav-drawer" id="app-nav-drawer">
+      <div class="drawer-header">
+        <button class="m3-extended-fab"
+                hx-get="/tasks/new"
+                hx-target="#detail-pane"
+                aria-keyshortcuts="c"
+                aria-label="Create Task">
+          <span class="material-symbols-rounded">add</span>
+          <span class="fab-label">Create Task</span>
+          <kbd class="shortcut-tag">c</kbd>
+        </button>
+      </div>
+      <nav class="drawer-nav-items">
+        {% for item in nav_destinations %}
+        <a href="{{ item.url }}" class="nav-drawer-item {% if item.active %}active{% endif %}">
+          <span class="material-symbols-rounded">{{ item.icon }}</span>
+          <span class="item-label">{{ item.label }}</span>
+        </a>
+        {% endfor %}
+      </nav>
+      
+      <!-- Quick Spark Status in Drawer footer -->
+      <div class="drawer-footer">
+        <span class="spark-badge-label">Spark! Web Edition</span>
+      </div>
+    </aside>
+
+    <!-- Navigation Rail (Medium screens: 600px - 839px) -->
+    <aside class="m3-nav-rail" id="app-nav-rail">
+      <button class="m3-fab-compact"
+              hx-get="/tasks/new"
+              hx-target="#detail-pane"
+              aria-label="Create Task">
+        <span class="material-symbols-rounded">add</span>
+      </button>
+      <nav class="rail-nav-items">
+        {% for item in nav_destinations %}
+        <a href="{{ item.url }}" class="nav-rail-item {% if item.active %}active{% endif %}" title="{{ item.label }}">
+          <span class="material-symbols-rounded">{{ item.icon }}</span>
+          <span class="rail-label">{{ item.label }}</span>
+        </a>
+        {% endfor %}
+      </nav>
+    </aside>
+
+    <!-- Primary Workspace: Multi-Pane Container -->
+    <main class="m3-workspace-container" id="workspace-container">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <!-- Bottom Navigation Bar (Compact screens: < 600px) -->
+  <nav class="m3-bottom-nav-bar" id="app-bottom-nav">
+    {% for item in nav_destinations %}
+    <a href="{{ item.url }}" class="bottom-nav-item {% if item.active %}active{% endif %}">
+      <span class="material-symbols-rounded">{{ item.icon }}</span>
+      <span class="bottom-label">{{ item.label }}</span>
+    </a>
+    {% endfor %}
+  </nav>
+{% endblock %}
+

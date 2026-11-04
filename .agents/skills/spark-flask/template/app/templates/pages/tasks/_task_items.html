@@ -1,0 +1,20 @@
+{% if tasks %}
+  <div class="m3-task-list" role="list">
+    {% for item in tasks %}
+      {% include 'pages/tasks/_task_row.html' %}
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="m3-empty-state">
+    <span class="material-symbols-rounded empty-icon">assignment_late</span>
+    <h3 class="m3-title-medium">No tasks found</h3>
+    <p class="m3-body-medium">Stay organized and get things done by creating your first task.</p>
+    <button class="m3-filled-button"
+            hx-get="/tasks/new"
+            hx-target="#detail-pane">
+      <span class="material-symbols-rounded">add</span>
+      <span>Add a task</span>
+    </button>
+  </div>
+{% endif %}
+

@@ -1,0 +1,82 @@
+<div class="m3-task-detail-container" id="task-detail-form-container">
+  <div class="detail-top-bar">
+    <!-- Back button visible ONLY on compact mobile screen -->
+    <button class="m3-icon-button detail-back-button" onclick="closeMobileDetail()" aria-label="Back to task list">
+      <span class="material-symbols-rounded">arrow_back</span>
+    </button>
+    <h3 class="m3-title-medium">
+      {% if is_new %}Create New Task{% else %}Task Details{% endif %}
+    </h3>
+  </div>
+
+  <form {% if is_new %}
+          hx-post="/tasks"
+          hx-target="#task-items-container"
+        {% else %}
+          hx-post="/tasks/{{ task.id }}"
+          hx-target="#task-items-container"
+        {% endif %}
+        class="detail-form">
+
+    <div class="m3-text-field-container">
+      <label for="task-title-input" class="m3-field-label">Title</label>
+      <input type="text"
+             id="task-title-input"
+             name="title"
+             value="{{ task.title if task else '' }}"
+             placeholder="Add title"
+             required
+             class="m3-input-text"
+             autofocus>
+    </div>
+
+    <div class="m3-text-field-container">
+      <label for="task-notes-input" class="m3-field-label">Details / Notes</label>
+      <textarea id="task-notes-input"
+                name="notes"
+                placeholder="Add details"
+                rows="4"
+                class="m3-input-textarea">{{ task.notes if task and task.notes else '' }}</textarea>
+    </div>
+
+    <div class="form-row-dual">
+      <div class="m3-text-field-container">
+        <label for="task-due-input" class="m3-field-label">Due Date</label>
+        <input type="date"
+               id="task-due-input"
+               name="due_date"
+               value="{{ task.due_date if task and task.due_date else '' }}"
+               class="m3-input-date">
+      </div>
+
+      <div class="m3-text-field-container">
+        <label for="task-priority-input" class="m3-field-label">Priority</label>
+        <select id="task-priority-input" name="priority" class="m3-input-select">
+          <option value="low" {% if task and task.priority == 'low' %}selected{% endif %}>Low</option>
+          <option value="medium" {% if not task or task.priority == 'medium' %}selected{% endif %}>Medium</option>
+          <option value="high" {% if task and task.priority == 'high' %}selected{% endif %}>High</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="detail-actions">
+      <button type="submit" class="m3-filled-button">
+        <span class="material-symbols-rounded">save</span>
+        <span>{% if is_new %}Save Task{% else %}Update Task{% endif %}</span>
+      </button>
+
+      {% if not is_new and task %}
+      <button type="button"
+              class="m3-tonal-button text-danger"
+              hx-delete="/tasks/{{ task.id }}"
+              hx-target="#task-row-{{ task.id }}"
+              hx-swap="outerHTML"
+              onclick="clearDetailPane()">
+        <span class="material-symbols-rounded">delete</span>
+        <span>Delete</span>
+      </button>
+      {% endif %}
+    </div>
+  </form>
+</div>
+

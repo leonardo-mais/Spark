@@ -1,0 +1,79 @@
+/* ========================================================
+   SPARK TYPOGRAPHY STYLESHEET: ARCHETYPES A & B
+   ======================================================== */
+
+:root {
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Google Sans Flex", "Google Sans", "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-family-base);
+}
+
+/* Material Symbols Rules */
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* --------------------------------------------------------
+   ARCHETYPE B: GOOGLE STANDARD M3 (15 ROLES)
+   -------------------------------------------------------- */
+.m3-display-large { font-size: 3.56rem; line-height: 4.00rem; font-weight: 400; }
+.m3-display-medium { font-size: 2.81rem; line-height: 3.25rem; font-weight: 400; }
+.m3-display-small { font-size: 2.25rem; line-height: 2.75rem; font-weight: 400; }
+
+.m3-headline-large { font-size: 2.00rem; line-height: 2.50rem; font-weight: 400; }
+.m3-headline-medium { font-size: 1.75rem; line-height: 2.25rem; font-weight: 400; }
+.m3-headline-small { font-size: 1.50rem; line-height: 2.00rem; font-weight: 400; }
+
+.m3-title-large { font-size: 1.375rem; line-height: 1.75rem; font-weight: 500; }
+.m3-title-medium { font-size: 1.00rem; line-height: 1.50rem; font-weight: 500; }
+.m3-title-small { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+
+.m3-body-large { font-size: 1.00rem; line-height: 1.50rem; font-weight: 400; }
+.m3-body-medium { font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; }
+.m3-body-small { font-size: 0.75rem; line-height: 1.00rem; font-weight: 400; }
+
+.m3-label-large { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
+.m3-label-medium { font-size: 0.75rem; line-height: 1.00rem; font-weight: 500; }
+.m3-label-small { font-size: 0.68rem; line-height: 1.00rem; font-weight: 500; }
+
+/* --------------------------------------------------------
+   ARCHETYPE A: SPARK IMPACT FLEX (DYNAMIC VARIABLE AXES)
+   -------------------------------------------------------- */
+[data-archetype="impact"] .spark-hero-numeric,
+.spark-hero-numeric {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  font-variation-settings: 'wght' 820, 'ROND' 100, 'opsz' 64;
+  color: var(--md-sys-color-primary);
+}
+
+[data-archetype="impact"] .m3-title-large,
+[data-archetype="impact"] .pane-header-title h2 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'wght' 720, 'ROND' 50;
+}
+
+[data-archetype="impact"] .spark-badge-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--md-sys-color-primary);
+  font-variation-settings: 'wght' 750, 'ROND' 80;
+}
+

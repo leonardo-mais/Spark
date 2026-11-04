@@ -1,0 +1,64 @@
+{% extends "shell.html" %}
+
+{% block content %}
+<div class="m3-settings-container">
+  <div class="settings-header">
+    <h2 class="m3-headline-medium">Settings</h2>
+    <p class="m3-body-medium">Manage preferences, appearance, and view system specifications.</p>
+  </div>
+
+  <!-- Appearance Settings Card -->
+  <div class="m3-card settings-section">
+    <div class="section-title-line">
+      <span class="material-symbols-rounded">palette</span>
+      <h3 class="m3-title-medium">Appearance & Theme</h3>
+    </div>
+    <div class="setting-item">
+      <div class="setting-text">
+        <strong class="setting-label">Dark Theme</strong>
+        <span class="setting-desc">Switch between light and dark Material 3 color palettes</span>
+      </div>
+      <button class="m3-tonal-button" onclick="toggleTheme()" id="theme-button-settings">
+        Toggle Theme
+      </button>
+    </div>
+  </div>
+
+  <!-- MANDATORY: Built with Spark! Section -->
+  <div class="m3-card settings-section spark-info-card">
+    <div class="section-title-line">
+      <span class="material-symbols-rounded spark-badge-icon">bolt</span>
+      <h3 class="m3-title-medium">Built with Spark!</h3>
+    </div>
+    <p class="m3-body-medium">This application is engineered with the Spark! Flask Web Application Architecture, incorporating Material 3 Expressive guidelines, adaptive window size classes, and uncompromised accessibility.</p>
+
+    <div class="spark-specs-grid">
+      <div class="spec-tile">
+        <span class="spec-label">Application</span>
+        <span class="spec-value">{{ spark_info.app_name }}</span>
+      </div>
+      <div class="spec-tile">
+        <span class="spec-label">Slug</span>
+        <span class="spec-value"><code>{{ spark_info.app_slug }}</code></span>
+      </div>
+      <div class="spec-tile">
+        <span class="spec-label">Version</span>
+        <span class="spec-value">{{ spark_info.version }}</span>
+      </div>
+      <div class="spec-tile">
+        <span class="spec-label">Typography Archetype</span>
+        <span class="spec-value uppercase">{{ spark_info.typography_archetype }}</span>
+      </div>
+      <div class="spec-tile">
+        <span class="spec-label">Docker Container Port</span>
+        <span class="spec-value"><code>{{ spark_info.port }}</code></span>
+      </div>
+      <div class="spec-tile">
+        <span class="spec-label">Web Stack</span>
+        <span class="spec-value">{{ spark_info.framework }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
