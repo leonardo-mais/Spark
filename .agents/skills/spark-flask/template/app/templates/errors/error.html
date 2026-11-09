@@ -1,0 +1,13 @@
+{% extends "shell.html" %}
+
+{% block content %}
+<div class="m3-empty-state" style="margin: auto; max-width: 480px;">
+  <span class="material-symbols-rounded empty-icon" style="color: var(--md-sys-color-error); font-size: 64px;">error_outline</span>
+  <h2 class="m3-headline-medium">{{ error_code }} - {{ error_title }}</h2>
+  <p class="m3-body-medium">{{ error_message }}</p>
+  <a href="/tasks" class="m3-filled-button" style="text-decoration: none;">
+    <span class="material-symbols-rounded">arrow_back</span>
+    <span>Return to Tasks</span>
+  </a>
+</div>
+{% endblock %}

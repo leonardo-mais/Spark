@@ -1,0 +1,13 @@
+# Local SQLite database files
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Python bytecode & environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+.env

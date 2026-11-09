@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block shell %}
-  <!-- Top App Bar with Search -->
+  <!-- ZONE 2: Top App Bar (Blends with Surface Container Low) -->
   <header class="m3-top-app-bar">
     <div class="top-bar-leading">
       <button class="m3-icon-button drawer-toggle" id="drawer-toggle" aria-label="Toggle Navigation Drawer">
@@ -11,9 +11,17 @@
         <span class="material-symbols-rounded app-logo">bolt</span>
         <span class="app-title">{{ config.APP_NAME }}</span>
       </a>
+
+      <!-- Outlined Button: Shape Full (Today) -->
+      <button class="m3-outlined-pill-button" hx-get="/tasks" hx-target="#task-items-container">
+        Today
+      </button>
+
+      <!-- Headline / Title -->
+      <h1 class="top-bar-title m3-title-large">Overview</h1>
     </div>
 
-    <!-- Centered Search Pill (Google Calendar/Tasks style) -->
+    <!-- Centered Search Field (Surface Container High, Shape Small 8dp) -->
     <div class="top-bar-search">
       <div class="search-pill">
         <span class="material-symbols-rounded search-icon">search</span>
@@ -33,6 +41,18 @@
     </div>
 
     <div class="top-bar-trailing">
+      <!-- Segmented Button: Shape Full (Tasks vs Calendar View Switcher) -->
+      <div class="m3-segmented-button-group" role="group" aria-label="View switch">
+        <button class="segmented-btn active" aria-pressed="true" title="Tasks View">
+          <span class="material-symbols-rounded">view_agenda</span>
+          <span>Tasks</span>
+        </button>
+        <button class="segmented-btn" aria-pressed="false" title="Calendar View">
+          <span class="material-symbols-rounded">calendar_month</span>
+          <span>Calendar</span>
+        </button>
+      </div>
+
       <button class="m3-icon-button" id="theme-toggle" aria-label="Toggle Color Theme">
         <span class="material-symbols-rounded" id="theme-icon">dark_mode</span>
       </button>
@@ -42,12 +62,17 @@
       <a href="/settings" class="m3-icon-button" aria-label="Settings">
         <span class="material-symbols-rounded">settings</span>
       </a>
+
+      <!-- Circular User Avatar -->
+      <div class="m3-avatar" title="User Profile">
+        <span class="material-symbols-rounded">account_circle</span>
+      </div>
     </div>
   </header>
 
   <!-- Layout Body -->
   <div class="m3-layout-body">
-    <!-- Navigation Drawer (Desktop / Expanded screens) -->
+    <!-- ZONE 3: Navigation Drawer (Left: Surface Container Low) -->
     <aside class="m3-nav-drawer" id="app-nav-drawer">
       <div class="drawer-header">
         <button class="m3-extended-fab"
@@ -56,10 +81,56 @@
                 aria-keyshortcuts="c"
                 aria-label="Create Task">
           <span class="material-symbols-rounded">add</span>
-          <span class="fab-label">Create Task</span>
+          <span class="fab-label">Create</span>
           <kbd class="shortcut-tag">c</kbd>
         </button>
       </div>
+
+      <!-- Date Picker / Mini Widget (Active day in Primary circle) -->
+      <div class="m3-mini-calendar-widget">
+        <div class="mini-cal-header">
+          <span class="m3-title-small">November 2026</span>
+        </div>
+        <div class="mini-cal-grid">
+          <span class="cal-day-header">M</span><span class="cal-day-header">T</span><span class="cal-day-header">W</span>
+          <span class="cal-day-header">T</span><span class="cal-day-header">F</span><span class="cal-day-header">S</span><span class="cal-day-header">S</span>
+          <span class="cal-cell">2</span><span class="cal-cell">3</span><span class="cal-cell active-day">4</span>
+          <span class="cal-cell">5</span><span class="cal-cell">6</span><span class="cal-cell">7</span><span class="cal-cell">8</span>
+        </div>
+      </div>
+
+      <!-- Search Field in Drawer: Surface Container High, Shape Small 8dp -->
+      <div class="drawer-search-container">
+        <div class="drawer-search-field">
+          <span class="material-symbols-rounded">search</span>
+          <input type="text" placeholder="Search people or lists">
+        </div>
+      </div>
+
+      <!-- Section Accordion with Checkboxes (2dp corner radius) -->
+      <div class="drawer-accordion">
+        <details open class="m3-accordion-section">
+          <summary class="accordion-header m3-title-small">
+            <span>Lists & Filters</span>
+            <span class="material-symbols-rounded">expand_more</span>
+          </summary>
+          <div class="accordion-body">
+            <label class="m3-checkbox-label">
+              <input type="checkbox" checked class="m3-custom-checkbox">
+              <span>All Tasks</span>
+            </label>
+            <label class="m3-checkbox-label">
+              <input type="checkbox" checked class="m3-custom-checkbox">
+              <span>Work & Projects</span>
+            </label>
+            <label class="m3-checkbox-label">
+              <input type="checkbox" class="m3-custom-checkbox">
+              <span>Personal</span>
+            </label>
+          </div>
+        </details>
+      </div>
+
       <nav class="drawer-nav-items">
         {% for item in nav_destinations %}
         <a href="{{ item.url }}" class="nav-drawer-item {% if item.active %}active{% endif %}">
@@ -69,7 +140,6 @@
         {% endfor %}
       </nav>
       
-      <!-- Quick Spark Status in Drawer footer -->
       <div class="drawer-footer">
         <span class="spark-badge-label">Spark! Web Edition</span>
       </div>
@@ -93,10 +163,27 @@
       </nav>
     </aside>
 
-    <!-- Primary Workspace: Multi-Pane Container -->
-    <main class="m3-workspace-container" id="workspace-container">
+    <!-- ZONE 4: Main Content Canvas (28dp extra-large corners, Surface Container Lowest) -->
+    <main class="m3-main-canvas m3-workspace-container" id="workspace-container">
       {% block content %}{% endblock %}
     </main>
+
+    <!-- ZONE 5: Side Utility Rail (Optional, Right: Surface Container Low, 56px, 8-12% state layer) -->
+    {% if show_side_utility_rail | default(false) %}
+    <aside class="m3-side-utility-rail" id="side-utility-rail">
+      <div class="utility-rail-items">
+        <button class="m3-utility-button" title="Keep Notes" aria-label="Keep Notes">
+          <span class="material-symbols-rounded">lightbulb</span>
+        </button>
+        <button class="m3-utility-button active" title="Tasks" aria-label="Tasks">
+          <span class="material-symbols-rounded">check_circle</span>
+        </button>
+        <button class="m3-utility-button" title="Contacts" aria-label="Contacts">
+          <span class="material-symbols-rounded">contacts</span>
+        </button>
+      </div>
+    </aside>
+    {% endif %}
   </div>
 
   <!-- Bottom Navigation Bar (Compact screens: < 600px) -->
@@ -109,4 +196,3 @@
     {% endfor %}
   </nav>
 {% endblock %}
-

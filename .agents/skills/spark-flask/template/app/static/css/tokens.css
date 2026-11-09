@@ -22,7 +22,9 @@
   --md-sys-color-on-error-container: #410002;
 
   --md-sys-color-surface: #fcf8f8;
+  --md-sys-color-surface-dim: #ded8d8;
   --md-sys-color-on-surface: #1b1b1f;
+  --md-sys-color-on-surface-rgb: 27, 27, 31;
   --md-sys-color-surface-variant: #dee3eb;
   --md-sys-color-on-surface-variant: #42474e;
 
@@ -41,14 +43,60 @@
   --md-sys-elevation-3: 0px 1px 3px 0px rgba(0, 0, 0, 0.30), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
   --md-sys-elevation-4: 0px 2px 3px 0px rgba(0, 0, 0, 0.30), 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
 
-  /* Corner Shapes */
-  --md-sys-shape-corner-small: 8px;
-  --md-sys-shape-corner-medium: 12px;
-  --md-sys-shape-corner-large: 16px;
-  --md-sys-shape-corner-full: 9999px;
+  /* Corner Shapes (Strict M3 Specifications) */
+  --md-sys-shape-corner-none: 0px;
+  --md-sys-shape-corner-extra-small: 2px;  /* Checkboxes */
+  --md-sys-shape-corner-small: 8px;        /* Cards, Search Field */
+  --md-sys-shape-corner-medium: 12px;      /* Cards, Dialogs */
+  --md-sys-shape-corner-large: 16px;       /* Extended FAB */
+  --md-sys-shape-corner-extra-large: 28px; /* Main Content Canvas */
+  --md-sys-shape-corner-full: 9999px;      /* Pills, Segmented Buttons, Active Badges */
+
+  /* M3 State Layers */
+  --md-sys-state-hover-opacity: 0.08;
+  --md-sys-state-focus-opacity: 0.12;
+  --md-sys-state-pressed-opacity: 0.12;
 }
 
-[data-theme="dark"],
+[data-theme="dark"] {
+  --md-sys-color-primary: #92ccff;
+  --md-sys-color-on-primary: #003353;
+  --md-sys-color-primary-container: #004b76;
+  --md-sys-color-primary-container-high: #005a8d;
+  --md-sys-color-on-primary-container: #cce5ff;
+
+  --md-sys-color-secondary: #b9c8da;
+  --md-sys-color-on-secondary: #233240;
+  --md-sys-color-secondary-container: #3a4857;
+  --md-sys-color-on-secondary-container: #d4e4f6;
+
+  --md-sys-color-tertiary: #d2bfe6;
+  --md-sys-color-on-tertiary: #382a4a;
+  --md-sys-color-tertiary-container: #4f4061;
+  --md-sys-color-on-tertiary-container: #eedcff;
+
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffdad6;
+
+  --md-sys-color-surface: #121316;
+  --md-sys-color-surface-dim: #121316;
+  --md-sys-color-on-surface: #e2e2e5;
+  --md-sys-color-on-surface-rgb: 226, 226, 229;
+  --md-sys-color-surface-variant: #42474e;
+  --md-sys-color-on-surface-variant: #c2c7cf;
+
+  --md-sys-color-surface-container-lowest: #0d0e11;
+  --md-sys-color-surface-container-low: #1a1b1f;
+  --md-sys-color-surface-container: #1e1f23;
+  --md-sys-color-surface-container-high: #292a2d;
+  --md-sys-color-surface-container-highest: #333538;
+
+  --md-sys-color-outline: #8c9199;
+  --md-sys-color-outline-variant: #42474e;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --md-sys-color-primary: #92ccff;
@@ -73,7 +121,9 @@
     --md-sys-color-on-error-container: #ffdad6;
 
     --md-sys-color-surface: #121316;
+    --md-sys-color-surface-dim: #121316;
     --md-sys-color-on-surface: #e2e2e5;
+    --md-sys-color-on-surface-rgb: 226, 226, 229;
     --md-sys-color-surface-variant: #42474e;
     --md-sys-color-on-surface-variant: #c2c7cf;
 
@@ -87,4 +137,3 @@
     --md-sys-color-outline-variant: #42474e;
   }
 }
-

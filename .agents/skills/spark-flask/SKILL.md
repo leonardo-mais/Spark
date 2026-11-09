@@ -60,15 +60,15 @@ The web application adheres to Android Clean Architecture and Unidirectional Dat
 │   │   └── settings.py
 │   ├── templates/               # Jinja2 layouts and components
 │   │   ├── base.html            # HTML5 shell, head, assets, safe insets
-│   │   ├── shell.html           # Adaptive top bar, nav drawer/rail/bar, main container
+│   │   ├── shell.html           # 5-zone adaptive shell: App Frame, Top Bar, Drawer, Main Canvas, Side Rail
 │   │   ├── components/          # Reusable partials (buttons, cards, search, dialogs)
 │   │   └── pages/               # Screen templates and HTMX partial fragments
 │   └── static/
 │       ├── css/
-│       │   ├── tokens.css       # Material 3 design tokens (colors, shapes, elevation)
+│       │   ├── tokens.css       # Material 3 design tokens (surfaces, shapes, elevation, state layer)
 │       │   ├── typography.css   # Archetype A or B typography definitions
-│       │   ├── layout.css       # Adaptive shell, multi-pane rules, safe area insets
-│       │   └── components.css   # Custom M3 drawer, rail, and custom controls
+│       │   ├── layout.css       # Adaptive shell, 28dp Main Canvas, safe area insets
+│       │   └── components.css   # Custom M3 drawer, segmented buttons, checkboxes (2dp), cards
 │       ├── js/
 │       │   ├── htmx.min.js      # Vendored HTMX
 │       │   ├── material-web.js  # Vendored @material/web custom elements bundle
@@ -88,55 +88,80 @@ The web application adheres to Android Clean Architecture and Unidirectional Dat
 
 ---
 
-## 3. UI Patterns Modeled After Google Calendar & Google Tasks
+## 3. Material Design 3 (M3) Desktop/Web Architectural Standards
 
-Every Spark-Flask application must present the recognizable polish of Google's flagship web interfaces:
+A desktop/web interface under Material Design 3 structures its adaptive layout across **surface containers (Surface)**, **navigation bars**, and **interactive components** governed by semantic color, typography, and shape tokens.
 
-1. **Top App Bar with Integrated Search**:
-   - Elevated or flat surface with hamburger toggle for the navigation drawer, app logo/title, centered pill-shaped search input with shortcut hint (`/`), and an action menu or user settings avatar.
-2. **Floating "Create" Action**:
-   - Google-style extended floating action button (FAB) or high-visibility pill button (`+ Create` or `+ Add item`) pinned in the primary drawer/rail or bottom corner, accessible via shortcut `c`.
-3. **Adaptive Left Navigation**:
-   - Collapsible navigation drawer on large screens (expanded view).
-   - Compact navigation rail on medium screens (tablets/half-screen desktop).
-   - Bottom navigation bar on mobile (compact view).
-4. **Multi-Pane Content Area**:
-   - **List-Detail** (Tasks pattern): master list in left pane, detail editor/viewer in right pane.
-   - **Supporting Pane** (Calendar pattern): primary calendar/workspace grid with collapsible auxiliary panel (agenda, side panel utilities).
-5. **No Full-Page Flashes**:
-   - All state transitions, item selections, completions, filters, and edits swap cleanly into their target containers via HTMX (`hx-target`, `hx-swap="outerHTML"` or `innerHTML`).
-6. **Toast & Snackbar Host**:
-   - Bottom-left or bottom-center transient snackbar notifications for undo operations (e.g., "Item deleted — [Undo]"), auto-dismissing after 4 seconds.
+In M3, visual hierarchy is no longer established through heavy drop shadows (as in M2), but through **tonal differentiation between surface containers**.
+
+### 3.1 Base Structure & Surfaces (Layout & Surfaces)
+- **App Background / Frame (`body.m3-app-scaffold`)**: Uses `Surface Container Low` (or `Surface Dim` in Dark Mode) as the universal foundation on which all primary elements rest.
+- **Main Content Canvas (`.m3-main-canvas`)**: The central operational panel (e.g. calendar grid, task workspace) is enclosed in an elevated container with rounded corners (**Shape: Extra Large, 28dp / 28px**) and uses `Surface` or `Surface Container Lowest` to emerge tonally from the outer frame.
+- **Dividers (`.m3-divider`)**: Grid lines and section separators use `Outline Variant` to provide subtle, low-contrast separation without cognitive clutter.
+
+### 3.2 Top App Bar (`.m3-top-app-bar`)
+The top bar manages global context, temporal/spatial navigation, and system-level actions:
+- **Background & Text**: Blends seamlessly with the outer frame (`Surface Container Low`), with primary text and icons in `On Surface` and secondary icons in `On Surface Variant`.
+- **Leading Navigation Icon**: Standard Icon Button (`On Surface Variant`) with hamburger menu to expand or collapse the navigation drawer.
+- **Contextual Controls**:
+  - **Outlined Button**: Pill-shaped button (**Shape: Full**) such as the "Today" button, with `Outline` border and `On Surface` text.
+  - **Headline / Title**: High-emphasis text (`Title Large` or `Headline Small`) in `On Surface` indicating the current view or date range.
+- **Trailing Actions**:
+  - **Icon Buttons**: Search, support, and settings icons in `On Surface Variant`.
+  - **Segmented Button**: Two-option or multi-option view switcher (e.g., Calendar vs Tasks). Uses **Shape: Full**, border `Outline`, active segment in `Secondary Container` (with icon/label in `On Secondary Container`) and inactive segments with transparent background.
+  - **User Avatar**: Circular element on the far right.
+
+### 3.3 Left Navigation Drawer (`.m3-nav-drawer`)
+On expanded screens (Expanded Window Size Class), primary navigation resides in a persistently visible Standard Navigation Drawer:
+- **Extended FAB**: Pinned in the top-left for the application's primary action (e.g. "+ Create"). Styled with **Shape: Large (16dp)** or **Full**, background `Surface Container High` (or `Primary Container`), and text/icon in `On Surface` (or `On Primary Container`).
+- **Date Picker / Mini Widget**: Compact calendar with text in `On Surface`. The current or selected day is highlighted by a filled circle (**Shape: Full**) in `Primary` with text in `On Primary`.
+- **Search Bar / Text Field**: Compact search field ("Search for people / items") with background `Surface Container High`, **Shape: Small (8dp)** or Full, and placeholder/icon in `On Surface Variant`.
+- **Lists & Filters (List Items & Checkboxes)**:
+  - Collapsible accordion section headers in `Title Small` with `On Surface Variant`.
+  - **Checkboxes**: Boxes with gently rounded corners (**Shape: Extra Small, 2dp**). When checked, filled with `Primary` (or category semantic container) with checkmark in `On Primary`.
+
+### 3.4 Main Content Area (Main Content Canvas)
+The primary workspace hosting data records and active workflows:
+- **Contextual Header**: Displays column or view parameters (e.g. days of the week). The active item receives a circular badge in `Primary` with text in `On Primary`, while others remain in `On Surface`.
+- **Cards / Event Containers**: Content blocks inside the canvas use **Shape: Small or Medium (8dp–12dp)**. They follow tonal containers (`Primary Container`, `Secondary Container`, `Tertiary Container`, or custom semantic tokens) with text in `On [Color] Container` to guarantee WCAG AA accessibility contrast.
+- **Status & Time Indicators**: High-visibility markers (such as the current-time horizontal indicator) use `Error` or `Primary` to draw immediate visual attention.
+
+### 3.5 Right Side Utility Rail (`.m3-side-utility-rail`)
+A compact vertical rail (Compact Rail, 56px wide) dedicated to secondary integrated extensions (e.g. Keep, Tasks, Contacts):
+- **Background**: Shares the same tonal level as the outer frame (`Surface Container Low`).
+- **Icon Buttons**: Arranged vertically, with hover and focus states governed by an M3 **State Layer** (semi-transparent overlay of `On Surface` at 8%–12% opacity).
 
 ---
 
-## 4. Adaptive Layout & Breakpoints (Derived from `adaptive`)
+## 4. Master M3 Token Summary Table
+
+| Component M3 | Color Token (Background) | Color Token (Text / Icon) | Shape Token |
+|---|---|---|---|
+| **App Background / Frame** | `Surface Container Low` (`Surface Dim` in Dark) | `On Surface Variant` | `None (0dp)` |
+| **Main Content Canvas** | `Surface / Surface Container Lowest` | `On Surface` | `Extra Large (28dp)` |
+| **Extended FAB** | `Primary Container / Surface Container High` | `On Primary Container / On Surface` | `Large (16dp)` o `Full` |
+| **Outlined Button (Today)** | `Transparent (Border: Outline)` | `On Surface / Primary` | `Full (Pill)` |
+| **Segmented Button (Active)** | `Secondary Container` | `On Secondary Container` | `Full (Pill)` |
+| **Search Field** | `Surface Container High` | `On Surface Variant` | `Small (8dp)` o `Full` |
+| **Active / Selected Elements** | `Primary` | `On Primary` | `Full (Circle / Pill)` |
+| **Content Cards (Blocks)** | `Primary / Secondary / Tertiary Container` | `On [Primary/Secondary/Tertiary] Container` | `Small (8dp)` o `Medium (12dp)` |
+| **Dividers (Grid / Lines)** | `Outline Variant` | — | — |
+| **Checkboxes (Selection)** | `Primary` (when checked) / `Outline` | `On Primary` | `Extra Small (2dp)` |
+| **Side Utility Rail** | `Surface Container Low` | `On Surface Variant` | `State Layer (8%-12%)` |
+
+---
+
+## 5. Adaptive Layout & Breakpoints (Derived from `adaptive`)
 
 Follow Material 3 Window Size Classes strictly:
 
 - **Compact (< 600px)**: Phone portrait. Top bar simplified, bottom navigation bar with 3–5 destinations, single-pane flow (detail pushes full-screen with back button).
 - **Medium (600px – 839px)**: Tablets portrait / Foldables unfolded. Navigation rail on leading edge, dual-pane layout when density permits.
 - **Expanded (840px – 1199px)**: Tablet landscape / Small desktop. Modal or dismissible navigation drawer, full dual-pane (List-Detail side by side).
-- **Large (≥ 1200px)**: Desktop / Large monitors. Permanent navigation drawer, multi-pane (List + Detail + Supporting Pane).
+- **Large (≥ 1200px)**: Desktop / Large monitors. Permanent navigation drawer, 28dp Main Canvas, Side Utility Rail.
 
 For complete CSS container queries and markup, consult:
 - [.agents/skills/spark-flask/references/layout.md](file:///Users/leona/Documents/Spark!%20Apps/Spark!/.agents/skills/spark-flask/references/layout.md)
-
----
-
-## 5. UI Components & Material 3 Web Mapping (Derived from `styles`)
-
-Where `@material/web` elements are available, use them directly. Where components are not supplied by `@material/web` (such as navigation rails, drawers, or multi-pane scaffolds), implement them using M3 CSS Custom Properties:
-
-- **Buttons**: `<md-filled-button>`, `<md-tonal-button>`, `<md-outlined-button>`, `<md-text-button>`, `<md-elevated-button>`.
-- **Text Inputs**: `<md-filled-text-field>`, `<md-outlined-text-field>`.
-- **Selection**: `<md-checkbox>`, `<md-radio>`, `<md-switch>`.
-- **Chips**: `<md-chip-set>`, `<md-assist-chip>`, `<md-filter-chip>`, `<md-suggestion-chip>`.
-- **Progress**: `<md-linear-progress>`, `<md-circular-progress>`.
-- **Dialogs**: `<md-dialog>`.
-- **Icons**: `<md-icon>` rendering **Material Symbols Rounded** with `font-variation-settings: 'FILL' 1`. **NEVER use emoji.**
-
-For the full component registry and HTML snippets, see:
 - [.agents/skills/spark-flask/references/components.md](file:///Users/leona/Documents/Spark!%20Apps/Spark!/.agents/skills/spark-flask/references/components.md)
 
 ---
@@ -192,4 +217,3 @@ Every generated Flask project must pass:
 2. `pytest` integration tests verifying that Flask endpoints return status 200, valid HTML fragments, and proper HTMX headers.
 3. Container build: `docker compose build`.
 4. Run check: `docker compose up -d` responding on `http://localhost:${SPARK_FLASK_PORT}`.
-

@@ -27,6 +27,7 @@ Chiedere all'utente quale modello di autenticazione adottare:
 Definire il pattern di layout dell'area di lavoro principale secondo le linee guida `adaptive`:
 - **List-Detail (Stile Google Tasks)**: Lista master a sinistra e pannello di dettaglio/editing a destra su schermi medi e larghi; flusso sequenziale su schermi compatti (< 600px). Nessuna freccia back quando la vista è affiancata.
 - **Supporting Pane (Stile Google Calendar)**: Vista primaria ampia (griglia calendario o tabella estesa) con pannello ausiliario collassabile a comparsa (agenda, note o widget laterali).
+- **Side Utility Rail (Barra Destra Compatta)**: Chiedere se abilitare la barra laterale destra compatta da 56px (per app secondarie o note veloci) o se lasciare l'intera ampiezza al canvas principale.
 
 ### 5. Scelta dell'Archetipo Tipografico & Visivo (A vs B)
 Chiedere all'utente quale stile tipografico applicare all'applicazione:

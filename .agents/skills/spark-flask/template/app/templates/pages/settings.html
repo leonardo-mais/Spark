@@ -18,9 +18,12 @@
         <strong class="setting-label">Dark Theme</strong>
         <span class="setting-desc">Switch between light and dark Material 3 color palettes</span>
       </div>
-      <button class="m3-tonal-button" onclick="toggleTheme()" id="theme-button-settings">
-        Toggle Theme
-      </button>
+      <label class="m3-switch" aria-label="Toggle Dark Theme">
+        <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+        <span class="m3-switch-track">
+          <span class="m3-switch-thumb"></span>
+        </span>
+      </label>
     </div>
   </div>
 

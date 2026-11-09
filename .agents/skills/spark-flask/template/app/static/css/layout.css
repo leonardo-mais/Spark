@@ -1,5 +1,5 @@
 /* ========================================================
-   SPARK LAYOUT & RESPONSIVE WINDOW SIZE CLASSES
+   SPARK LAYOUT & RESPONSIVE WINDOW SIZE CLASSES (M3 DESKTOP)
    ======================================================== */
 
 * {
@@ -13,6 +13,38 @@
   --safe-right: env(safe-area-inset-right, 0px);
 }
 
+.skip-to-content {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  padding: 8px 16px;
+  border-radius: var(--md-sys-shape-corner-small);
+  z-index: 1000;
+  transition: top 0.2s cubic-bezier(0.2, 0, 0, 1);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.skip-to-content:focus {
+  top: 16px;
+}
+
+/* Reduced Motion Preference (WCAG Accessibility) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------
+   ZONE 1: APP BACKGROUND / FRAME (SURFACE CONTAINER LOW)
+   -------------------------------------------------------- */
 body.m3-app-scaffold {
   margin: 0;
   padding: 0;
@@ -20,13 +52,17 @@ body.m3-app-scaffold {
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
-  background-color: var(--md-sys-color-surface);
+  background-color: var(--md-sys-color-surface-container-low);
   color: var(--md-sys-color-on-surface);
   overflow-x: hidden;
 }
 
+[data-theme="dark"] body.m3-app-scaffold {
+  background-color: var(--md-sys-color-surface-dim);
+}
+
 /* --------------------------------------------------------
-   TOP APP BAR (GOOGLE CALENDAR / TASKS STYLE)
+   ZONE 2: TOP APP BAR (BLENDS WITH SURFACE CONTAINER LOW)
    -------------------------------------------------------- */
 .m3-top-app-bar {
   display: flex;
@@ -34,7 +70,7 @@ body.m3-app-scaffold {
   justify-content: space-between;
   height: 64px;
   padding: var(--safe-top) 16px 0 16px;
-  background-color: var(--md-sys-color-surface-container);
+  background-color: var(--md-sys-color-surface-container-low);
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
   z-index: 20;
 }
@@ -42,7 +78,7 @@ body.m3-app-scaffold {
 .top-bar-leading {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .app-branding {
@@ -64,8 +100,13 @@ body.m3-app-scaffold {
   letter-spacing: -0.01em;
 }
 
+.top-bar-title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+}
+
 .top-bar-search {
-  flex: 0 1 600px;
+  flex: 0 1 540px;
   margin: 0 16px;
 }
 
@@ -73,7 +114,7 @@ body.m3-app-scaffold {
   display: flex;
   align-items: center;
   background-color: var(--md-sys-color-surface-container-high);
-  border-radius: var(--md-sys-shape-corner-full);
+  border-radius: var(--md-sys-shape-corner-small); /* 8dp / small or full */
   padding: 0 16px;
   height: 44px;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
@@ -106,7 +147,7 @@ body.m3-app-scaffold {
   width: 22px;
   height: 22px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(var(--md-sys-color-on-surface-rgb), 0.08);
   font-size: 12px;
   font-weight: 600;
   color: var(--md-sys-color-on-surface-variant);
@@ -115,11 +156,11 @@ body.m3-app-scaffold {
 .top-bar-trailing {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 /* --------------------------------------------------------
-   BODY CONTAINER & ADAPTIVE SHELL
+   BODY CONTAINER & 5-ZONE ADAPTIVE SHELL
    -------------------------------------------------------- */
 .m3-layout-body {
   display: flex;
@@ -127,22 +168,158 @@ body.m3-app-scaffold {
   overflow: hidden;
   height: calc(100vh - 64px);
   height: calc(100dvh - 64px);
+  background-color: var(--md-sys-color-surface-container-low);
 }
 
+/* --------------------------------------------------------
+   ZONE 3: NAVIGATION DRAWER (LEFT)
+   -------------------------------------------------------- */
+.m3-nav-drawer {
+  width: 280px;
+  background-color: var(--md-sys-color-surface-container-low);
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  gap: 16px;
+  overflow-y: auto;
+  transition: width 0.25s cubic-bezier(0.2, 0, 0, 1), padding 0.25s ease;
+}
+
+.m3-nav-drawer.collapsed {
+  display: none !important;
+}
+
+.drawer-header {
+  margin-bottom: 8px;
+}
+
+.drawer-nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: var(--md-sys-shape-corner-full);
+  text-decoration: none;
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.nav-drawer-item:hover {
+  background-color: rgba(var(--md-sys-color-on-surface-rgb), var(--md-sys-state-hover-opacity));
+}
+
+.nav-drawer-item.active {
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+.drawer-search-container {
+  padding: 0 4px;
+}
+
+.drawer-search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--md-sys-color-surface-container-high);
+  border-radius: var(--md-sys-shape-corner-small); /* 8dp */
+  padding: 0 12px;
+  height: 40px;
+}
+
+.drawer-search-field input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--md-sys-color-on-surface);
+}
+
+.drawer-search-field .material-symbols-rounded {
+  font-size: 18px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.drawer-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.m3-accordion-section {
+  border-radius: var(--md-sys-shape-corner-small);
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 600;
+  list-style: none;
+}
+
+.accordion-header::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 12px;
+}
+
+.m3-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.875rem;
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
+}
+
+.drawer-footer {
+  padding: 8px 12px;
+  margin-top: auto;
+}
+
+/* --------------------------------------------------------
+   ZONE 4: MAIN CONTENT CANVAS (28dp ROUNDED CONTAINER)
+   -------------------------------------------------------- */
+.m3-main-canvas,
 .m3-workspace-container {
   flex: 1;
   display: flex;
+  background-color: var(--md-sys-color-surface-container-lowest);
+  border-radius: var(--md-sys-shape-corner-extra-large); /* 28dp */
+  border: none;
+  margin: 8px;
   overflow: hidden;
   position: relative;
 }
 
 /* --------------------------------------------------------
-   LIST-DETAIL SCAFFOLD
+   LIST-DETAIL SCAFFOLD (INSIDE MAIN CANVAS)
    -------------------------------------------------------- */
 .m3-list-detail-scaffold {
   display: flex;
   flex: 1;
   overflow: hidden;
+  border-radius: inherit;
 }
 
 .m3-list-pane {
@@ -208,53 +385,57 @@ body.m3-app-scaffold {
 }
 
 /* --------------------------------------------------------
-   NAVIGATION DRAWER & RAIL
+   ZONE 5: SIDE UTILITY RAIL (RIGHT)
    -------------------------------------------------------- */
-.m3-nav-drawer {
-  width: 260px;
+.m3-side-utility-rail {
+  width: 56px;
   background-color: var(--md-sys-color-surface-container-low);
-  border-right: 1px solid var(--md-sys-color-outline-variant);
+  border-left: 1px solid var(--md-sys-color-outline-variant);
   display: flex;
   flex-direction: column;
-  padding: 16px 12px;
-}
-
-.drawer-header {
-  margin-bottom: 16px;
-}
-
-.drawer-nav-items {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.nav-drawer-item {
-  display: flex;
   align-items: center;
+  padding: 16px 0;
+  z-index: 10;
+}
+
+.utility-rail-items {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
-  padding: 12px 16px;
+  align-items: center;
+}
+
+.m3-utility-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   border-radius: var(--md-sys-shape-corner-full);
-  text-decoration: none;
+  background: transparent;
+  border: none;
   color: var(--md-sys-color-on-surface-variant);
-  font-weight: 500;
-  transition: background-color 0.15s ease;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.nav-drawer-item:hover {
-  background-color: var(--md-sys-color-surface-container-high);
+.m3-utility-button:hover {
+  background-color: rgba(var(--md-sys-color-on-surface-rgb), var(--md-sys-state-hover-opacity));
 }
 
-.nav-drawer-item.active {
+.m3-utility-button:focus-visible {
+  background-color: rgba(var(--md-sys-color-on-surface-rgb), var(--md-sys-state-focus-opacity));
+  outline: 2px solid var(--md-sys-color-primary);
+}
+
+.m3-utility-button.active {
   background-color: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
 }
 
-.drawer-footer {
-  padding: 8px 12px;
-}
-
+/* --------------------------------------------------------
+   NAVIGATION RAIL (MEDIUM SCREENS)
+   -------------------------------------------------------- */
 .m3-nav-rail {
   display: none;
   width: 80px;
@@ -298,13 +479,19 @@ body.m3-app-scaffold {
 }
 
 /* --------------------------------------------------------
-   ADAPTIVE MEDIA QUERIES (FROM ADAPTIVE SKILL)
+   ADAPTIVE MEDIA QUERIES
    -------------------------------------------------------- */
 
 /* Compact: < 600px */
 @media (max-width: 599.98px) {
-  .m3-nav-drawer, .m3-nav-rail, .drawer-toggle {
+  .m3-nav-drawer, .m3-nav-rail, .m3-side-utility-rail, .drawer-toggle, .m3-segmented-button-group {
     display: none !important;
+  }
+  .m3-main-canvas,
+  .m3-workspace-container {
+    margin: 0;
+    border-radius: 0;
+    border: none;
   }
   .m3-bottom-nav-bar {
     display: flex;
@@ -316,7 +503,7 @@ body.m3-app-scaffold {
     right: 0;
     height: calc(64px + var(--safe-bottom));
     padding-bottom: var(--safe-bottom);
-    background-color: var(--md-sys-color-surface-container);
+    background-color: var(--md-sys-color-surface-container-low);
     border-top: 1px solid var(--md-sys-color-outline-variant);
     z-index: 30;
   }
@@ -360,11 +547,16 @@ body.m3-app-scaffold {
 
 /* Medium: 600px - 839.98px */
 @media (min-width: 600px) and (max-width: 839.98px) {
-  .m3-nav-drawer, .m3-bottom-nav-bar, .drawer-toggle {
+  .m3-nav-drawer, .m3-bottom-nav-bar, .m3-side-utility-rail, .drawer-toggle {
     display: none !important;
   }
   .m3-nav-rail {
     display: flex;
+  }
+  .m3-main-canvas,
+  .m3-workspace-container {
+    margin: 8px;
+    border-radius: var(--md-sys-shape-corner-extra-large);
   }
   .m3-list-pane {
     width: 320px;
@@ -382,8 +574,10 @@ body.m3-app-scaffold {
   .m3-nav-drawer {
     display: flex;
   }
+  .m3-side-utility-rail {
+    display: flex;
+  }
   .detail-back-button {
     display: none !important;
   }
 }
-

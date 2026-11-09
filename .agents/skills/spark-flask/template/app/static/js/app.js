@@ -1,10 +1,9 @@
 /**
  * Spark! Application Client Engine
- * Theme switching, drawer interactions, and responsive helper functions
+ * Theme switching, drawer interactions, snackbar system with undo, and responsive helpers
  */
 
 (function () {
-  // Theme Management
   const STORAGE_KEY = "spark_theme_preference";
 
   function getPreferredTheme() {
@@ -19,6 +18,10 @@
     if (themeIcon) {
       themeIcon.textContent = theme === "dark" ? "light_mode" : "dark_mode";
     }
+    const themeSwitch = document.getElementById("theme-switch");
+    if (themeSwitch) {
+      themeSwitch.checked = theme === "dark";
+    }
   }
 
   window.toggleTheme = function () {
@@ -28,7 +31,7 @@
     applyTheme(next);
   };
 
-  // Drawer Toggle
+  // Drawer Toggle with .collapsed state
   function initDrawer() {
     const toggleBtn = document.getElementById("drawer-toggle");
     const drawer = document.getElementById("app-nav-drawer");
@@ -38,6 +41,81 @@
       });
     }
   }
+
+  // Snackbar with Undo Support
+  window.showSnackbar = function (message, actionText, actionCallback) {
+    const host = document.getElementById("m3-snackbar-host");
+    if (!host) return;
+
+    // Clear existing
+    host.innerHTML = "";
+
+    const snackbar = document.createElement("div");
+    snackbar.className = "m3-snackbar";
+    snackbar.setAttribute("role", "status");
+
+    const msgSpan = document.createElement("span");
+    msgSpan.className = "snackbar-message";
+    msgSpan.textContent = message;
+    snackbar.appendChild(msgSpan);
+
+    if (actionText && actionCallback) {
+      const actionBtn = document.createElement("button");
+      actionBtn.type = "button";
+      actionBtn.className = "m3-text-button snackbar-action";
+      actionBtn.textContent = actionText;
+      actionBtn.addEventListener("click", () => {
+        actionCallback();
+        snackbar.remove();
+      });
+      snackbar.appendChild(actionBtn);
+    }
+
+    const closeBtn = document.createElement("button");
+    closeBtn.type = "button";
+    closeBtn.className = "m3-icon-button snackbar-close";
+    closeBtn.setAttribute("aria-label", "Close notification");
+    closeBtn.innerHTML = '<span class="material-symbols-rounded">close</span>';
+    closeBtn.addEventListener("click", () => snackbar.remove());
+    snackbar.appendChild(closeBtn);
+
+    host.appendChild(snackbar);
+
+    // Auto dismiss after 4 seconds
+    setTimeout(() => {
+      if (snackbar.parentNode) {
+        snackbar.classList.add("fade-out");
+        setTimeout(() => snackbar.remove(), 250);
+      }
+    }, 4000);
+  };
+
+  // Confirmation Dialog
+  let currentConfirmCallback = null;
+  window.showConfirmDialog = function (title, message, onConfirm) {
+    const dialog = document.getElementById("confirm-dialog");
+    const titleEl = document.getElementById("confirm-dialog-title");
+    const msgEl = document.getElementById("confirm-dialog-message");
+    const actionBtn = document.getElementById("confirm-dialog-action-btn");
+
+    if (dialog && titleEl && msgEl && actionBtn) {
+      titleEl.textContent = title || "Confirm Action";
+      msgEl.textContent = message || "Are you sure you want to proceed?";
+      currentConfirmCallback = onConfirm;
+
+      actionBtn.onclick = () => {
+        if (currentConfirmCallback) currentConfirmCallback();
+        dialog.close();
+      };
+
+      dialog.showModal();
+    }
+  };
+
+  window.closeConfirmDialog = function () {
+    const dialog = document.getElementById("confirm-dialog");
+    if (dialog) dialog.close();
+  };
 
   // Mobile detail screen back handler
   window.closeMobileDetail = function () {
@@ -61,12 +139,24 @@
     }
   };
 
-  // HTMX Event Listeners for smooth transitions
+  // HTMX Event Listeners for smooth transitions and toasts
   document.addEventListener("htmx:afterSwap", (e) => {
-    // If detail pane was populated, mark has-selection for mobile viewports
     if (e.detail.target.id === "detail-pane") {
       e.detail.target.classList.add("has-selection");
     }
+  });
+
+  document.addEventListener("taskCreated", () => {
+    window.showSnackbar("Task created successfully");
+  });
+
+  document.addEventListener("taskUpdated", () => {
+    window.showSnackbar("Task updated");
+  });
+
+  document.addEventListener("taskDeleted", () => {
+    window.showSnackbar("Task deleted");
+    window.clearDetailPane();
   });
 
   // Initialize on load
@@ -80,4 +170,3 @@
     }
   });
 })();
-

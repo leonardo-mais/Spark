@@ -43,3 +43,15 @@ def test_settings_page_contains_built_with_spark(client):
     assert "Built with Spark!" in html
     assert "Spark! Tasks" in html
     assert "spark-tasks" in html
+
+def test_404_page_renders_m3_error_view(client):
+    response = client.get("/non-existent-route")
+    assert response.status_code == 404
+    html = response.get_data(as_text=True)
+    assert "404" in html
+    assert "Page Not Found" in html
+
+def test_manifest_json_accessible(client):
+    response = client.get("/static/manifest.json")
+    assert response.status_code == 200
+    assert "Spark! Tasks" in response.get_data(as_text=True)
